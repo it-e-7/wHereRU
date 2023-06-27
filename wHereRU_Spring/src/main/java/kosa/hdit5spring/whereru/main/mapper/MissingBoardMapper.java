@@ -10,5 +10,5 @@ public interface MissingBoardMapper {
    public void writeMissingBoard(MissingBoardVo missingBoardVo);
    MissingBoardVo selectMissingBoardDetail(int missingSeq);
    void deleteMissingBoard(int missingSeq);
-   
+   void updateMissingBoard(MissingBoardVo missingBoardVo);   
 }

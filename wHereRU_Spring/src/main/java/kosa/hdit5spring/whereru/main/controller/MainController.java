@@ -21,37 +21,44 @@ import lombok.RequiredArgsConstructor;
 @SessionAttributes("currUser")
 public class MainController {
 
-   
-   @Autowired
-   MissingBoardService missingBoardService;
-   
-   @RequestMapping("writemissingboard")
-   public String writeMissingBoard(@RequestBody MissingBoardVo missingBoardVo) {
+	@Autowired
+	MissingBoardService missingBoardService;
 
-      
-       missingBoardService.writeMissingBoard(missingBoardVo);
+	@RequestMapping("writemissingboard")
+	public String writeMissingBoard(@RequestBody MissingBoardVo missingBoardVo) {
 
-      
-      return "데이터 전송 성공";
-   }
-   
-   @PostMapping("detail")
-   public ResponseEntity<MissingBoardVo> getMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
-	   
-      int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
-      MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
-      
-      return ResponseEntity.ok(detail);
-   }
+		missingBoardService.writeMissingBoard(missingBoardVo);
 
-   @PostMapping("deletemissingboard")
-   public ResponseEntity deleteMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
-	   
-      int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
-      missingBoardService.deleteMissingBoard(missingBoardSeq, currUser.getUserSeq());
+		return "데이터 전송 성공";
+	}
 
-      System.out.println("delete: " + missingBoardSeq);
-      return ResponseEntity.ok().build();
-   }
-   
+	@PostMapping("detail")
+	public ResponseEntity<MissingBoardVo> getMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
+
+		int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
+		MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
+
+		return ResponseEntity.ok(detail);
+	}
+
+	@PostMapping("deletemissingboard")
+	public ResponseEntity deleteMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
+
+		int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
+		missingBoardService.deleteMissingBoard(missingBoardSeq, currUser.getUserSeq());
+
+		System.out.println("delete: " + missingBoardSeq);
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("updatemissingboard")
+   public ResponseEntity<MissingBoardVo> updateMissingBoardDetail(@RequestBody MissingBoardVo missingBoardVo, UserVO currUser) {
+
+		missingBoardService.updateMissingBoard(missingBoardVo);
+		
+	    MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardVo.getMissingSeq(), currUser.getUserSeq());
+
+		return ResponseEntity.ok(detail);
+	}
+	    
 }
