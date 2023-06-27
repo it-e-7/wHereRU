@@ -6,14 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
 
+    <EditText
+        android:id="@+id/chat_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.7" />
+
+
     <Button
-        android:id="@+id/chatButton"
+        android:id="@+id/chat_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="채팅!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/chat_edit"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

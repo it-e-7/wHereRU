@@ -32,7 +32,8 @@ class ChatActivity : AppCompatActivity() {
         chatSocket = client.newWebSocket(request, listener)
 
         binding.chatButton.setOnClickListener {
-            chatSocket.send("HI")
+            chatSocket.send(binding.chatEdit.text.toString())
+            binding.chatEdit.text.clear()
         }
     }
 
