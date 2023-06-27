@@ -27,6 +27,7 @@
 		<property name="mapperLocations">
 			<list>
 				<value>classpath:mappers/MissingBoardMapper.xml</value>
+				<value>classpath:mappers/ChatMapper.xml</value>
 			</list>
 		</property>
 	</bean>
