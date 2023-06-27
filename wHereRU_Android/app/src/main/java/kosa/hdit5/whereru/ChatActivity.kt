@@ -35,6 +35,8 @@ class ChatActivity : AppCompatActivity() {
             chatSocket.send(binding.chatEdit.text.toString())
             binding.chatEdit.text.clear()
         }
+
+        chatSocket.
     }
 
     override fun onDestroy() {

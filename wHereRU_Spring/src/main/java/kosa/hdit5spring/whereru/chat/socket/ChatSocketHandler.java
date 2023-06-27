@@ -26,8 +26,6 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 		SocketSessionVO userSocket = new SocketSessionVO("userId", session);
 		socketSessionList.add(userSocket);
 		
-		log.debug(socketSessionList);
-		
 		super.afterConnectionEstablished(session);
 	}
 	
@@ -46,13 +44,12 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 		for(int i = 0; i < socketSessionList.size(); i++) {
 			if(socketSessionList.get(i).getSession().getId().equals(session.getId())) {
 				userIndex = i;
+				break;
 			}
 		}
 		if(userIndex > -1) {
 			socketSessionList.remove(userIndex);
 		}
-		
-		log.debug(socketSessionList);
 		
 		super.afterConnectionClosed(session, status);
 	}
