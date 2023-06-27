@@ -16,8 +16,10 @@ public class MainController {
 	MissingBoardService missingBoardService;
 	
 	@RequestMapping("writemissingboard")
-	public String writeMissingBoard(@RequestBody MissingBoardVo missingBoardVo ) {
-		missingBoardService.writeMissingBoard(missingBoardVo);
+	public String writeMissingBoard(@RequestBody MissingBoardVo missingBoardVo) {
+
+		
+	    missingBoardService.writeMissingBoard(missingBoardVo);
 
 		
 		return "데이터 전송 성공";

@@ -17,4 +17,8 @@ public class MissingBoardVo {
 	private String missingTime;
 	private String missingPoint;
 	private int userSeq;
+	
+	private String imgUrl1;
+	private String imgUrl2;
+	private String imgUrl3;
 }

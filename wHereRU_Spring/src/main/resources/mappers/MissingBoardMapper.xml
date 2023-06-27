@@ -19,10 +19,8 @@
 
 
  	<insert id="writeMissingBoard" parameterType="MissingBoard">
-		<![CDATA[
-		  INSERT INTO MissingBoard (missing_name, missing_age, missing_sex, missing_outfit, missing_time, missing_point, user_seq)
-		  VALUES (#{missingName}, #{missingAge}, #{missingSex}, #{missingOutfit}, #{missingTime}, #{missingPoint}, #{userSeq})
-		]]>
+ 	
+ 		call insert_missing_board_and_images (#{missingName},#{missingAge}, #{missingSex}, #{missingOutfit}, #{missingTime}, #{missingPoint}, #{userSeq},#{imgUrl1},#{imgUrl2},#{imgUrl3})
 	</insert>
 	
 </mapper>  
