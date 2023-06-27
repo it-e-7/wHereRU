@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kosa.hdit5spring.whereru.main.mapper.MissingBoardMapper">
+
+	<resultMap type="MissingBoard" id="MissingBoardResult">
+		<result column="missing_seq" property = "missingSeq"/>
+		<result column="missing_name" property="missingName" />
+		<result column="missing_age" property="missingAge" />
+		<result column="missing_sex" property="missingSex" />
+		<result column="missing_outfit" property="missingOutfit" />
+		<result column="missing_time" property="missingTime" />
+		<result column="missing_point" property="missingPoint" />
+		<result column="user_seq" property="userSeq" />
+	</resultMap>
+
+
+
+ 	<insert id="writeMissingBoard" parameterType="MissingBoard">
+ 	
+ 		call insert_missing_board_and_images (#{missingName},#{missingAge}, #{missingSex}, #{missingOutfit}, #{missingTime}, #{missingPoint}, #{userSeq},#{imgUrl1},#{imgUrl2},#{imgUrl3})
+	</insert>
+	
+</mapper>  
