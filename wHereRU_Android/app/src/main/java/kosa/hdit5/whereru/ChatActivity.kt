@@ -32,15 +32,25 @@ class ChatActivity : AppCompatActivity() {
         chatSocket = client.newWebSocket(request, listener)
 
         binding.chatButton.setOnClickListener {
-            chatSocket.send(binding.chatEdit.text.toString())
+            
+            chatSocket.send(createChatJSON(binding.chatEdit.text.toString()))
             binding.chatEdit.text.clear()
         }
 
-        chatSocket.
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
         client.dispatcher.executorService.shutdown()
+    }
+
+    fun createChatJSON(text: String): String {
+        return "{" +
+                "\"chatSender\":\"userId\"," +
+                "\"chatReceiver\":\"userId\"," +
+                "\"chatType\":\"text\"," +
+                "\"chatContent\":\"" + text + "\"" +
+                "}"
     }
 }

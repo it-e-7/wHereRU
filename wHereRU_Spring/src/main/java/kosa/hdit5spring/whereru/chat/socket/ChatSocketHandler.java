@@ -1,23 +1,31 @@
 package kosa.hdit5spring.whereru.chat.socket;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import kosa.hdit5spring.whereru.chat.service.ChatService;
+import kosa.hdit5spring.whereru.chat.vo.ChatVO;
 import kosa.hdit5spring.whereru.chat.vo.SocketSessionVO;
 
 public class ChatSocketHandler extends TextWebSocketHandler {
 	
 	Logger log = LogManager.getLogger("case3");
 	List<SocketSessionVO> socketSessionList = new ArrayList<SocketSessionVO>();
+	
+	@Autowired
+	ChatService service;
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -31,8 +39,25 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		log.debug("메세지" + message.toString());
-		session.sendMessage(message);
+		log.debug("메세지" + message.getPayload().toString());
+		
+		try {
+			JsonObject parsedChat = JsonParser.parseString(message.getPayload().toString()).getAsJsonObject();
+			ChatVO chat = new ChatVO();
+			
+			chat.setChatSender(parsedChat.get("chatSender").toString());
+			chat.setChatReceiver(parsedChat.get("chatReceiver").toString());
+			chat.setChatContent(parsedChat.get("chatContent").toString());
+			chat.setChatType(parsedChat.get("chatType").toString());
+			
+			log.debug("메세지 파싱 결과: " + chat.toString());
+			
+			session.sendMessage(message);
+			
+		} catch (Exception err) {
+			log.error(err.getMessage());
+		}
+		
 		super.handleMessage(session, message);
 	}
 	
