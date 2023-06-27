@@ -34,12 +34,24 @@ public class MainController {
       
       return "데이터 전송 성공";
    }
+   
    @PostMapping("detail")
    public ResponseEntity<MissingBoardVo> getMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
+	   
       int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
       MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
       
-      System.out.println("controller" + detail);
       return ResponseEntity.ok(detail);
    }
+
+   @PostMapping("deletemissingboard")
+   public ResponseEntity deleteMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
+	   
+      int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
+      missingBoardService.deleteMissingBoard(missingBoardSeq, currUser.getUserSeq());
+
+      System.out.println("delete: " + missingBoardSeq);
+      return ResponseEntity.ok().build();
+   }
+   
 }

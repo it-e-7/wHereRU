@@ -31,4 +31,10 @@
        WHERE missing_seq = #{missingSeq}
    </select>
    
+   <!-- 삭제 -->
+   <delete id = "deleteMissingBoard" parameterType = "int">
+      	DELETE FROM MissingBoard
+              WHERE missing_seq = #{missingSeq}
+   </delete>
+      
 </mapper>  

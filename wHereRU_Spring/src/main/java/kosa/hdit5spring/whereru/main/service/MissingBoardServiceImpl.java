@@ -1,5 +1,7 @@
 package kosa.hdit5spring.whereru.main.service;
 
+import java.nio.file.AccessDeniedException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class MissingBoardServiceImpl implements MissingBoardService{
       missingBoardMapper.writeMissingBoard(missingBoardVo);
       
    }
+   
    @Override
    public MissingBoardVo getMissingBoardDetail(int missingSeq, String userSeq) {
       MissingBoardVo detail = missingBoardMapper.selectMissingBoardDetail(missingSeq);
@@ -26,10 +29,17 @@ public class MissingBoardServiceImpl implements MissingBoardService{
       if(detail != null && userSeq != null) {
          detail.setOwner(userSeq.equals(detail.getUserSeq()));
       }
-      
-      
       return detail;
    }
 
+   
+   public void deleteMissingBoard(int missingSeq, String userSeq)  {
+	   
+	   MissingBoardVo detail = missingBoardMapper.selectMissingBoardDetail(missingSeq);
+
+//	   TODO: if(detail != null && userSeq != null && userSeq.equals(detail.getUserSeq())) {
+		   missingBoardMapper.deleteMissingBoard(missingSeq);
+   }
+   
    
 }
