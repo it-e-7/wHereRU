@@ -1,6 +1,7 @@
 package kosa.hdit5.whereru.util
 
 import android.util.Log
+import kosa.hdit5.whereru.ChatActivity
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener

@@ -38,5 +38,5 @@ public class MissingBoardServiceImpl implements MissingBoardService{
 		return list;
 	}
 
-	
+   
 }

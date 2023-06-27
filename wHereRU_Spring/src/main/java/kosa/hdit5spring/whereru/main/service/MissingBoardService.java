@@ -8,6 +8,5 @@ public interface MissingBoardService {
 	MissingBoardVo getMissingBoardDetail(int missingSeq, String userSeq);
 	void writeMissingBoard(MissingBoardVo missingBoardVo);
 	List<MissingBoardVo> getTotalList();
-
-	
+   
 }

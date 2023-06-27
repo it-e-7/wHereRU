@@ -5,17 +5,16 @@
 
 <mapper namespace="kosa.hdit5spring.whereru.main.mapper.MissingBoardMapper">
 
-	<resultMap type="MissingBoard" id="MissingBoardResult">
-		<result column="missing_seq" property = "missingSeq"/>
-		<result column="missing_name" property="missingName" />
-		<result column="missing_age" property="missingAge" />
-		<result column="missing_sex" property="missingSex" />
-		<result column="missing_outfit" property="missingOutfit" />
-		<result column="missing_time" property="missingTime" />
-		<result column="missing_point" property="missingPoint" />
-		<result column="user_seq" property="userSeq" />
-	</resultMap>
-
+   <resultMap type="MissingBoard" id="MissingBoardResult">
+      <result column="missing_seq" property = "missingSeq"/>
+      <result column="missing_name" property="missingName" />
+      <result column="missing_age" property="missingAge" />
+      <result column="missing_sex" property="missingSex" />
+      <result column="missing_outfit" property="missingOutfit" />
+      <result column="missing_time" property="missingTime" />
+      <result column="missing_point" property="missingPoint" />
+      <result column="user_seq" property="userSeq" />
+   </resultMap>
 
 
  	<insert id="writeMissingBoard" parameterType="MissingBoard">

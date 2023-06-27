@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("main")
 @SessionAttributes("currUser")
 public class MainController {
-
 	
 	@Autowired
 	MissingBoardService missingBoardService;
@@ -36,11 +35,9 @@ public class MainController {
 	@RequestMapping("writemissingboard")
 	public String writeMissingBoard(@RequestBody MissingBoardVo missingBoardVo) {
 
+       missingBoardService.writeMissingBoard(missingBoardVo);
 		
-	    missingBoardService.writeMissingBoard(missingBoardVo);
-
-		
-		return "데이터 전송 성공";
+		return "ë°ì´í° ì ì¡ ì±ê³µ";
 	}
 	@PostMapping("detail")
 	public ResponseEntity<MissingBoardVo> getMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
