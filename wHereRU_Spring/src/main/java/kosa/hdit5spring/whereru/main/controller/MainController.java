@@ -1,5 +1,6 @@
 package kosa.hdit5spring.whereru.main.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,26 +21,30 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("main")
 @SessionAttributes("currUser")
 public class MainController {
+	
+	@Autowired
+	MissingBoardService missingBoardService;
+	
+	@RequestMapping("main")
+	public ResponseEntity<List<MissingBoardVo>> mainPage() {
+		List<MissingBoardVo> list = missingBoardService.getTotalList(); 
+		
+		return ResponseEntity.ok(list);
+	}
+	
+	@RequestMapping("writemissingboard")
+	public String writeMissingBoard(@RequestBody MissingBoardVo missingBoardVo) {
 
-   
-   @Autowired
-   MissingBoardService missingBoardService;
-   
-   @RequestMapping("writemissingboard")
-   public String writeMissingBoard(@RequestBody MissingBoardVo missingBoardVo) {
-
-      
        missingBoardService.writeMissingBoard(missingBoardVo);
-
-      
-      return "µ¥ÀÌÅÍ Àü¼Û ¼º°ø";
-   }
-   @PostMapping("detail")
-   public ResponseEntity<MissingBoardVo> getMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
-      int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
-      MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
-      
-      System.out.println("controller" + detail);
-      return ResponseEntity.ok(detail);
-   }
+		
+		return "Ã«ÂÂ°Ã¬ÂÂ´Ã­Â„Â° Ã¬Â Â„Ã¬Â†Â¡ Ã¬Â„Â±ÃªÂ³Âµ";
+	}
+	@PostMapping("detail")
+	public ResponseEntity<MissingBoardVo> getMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
+		int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
+		MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
+		
+		System.out.println("controller" + detail);
+		return ResponseEntity.ok(detail);
+	}
 }
