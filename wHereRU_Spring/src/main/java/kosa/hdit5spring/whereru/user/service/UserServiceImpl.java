@@ -14,7 +14,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserVO login(UserVO userVO) {
-		System.out.println("login[service]:" + userVO);
 		return mapper.selectUserByUserVO(userVO);
 	}
 
@@ -22,8 +21,7 @@ public class UserServiceImpl implements UserService {
 	public boolean registerUser(UserVO userVO) {
 	    String userId = userVO.getUserId();
 	    String existUserId = mapper.selectUserIdByUserId(userId);
-		System.out.println("register[service]:" + userVO);
-	    
+		
 	    if (existUserId != null) {
 	        throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
 	    }

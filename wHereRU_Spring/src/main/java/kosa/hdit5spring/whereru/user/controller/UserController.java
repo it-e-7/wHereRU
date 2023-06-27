@@ -2,6 +2,7 @@ package kosa.hdit5spring.whereru.user.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +23,13 @@ public class UserController {
 
 	// ·Î±×ÀÎ
 	@PostMapping("login")
-	public ResponseEntity<String> login(@RequestBody UserVO userVO) {
+	public ResponseEntity<String> login(@RequestBody UserVO userVO, Model model) {
 		System.out.println("login:" + userVO);
 		UserVO vo = service.login(userVO);
 		if (vo == null) {
 			return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
 		} else {
+			model.addAttribute("currUser", vo);
 			return new ResponseEntity<String>(HttpStatus.OK);
 		}
 	}

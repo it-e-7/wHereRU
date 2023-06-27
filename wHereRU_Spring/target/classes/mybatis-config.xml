@@ -19,6 +19,8 @@
 	<typeAliases >
 		<typeAlias alias="UserVO"
 			type="kosa.hdit5spring.whereru.user.vo.UserVO" />
+		<typeAlias alias="MissingBoardDetailVO"
+			type="kosa.hdit5spring.whereru.main.vo.MissingBoardDetailVO" />
 	</typeAliases>
 
 </configuration>	
