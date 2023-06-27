@@ -11,8 +11,6 @@ import androidx.core.app.NotificationCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
