@@ -18,6 +18,8 @@ public class MissingBoardVo {
 	private String missingPoint;
 	private int userSeq;
 	
+	private boolean isOwner;
+	
 	private String imgUrl1;
 	private String imgUrl2;
 	private String imgUrl3;

@@ -23,4 +23,47 @@
  		call insert_missing_board_and_images (#{missingName},#{missingAge}, #{missingSex}, #{missingOutfit}, #{missingTime}, #{missingPoint}, #{userSeq},#{imgUrl1},#{imgUrl2},#{imgUrl3})
 	</insert>
 	
+	<!-- 상세페이지 -->
+	<select id="selectMissingBoardDetail" parameterType="int"
+		resultType="MissingBoard">
+		SELECT *
+		  FROM MissingBoard
+		 WHERE missing_seq = #{missingSeq}
+	</select>
+	
+	<select id="getTotalList" resultType="MissingBoard">
+		SELECT
+		  mb.missing_seq,
+		  mb.missing_name,
+		  mb.missing_age,
+		  mb.missing_sex,
+		  mb.missing_outfit,
+		  mb.missing_time,
+		  mb.missing_point,
+		  mb.user_seq,
+		  MAX(CASE WHEN i.img_order = 1 THEN i.img_url END) AS imgUrl1,
+		  MAX(CASE WHEN i.img_order = 2 THEN i.img_url END) AS imgUrl2,
+		  MAX(CASE WHEN i.img_order = 3 THEN i.img_url END) AS imgUrl3
+		FROM
+		  MissingBoard mb
+		LEFT JOIN
+		  (
+		    SELECT
+		      img_url,
+		      ROW_NUMBER() OVER (PARTITION BY missing_seq ORDER BY img_seq) AS img_order,
+		      missing_seq
+		    FROM
+		      image
+		  ) i ON mb.missing_seq = i.missing_seq
+		GROUP BY
+		  mb.missing_seq,
+		  mb.missing_name,
+		  mb.missing_age,
+		  mb.missing_sex,
+		  mb.missing_outfit,
+		  mb.missing_time,
+		  mb.missing_point,
+		  mb.user_seq
+	</select>
+	
 </mapper>  

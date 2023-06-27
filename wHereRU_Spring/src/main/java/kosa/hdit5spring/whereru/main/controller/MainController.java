@@ -1,19 +1,37 @@
 package kosa.hdit5spring.whereru.main.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import kosa.hdit5spring.whereru.main.service.MissingBoardService;
 import kosa.hdit5spring.whereru.main.vo.MissingBoardVo;
+import kosa.hdit5spring.whereru.user.vo.UserVO;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
+@RequestMapping("main")
+@SessionAttributes("currUser")
 public class MainController {
 
 	
 	@Autowired
 	MissingBoardService missingBoardService;
+	
+	@RequestMapping("main")
+	public ResponseEntity<List<MissingBoardVo>> mainPage() {
+		List<MissingBoardVo> list = missingBoardService.getTotalList(); 
+		
+		return ResponseEntity.ok(list);
+	}
 	
 	@RequestMapping("writemissingboard")
 	public String writeMissingBoard(@RequestBody MissingBoardVo missingBoardVo) {
@@ -23,5 +41,13 @@ public class MainController {
 
 		
 		return "데이터 전송 성공";
+	}
+	@PostMapping("detail")
+	public ResponseEntity<MissingBoardVo> getMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
+		int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
+		MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
+		
+		System.out.println("controller" + detail);
+		return ResponseEntity.ok(detail);
 	}
 }
