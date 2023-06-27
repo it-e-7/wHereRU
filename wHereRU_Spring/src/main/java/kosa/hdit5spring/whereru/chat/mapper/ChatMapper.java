@@ -1,0 +1,9 @@
+package kosa.hdit5spring.whereru.chat.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface ChatMapper {
+
+	public int selectAllChatList();
+}
