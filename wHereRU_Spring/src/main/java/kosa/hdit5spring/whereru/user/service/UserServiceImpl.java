@@ -13,6 +13,12 @@ public class UserServiceImpl implements UserService {
 	private final UserMapper mapper;
 
 	@Override
+	public UserVO login(UserVO userVO) {
+		System.out.println("login[service]:" + userVO);
+		return mapper.selectUserByUserVO(userVO);
+	}
+
+	@Override
 	public boolean registerUser(UserVO userVO) {
 	    String userId = userVO.getUserId();
 	    String existUserId = mapper.selectUserIdByUserId(userId);

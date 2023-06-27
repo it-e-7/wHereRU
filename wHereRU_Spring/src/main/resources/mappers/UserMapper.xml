@@ -12,6 +12,15 @@
 		<result column="user_pw" property="userPw" />
 	</resultMap>
 
+	<!-- 로그인 -->
+	<select id="selectUserByUserVO" parameterType="UserVO"
+		resultMap="UserVOMap">
+		SELECT *
+		  FROM tb_user
+		 WHERE user_id = #{userId}
+		   AND user_pw = #{userPw}
+	</select>
+
 	<!-- 회원가입 시 이메일 중복 검사 -->
 	<select id="selectUserIdByUserId" parameterType="String"
 		resultType="String">

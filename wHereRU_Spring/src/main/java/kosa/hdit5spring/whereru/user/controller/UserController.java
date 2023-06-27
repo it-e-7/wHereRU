@@ -20,6 +20,18 @@ public class UserController {
 
 	private final UserService service;
 
+	// 로그인
+	@PostMapping("login")
+	public ResponseEntity<String> login(@RequestBody UserVO userVO) {
+		System.out.println("login:" + userVO);
+		UserVO vo = service.login(userVO);
+		if (vo == null) {
+			return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+		} else {
+			return new ResponseEntity<String>(HttpStatus.OK);
+		}
+	}
+
 	// 회원가입
 	@PostMapping("register")
 	public ResponseEntity<String> register(@RequestBody UserVO userVO) {
