@@ -63,6 +63,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var client: OkHttpClient
     private lateinit var chatSocket: WebSocket
     var chatAdapter = ChatAdapter(mutableListOf())
+    lateinit var receiverId: String
 
     inner class WebSocketListener : okhttp3.WebSocketListener() {
 
@@ -106,6 +107,8 @@ class ChatActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        receiverId = intent.getStringExtra("sender") ?: ""
+
         binding.chatBox.layoutManager = LinearLayoutManager(this)
         binding.chatBox.adapter = chatAdapter
 
@@ -138,7 +141,7 @@ class ChatActivity : AppCompatActivity() {
 
         return "{" +
                 "\"chatSender\":\"" + GlobalState.userId + "\"," +
-                "\"chatReceiver\":\"userId\"," +
+                "\"chatReceiver\":\"" + receiverId + "\"," +
                 "\"chatType\":\"text\"," +
                 "\"chatContent\":\"" + text + "\"," +
                 "\"chatDate\":\"" + date + "\"" +
