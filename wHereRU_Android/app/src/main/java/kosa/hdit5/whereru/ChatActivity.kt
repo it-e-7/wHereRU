@@ -1,14 +1,15 @@
 package kosa.hdit5.whereru
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kosa.hdit5.whereru.databinding.ActivityChatBinding
 import kosa.hdit5.whereru.databinding.ChatItemBinding
+import kosa.hdit5.whereru.databinding.LeftChatItemBinding
 import kosa.hdit5.whereru.util.GlobalState
 import kosa.hdit5.whereru.util.OkHttpClientSingleton
 import okhttp3.OkHttpClient
@@ -18,35 +19,68 @@ import okhttp3.WebSocket
 import okio.ByteString
 import org.json.JSONObject
 import java.text.SimpleDateFormat
+import kotlin.reflect.typeOf
 
 data class ChatVO (
     val chatSender: String,
     val chatReceiver: String,
     val chatType: String,
     val chatContent: String,
-    val chatDate: String
+    val chatDate: String,
+    val viewType: Int
 )
+
+object ViewType {
+    val CENTER_JOIN = 0
+    val LEFT_CHAT = 1
+    val RIGHT_CHAT = 2
+}
 class ChatViewHolder(val binding: ChatItemBinding): RecyclerView.ViewHolder(binding.root)
+class LeftChatViewHolder(val binding: LeftChatItemBinding): RecyclerView.ViewHolder(binding.root)
 
 class ChatAdapter(var data: MutableList<ChatVO>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return data.size;
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return data[position].viewType
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ChatViewHolder(ChatItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return if(viewType == ViewType.LEFT_CHAT) {
+            LeftChatViewHolder(LeftChatItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        } else {
+            ChatViewHolder(ChatItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        }
+
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        var binding = (holder as ChatViewHolder).binding
 
-        if(data[position].chatType == "text") {
-            binding.chatSender.text = data[position].chatSender
-            binding.chatText.text = data[position].chatContent
-            binding.chatDate.text = data[position].chatDate
+        if(holder is LeftChatViewHolder) {
+            var binding = holder.binding
+
+            if(data[position].chatType == "text") {
+                binding.chatSender.text = data[position].chatSender
+                binding.chatText.text = data[position].chatContent
+                binding.chatDate.text = data[position].chatDate
+            } else {
+
+            }
         } else {
+            var binding = (holder as ChatViewHolder).binding
 
+            if(data[position].chatType == "text") {
+                binding.chatSender.text = data[position].chatSender
+                binding.chatText.text = data[position].chatContent
+                binding.chatDate.text = data[position].chatDate
+            } else {
+
+            }
         }
+
+
     }
 
     fun addItem(chat: ChatVO) {
@@ -69,17 +103,27 @@ class ChatActivity : AppCompatActivity() {
     inner class WebSocketListener : okhttp3.WebSocketListener() {
 
         override fun onOpen(webSocket: WebSocket, response: Response) {
-            webSocket.send("{\"message\":\"안드로이드로부터 온 메세지\"}")
+            webSocket.send("{\"type\":\"socket-open\", \"user\": \"" + GlobalState.userId + "\"}")
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
             Log.d("Socket","Receiving : $text")
             val chatJson = JSONObject(text)
+            var viewType = ViewType.RIGHT_CHAT;
+
+            if(GlobalState.userId == chatJson.getString("chatReceiver")) {
+                viewType = ViewType.LEFT_CHAT;
+            }
+
             val chatvo = ChatVO(chatJson.getString("chatSender"),
                                 chatJson.getString("chatReceiver"),
                                 chatJson.getString("chatType"),
                                 chatJson.getString("chatContent"),
-                                chatJson.getString("chatDate"))
+                                chatJson.getString("chatDate"),
+                                viewType)
+
+            Log.d("message", "$chatvo")
+
             runOnUiThread {
                 chatAdapter.addItem(chatvo)
                 binding.chatBox.smoothScrollToPosition(chatAdapter.itemCount)
@@ -137,7 +181,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     fun createChatJSON(text: String): String {
-        val sdf = SimpleDateFormat("yyyy-MM-dd-hh-mm")
+        val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm")
         val date = sdf.format(System.currentTimeMillis())
 
         return "{" +

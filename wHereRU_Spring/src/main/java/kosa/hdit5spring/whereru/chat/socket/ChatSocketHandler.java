@@ -45,6 +45,11 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 		
 		try {
 			JsonObject parsedChat = JsonParser.parseString(message.getPayload().toString()).getAsJsonObject();
+			
+			if(parsedChat.get("type") != null) {
+				socketSessionMap.put(parsedChat.get("user").toString(), session);
+			}
+			
 			ChatVO chat = new ChatVO();
 			
 			String chatSender = parsedChat.get("chatSender").toString();
