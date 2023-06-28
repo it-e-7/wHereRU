@@ -11,12 +11,8 @@ import androidx.core.app.NotificationCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import android.content.Intent
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.widget.ViewPager2
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
+
 import kosa.hdit5.whereru.databinding.ActivityMainViewPagerBinding
 import kosa.hdit5.whereru.util.GlobalState
 
