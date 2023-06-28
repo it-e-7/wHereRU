@@ -79,6 +79,7 @@ class ChatActivity : AppCompatActivity() {
                                 chatJson.getString("chatDate"))
             runOnUiThread {
                 chatAdapter.addItem(chatvo)
+                ActivityChatBinding.inflate(layoutInflater).chatBox
             }
         }
 
