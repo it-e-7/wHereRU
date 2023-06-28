@@ -24,7 +24,6 @@
 		#{missingSex}, #{missingOutfit}, #{missingTime}, #{missingPoint},
 		#{userSeq},#{imgUrl1},#{imgUrl2},#{imgUrl3})
 	</insert>
-
 	
 	<!-- 상세페이지 -->
 	<select id="selectMissingBoardDetail" parameterType="int"
