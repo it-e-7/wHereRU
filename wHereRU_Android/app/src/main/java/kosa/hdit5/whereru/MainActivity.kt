@@ -13,6 +13,8 @@ import com.google.firebase.messaging.FirebaseMessaging
 import android.content.Intent
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
 
+import kosa.hdit5.whereru.databinding.ActivityMainViewPagerBinding
+import kosa.hdit5.whereru.util.GlobalState
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         // 파이어베이스 메시징 인스턴스로 토큰생성or가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnCompleteListener
             }
             val token = task.result
-            //Log.d("토큰", token.toString()) // 내 토큰은 나중에 채팅알림에 사용해야 할듯
+            Log.d("토큰", token.toString()) // 내 토큰은 나중에 채팅알림에 사용해야 할듯
         })
 
         // 알림 채널 생성 및 설정

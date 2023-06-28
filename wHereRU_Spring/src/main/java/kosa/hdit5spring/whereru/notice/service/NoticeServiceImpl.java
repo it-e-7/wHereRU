@@ -7,15 +7,19 @@ import java.net.URL;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public void requestToFCM(List<String> tokenList) {
-		
+
 		
 		for(String token : tokenList) {
 			 try {
+				 	System.out.println(token);
 		            String url = "https://fcm.googleapis.com/fcm/send";
 
 		            // FCM ���� Ű
@@ -25,8 +29,8 @@ public class NoticeServiceImpl implements NoticeService {
 		            String targetToken = token;
 
 		            // �޽��� ������
-		            String message = "{ \"to\": \"" + targetToken + "\", \"data\": { \"title\": \"�����̿���\", \"body\": \"�ȳ�..\" } }";
-
+		            String message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \"HI!!\", \"body\": \"Can you look at this??\" } }";
+		            System.out.println(message);
 		            URL obj = new URL(url);
 		            HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
 
@@ -46,7 +50,7 @@ public class NoticeServiceImpl implements NoticeService {
 
 		            int responseCode = conn.getResponseCode();
 		            System.out.println("Response Code: " + responseCode);
-
+		            
 		            if (responseCode == HttpURLConnection.HTTP_OK) {
 		                //������
 		            } else {
