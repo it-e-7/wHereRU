@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kosa.hdit5.whereru.databinding.ActivityRegisterBinding
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityRegisterBinding.inflate(layoutInflater)
