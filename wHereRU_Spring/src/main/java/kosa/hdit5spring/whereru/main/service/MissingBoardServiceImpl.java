@@ -39,4 +39,21 @@ public class MissingBoardServiceImpl implements MissingBoardService{
 	}
 
    
+   public void deleteMissingBoard(int missingSeq, String userSeq)  {
+	   
+	   MissingBoardVo detail = missingBoardMapper.selectMissingBoardDetail(missingSeq);
+
+//	   TODO: if(detail != null && userSeq != null && userSeq.equals(detail.getUserSeq())) {
+		   missingBoardMapper.deleteMissingBoard(missingSeq);
+   }
+   
+   
+   public void updateMissingBoard(MissingBoardVo missingBoardVo) {
+	   
+	    MissingBoardVo original = missingBoardMapper.selectMissingBoardDetail(missingBoardVo.getMissingSeq());
+
+//	    TODO: if (original != null && userSeq != null && userSeq.equals(original.getUserSeq())) {
+	        missingBoardMapper.updateMissingBoard(missingBoardVo);
+	   
+   }
 }

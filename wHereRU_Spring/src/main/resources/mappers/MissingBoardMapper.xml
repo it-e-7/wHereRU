@@ -3,19 +3,28 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kosa.hdit5spring.whereru.main.mapper.MissingBoardMapper">
+<mapper
+	namespace="kosa.hdit5spring.whereru.main.mapper.MissingBoardMapper">
 
-   <resultMap type="MissingBoard" id="MissingBoardResult">
-      <result column="missing_seq" property = "missingSeq"/>
-      <result column="missing_name" property="missingName" />
-      <result column="missing_age" property="missingAge" />
-      <result column="missing_sex" property="missingSex" />
-      <result column="missing_outfit" property="missingOutfit" />
-      <result column="missing_time" property="missingTime" />
-      <result column="missing_point" property="missingPoint" />
-      <result column="user_seq" property="userSeq" />
-   </resultMap>
+	<resultMap type="MissingBoard" id="MissingBoardResult">
+		<result column="missing_seq" property="missingSeq" />
+		<result column="missing_name" property="missingName" />
+		<result column="missing_age" property="missingAge" />
+		<result column="missing_sex" property="missingSex" />
+		<result column="missing_outfit" property="missingOutfit" />
+		<result column="missing_time" property="missingTime" />
+		<result column="missing_point" property="missingPoint" />
+		<result column="user_seq" property="userSeq" />
+	</resultMap>
 
+
+
+	<insert id="writeMissingBoard" parameterType="MissingBoard">
+
+		call insert_missing_board_and_images (#{missingName},#{missingAge},
+		#{missingSex}, #{missingOutfit}, #{missingTime}, #{missingPoint},
+		#{userSeq},#{imgUrl1},#{imgUrl2},#{imgUrl3})
+	</insert>
 
  	<insert id="writeMissingBoard" parameterType="MissingBoard">
  	
@@ -26,9 +35,28 @@
 	<select id="selectMissingBoardDetail" parameterType="int"
 		resultType="MissingBoard">
 		SELECT *
-		  FROM MissingBoard
-		 WHERE missing_seq = #{missingSeq}
+		FROM MissingBoard
+		WHERE missing_seq = #{missingSeq}
 	</select>
+
+	<!-- 완료 -->
+	<delete id="deleteMissingBoard" parameterType="int">
+		DELETE FROM MissingBoard
+		WHERE missing_seq = #{missingSeq}
+	</delete>
+
+	<!-- 수정 -->
+	<update id="updateMissingBoard" parameterType="MissingBoard">
+		UPDATE MissingBoard 
+		   SET missing_name = #{missingName},
+			   missing_age = #{missingAge},
+			   missing_sex = #{missingSex},
+			   missing_outfit = #{missingOutfit},
+			   missing_time = #{missingTime},
+			   missing_point = #{missingPoint}
+		 WHERE missing_seq = #{missingSeq}
+	</update>
+		 
 	
 	<select id="getTotalList" resultType="MissingBoard">
 		SELECT
@@ -64,5 +92,4 @@
 		  mb.missing_point,
 		  mb.user_seq
 	</select>
-	
 </mapper>  

@@ -31,20 +31,42 @@ public class MainController {
 		
 		return ResponseEntity.ok(list);
 	}
-	
+
 	@RequestMapping("writemissingboard")
 	public String writeMissingBoard(@RequestBody MissingBoardVo missingBoardVo) {
 
-       missingBoardService.writeMissingBoard(missingBoardVo);
-		
-		return "Ã«ÂÂ°Ã¬ÂÂ´Ã­Â„Â° Ã¬Â Â„Ã¬Â†Â¡ Ã¬Â„Â±ÃªÂ³Âµ";
+		missingBoardService.writeMissingBoard(missingBoardVo);
+
+		return "µ¥ÀÌÅÍ Àü¼Û ¼º°ø";
 	}
+
 	@PostMapping("detail")
 	public ResponseEntity<MissingBoardVo> getMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
+
 		int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
 		MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
-		
-		System.out.println("controller" + detail);
+
 		return ResponseEntity.ok(detail);
 	}
+
+	@PostMapping("deletemissingboard")
+	public ResponseEntity deleteMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
+
+		int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
+		missingBoardService.deleteMissingBoard(missingBoardSeq, currUser.getUserSeq());
+
+		System.out.println("delete: " + missingBoardSeq);
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("updatemissingboard")
+   public ResponseEntity<MissingBoardVo> updateMissingBoardDetail(@RequestBody MissingBoardVo missingBoardVo, UserVO currUser) {
+
+		missingBoardService.updateMissingBoard(missingBoardVo);
+		
+	    MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardVo.getMissingSeq(), currUser.getUserSeq());
+
+		return ResponseEntity.ok(detail);
+	}
+	    
 }
