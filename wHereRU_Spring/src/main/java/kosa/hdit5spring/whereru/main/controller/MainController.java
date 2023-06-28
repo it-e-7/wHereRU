@@ -1,5 +1,6 @@
 package kosa.hdit5spring.whereru.main.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,16 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("main")
 @SessionAttributes("currUser")
 public class MainController {
-
+	
 	@Autowired
 	MissingBoardService missingBoardService;
+	
+	@RequestMapping("main")
+	public ResponseEntity<List<MissingBoardVo>> mainPage() {
+		List<MissingBoardVo> list = missingBoardService.getTotalList(); 
+		
+		return ResponseEntity.ok(list);
+	}
 
 	@RequestMapping("writemissingboard")
 	public String writeMissingBoard(@RequestBody MissingBoardVo missingBoardVo) {
