@@ -11,7 +11,13 @@ import androidx.core.app.NotificationCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import android.content.Intent
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
+import kosa.hdit5.whereru.databinding.ActivityMainViewPagerBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,16 +26,16 @@ class MainActivity : AppCompatActivity() {
     private val channelDescription = "Default Channel for Notifications"
     private val notificationId = 1
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 알림 채널 생성 및 설정
-        createNotificationChannel()
 
-        // 파이어베이스 메시징 인스턴스 생성
+        // 파이어베이스 메시징 인스턴스로 토큰생성or가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 val exception = task.exception
@@ -40,15 +46,30 @@ class MainActivity : AppCompatActivity() {
                 return@OnCompleteListener
             }
             val token = task.result
-            Log.d("토큰", token.toString())
+            //Log.d("토큰", token.toString()) // 내 토큰은 나중에 채팅알림에 사용해야 할듯
         })
 
+        // 알림 채널 생성 및 설정
+        createNotificationChannel()
         // 알림 생성 및 표시
         showNotification()
 
         binding.chatButton.setOnClickListener {
             val intent = Intent(this, ChatActivity::class.java)
             startActivity(intent)
+        }
+
+        val fragment = MainViewPager()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, fragment)
+            .commit()
+
+        binding.noticeButton.setOnClickListener {
+            //FCM http 요청
+            Log.d("========Start========","")
+            val requestNoticeService = RequestNoticeService()
+            requestNoticeService.requestToFCM()
+            Log.d("=========End==========","")
         }
     }
 
@@ -85,6 +106,9 @@ class MainActivity : AppCompatActivity() {
         notificationManager.notify(notificationId, notificationBuilder.build())
 
     }
+
+
+
 
     private fun showError(message: String) {
         Log.e("Error", message)

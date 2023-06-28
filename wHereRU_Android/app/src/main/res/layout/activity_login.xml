@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp">
+
+
+    <TextView
+        android:id="@+id/login_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="로그인"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@id/signin_box"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signin_box"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toTopOf="@id/signin_register_box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_tv">
+
+
+        <TextView
+            android:id="@+id/login_id_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="아이디"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toTopOf="@id/login_id"
+            app:layout_constraintEnd_toEndOf="@id/signin_box"
+            app:layout_constraintStart_toStartOf="@id/signin_box"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/login_id"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="아이디 입력 공간"
+            android:inputType="textEmailAddress"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="@id/signin_box"
+            app:layout_constraintStart_toStartOf="@id/signin_box"
+            app:layout_constraintTop_toBottomOf="@+id/login_id_tv" />
+
+        <TextView
+            android:id="@+id/login_pw_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="비밀번호"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/login_pw"
+            app:layout_constraintEnd_toEndOf="@id/signin_box"
+            app:layout_constraintStart_toStartOf="@id/signin_box" />
+
+        <EditText
+            android:id="@+id/login_pw"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="비밀번호 입력 공간"
+            android:inputType="textPassword"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/signin_box"
+            app:layout_constraintStart_toStartOf="@id/signin_box" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signin_register_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signin_box">
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/green"
+            android:text="로그인"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            app:layout_constraintBottom_toTopOf="@id/register_link"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/register_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="회원가입 하기"
+            android:textColor="@color/black"
+            android:background="@color/transparent"
+            android:textSize="16dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_btn" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
