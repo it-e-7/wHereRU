@@ -1,4 +1,4 @@
-package kosa.hdit5.whereru
+package kosa.hdit5.whereru.util.retrofit.main.vo
 
 data class UserVO (
 

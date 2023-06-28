@@ -6,6 +6,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class NoticeServiceImpl implements NoticeService {
 
 	@Override
