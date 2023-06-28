@@ -1,7 +1,9 @@
 package kosa.hdit5spring.whereru.chat.socket;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +25,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	
 	Logger log = LogManager.getLogger("case3");
 	List<SocketSessionVO> socketSessionList = new ArrayList<SocketSessionVO>();
+	Map<String, WebSocketSession> socketSessionMap = new HashMap<String, WebSocketSession>();
 	
 	@Autowired
 	ChatService service;
@@ -39,21 +42,34 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		log.debug("메세지" + message.getPayload().toString());
 		
 		try {
 			JsonObject parsedChat = JsonParser.parseString(message.getPayload().toString()).getAsJsonObject();
 			ChatVO chat = new ChatVO();
 			
-			chat.setChatSender(parsedChat.get("chatSender").toString());
-			chat.setChatReceiver(parsedChat.get("chatReceiver").toString());
-			chat.setChatContent(parsedChat.get("chatContent").toString());
-			chat.setChatType(parsedChat.get("chatType").toString());
-			chat.setChatDate(parsedChat.get("chatDate").toString());
+			String chatSender = parsedChat.get("chatSender").toString();
+			String chatReceiver = parsedChat.get("chatReceiver").toString();
+			String chatContent = parsedChat.get("chatContent").toString();
+			String chatType = parsedChat.get("chatType").toString();
+			String chatDate = parsedChat.get("chatDate").toString();
 			
-			log.debug("메세지 파싱 결과: " + chat.toString());
+			chat.setChatSender(chatSender);
+			chat.setChatReceiver(chatReceiver);
+			chat.setChatContent(chatContent);
+			chat.setChatType(chatType);
+			chat.setChatDate(chatDate);
 			
+			// echo
 			session.sendMessage(message);
+			
+			// receiver에게 채팅 보내기
+			socketSessionMap.put(parsedChat.get("chatSender").toString(), session);
+			
+			WebSocketSession receiverSession = socketSessionMap.get(parsedChat.get("chatReceiver").toString());
+			
+			if(receiverSession != null) {
+				receiverSession.sendMessage(message);
+			}
 			
 		} catch (Exception err) {
 			log.error(err.getMessage());
@@ -75,6 +91,17 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 		}
 		if(userIndex > -1) {
 			socketSessionList.remove(userIndex);
+		}
+		
+		String userId = "";
+		for(String key : socketSessionMap.keySet()) {
+			if(socketSessionMap.get(key).getId().equals(session.getId())) {
+				userId = key;
+				break;
+			}
+		}
+		if(userId.length() > 0) {
+			socketSessionMap.remove(userId);
 		}
 		
 		super.afterConnectionClosed(session, status);

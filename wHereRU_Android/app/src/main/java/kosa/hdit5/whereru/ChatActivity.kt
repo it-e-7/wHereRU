@@ -66,7 +66,7 @@ class ChatActivity : AppCompatActivity() {
     inner class WebSocketListener : okhttp3.WebSocketListener() {
 
         override fun onOpen(webSocket: WebSocket, response: Response) {
-            webSocket.send("안드로이드로부터 온 메세지입니다")
+            webSocket.send("{\"message\":\"안드로이드로부터 온 메세지\"}")
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
