@@ -13,5 +13,5 @@ public class ChatVO {
 	String chatReceiver;
 	String chatType;
 	String chatContent;
-	String chatTime;
+	String chatDate;
 }

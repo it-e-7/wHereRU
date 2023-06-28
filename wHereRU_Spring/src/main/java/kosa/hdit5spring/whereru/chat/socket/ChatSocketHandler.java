@@ -49,6 +49,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 			chat.setChatReceiver(parsedChat.get("chatReceiver").toString());
 			chat.setChatContent(parsedChat.get("chatContent").toString());
 			chat.setChatType(parsedChat.get("chatType").toString());
+			chat.setChatDate(parsedChat.get("chatDate").toString());
 			
 			log.debug("메세지 파싱 결과: " + chat.toString());
 			
