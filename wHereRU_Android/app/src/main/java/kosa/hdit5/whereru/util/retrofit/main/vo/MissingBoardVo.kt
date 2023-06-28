@@ -14,3 +14,8 @@ data class MissingBoardVo(
     val imgUrl3: String?,
     val owner: Boolean
 )
+data class MainMissingBoardVo(
+    val missingName: String,
+    val missingAge: Int,
+    val missingSex: String
+)

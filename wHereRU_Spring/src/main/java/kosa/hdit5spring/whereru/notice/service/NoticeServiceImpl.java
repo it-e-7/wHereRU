@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+@Service
 public class NoticeServiceImpl implements NoticeService {
 
 	@Override
@@ -16,14 +18,14 @@ public class NoticeServiceImpl implements NoticeService {
 			 try {
 		            String url = "https://fcm.googleapis.com/fcm/send";
 
-		            // FCM ¼­¹ö Å°
+		            // FCM ï¿½ï¿½ï¿½ï¿½ Å°
 		            String serverKey = "AAAAQGwJreo:APA91bERH85R8sckereChqMrm1niq1MQh7qXOEXSESjpvn5eDPzt72z_1JT114p5IFv90z8dAeHJ88l62__SIKpkXuVdoDU1QVWbMgGna96_K297YIuEB9_A0OtX0lfiN1cAFtFswkuE";
 
-		            // ¼ö½Å ´ë»ó µð¹ÙÀÌ½ºÀÇ FCM ÅäÅ«
+		            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ FCM ï¿½ï¿½Å«
 		            String targetToken = token;
 
-		            // ¸Þ½ÃÁö µ¥ÀÌÅÍ
-		            String message = "{ \"to\": \"" + targetToken + "\", \"data\": { \"title\": \"À¯¹ÎÀÌ¿¡°Ô\", \"body\": \"¾È³ç..\" } }";
+		            // ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		            String message = "{ \"to\": \"" + targetToken + "\", \"data\": { \"title\": \"ï¿½ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½\", \"body\": \"ï¿½È³ï¿½..\" } }";
 
 		            URL obj = new URL(url);
 		            HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
@@ -46,9 +48,9 @@ public class NoticeServiceImpl implements NoticeService {
 		            System.out.println("Response Code: " + responseCode);
 
 		            if (responseCode == HttpURLConnection.HTTP_OK) {
-		                //¼º°ø½Ã
+		                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		            } else {
-		                // ½ÇÆÐ½Ã
+		                // ï¿½ï¿½ï¿½Ð½ï¿½
 		            }
 		        } catch (IOException e) {
 		            e.printStackTrace();

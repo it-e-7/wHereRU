@@ -12,7 +12,9 @@ import kosa.hdit5.whereru.databinding.ActivityMainViewPagerBinding
 import kosa.hdit5.whereru.databinding.MainItemPagerBinding
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
+import kosa.hdit5.whereru.util.retrofit.main.vo.MainMissingBoardVo
 import kosa.hdit5.whereru.util.retrofit.main.vo.MissingBoardVo
+import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,7 +22,7 @@ import retrofit2.Response
 
 class MyPagerViewHolder(val binding : MainItemPagerBinding) : RecyclerView.ViewHolder(binding.root)
 
-class MyPagerAdapter(private val myData: MutableList<String>): RecyclerView.Adapter<MyPagerViewHolder>() {
+class MyPagerAdapter(private var myData: MutableList<MainMissingBoardVo>): RecyclerView.Adapter<MyPagerViewHolder>() {
     override fun getItemCount(): Int {
         return myData.size
     }
@@ -38,7 +40,17 @@ class MyPagerAdapter(private val myData: MutableList<String>): RecyclerView.Adap
     override fun onBindViewHolder(holder: MyPagerViewHolder, position: Int) {
         val binding = holder.binding
 
-        binding.mainitemviewpager.text = myData[position]
+        Log.d("bindviewholder", myData[position].toString())
+
+        binding.mainMissingName.text = myData[position].missingName
+        binding.mainMissingAge.text = myData[position].missingAge.toString()
+        binding.mainMissingSex.text = myData[position].missingSex
+    }
+
+    fun setItem(data: MutableList<MainMissingBoardVo>) {
+        Log.d("setItem", data.toString())
+        myData = data
+        notifyDataSetChanged()
     }
 
 }
@@ -46,7 +58,7 @@ class MainViewPager : Fragment() {
     private lateinit var binding: ActivityMainViewPagerBinding
     private var apiService: WhereRUAPI = RetrofitBuilder.api
     private lateinit var myDataAdapter: MyPagerAdapter
-    private val myData = mutableListOf<String>()
+    private val myData = mutableListOf<MainMissingBoardVo>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,10 +70,18 @@ class MainViewPager : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getTotalList()
 
         myDataAdapter = MyPagerAdapter(myData)
-        binding.mainviewpager.adapter = MyPagerAdapter(myData)
+        binding.mainviewpager.adapter = myDataAdapter
+
+        getTotalList()
+
+//        val testList = mutableListOf<MainMissingBoardVo>()
+//        val test = MainMissingBoardVo("홍길동", 20, "남자")
+//        Log.d("hong", "여기 실행 됐니?")
+//        testList.add(test)
+//        myDataAdapter.setItem(testList)
+//        Log.d("hong", "여기 실행 됐니?22")
     }
 
     private fun getTotalList() {
@@ -78,18 +98,17 @@ class MainViewPager : Fragment() {
                 if (response.isSuccessful) {
                     Log.d("Hong","response.isSuccessful 까지 들어옴")
                     val missingPersonList = response.body()
-                    val gson = Gson()
-                    val json = gson.toJson(missingPersonList)
-                    Log.d("hong","$json")
+                    if(missingPersonList !=null){
+                        for(missingPerson in missingPersonList){
+                            val missingName = missingPerson.missingName
+                            val age = missingPerson.missingAge
+                            val sex = missingPerson.missingSex
 
-                    if(json !=null){
-                        for(missingPerson in json){
-//                            for(missing in missingPerson) {
-//                                val item = "Name : ${missingPerson.}"
-//                                myData.add(item)
-//                            }
+                            val mainMissingBoardVo = MainMissingBoardVo(missingName,age,sex)
+                            myData.add(mainMissingBoardVo)
+
                         }
-                        myDataAdapter.notifyDataSetChanged()
+                        myDataAdapter.setItem(myData)
                     }
                 } else {
                     // 서버로부터 응답을 받지 못한 경우 처리
