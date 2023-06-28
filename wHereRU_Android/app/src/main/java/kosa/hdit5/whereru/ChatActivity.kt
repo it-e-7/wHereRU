@@ -64,6 +64,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var chatSocket: WebSocket
     var chatAdapter = ChatAdapter(mutableListOf())
     lateinit var receiverId: String
+    lateinit var binding: ActivityChatBinding
 
     inner class WebSocketListener : okhttp3.WebSocketListener() {
 
@@ -81,7 +82,7 @@ class ChatActivity : AppCompatActivity() {
                                 chatJson.getString("chatDate"))
             runOnUiThread {
                 chatAdapter.addItem(chatvo)
-                ActivityChatBinding.inflate(layoutInflater).chatBox
+                binding.chatBox.smoothScrollToPosition(chatAdapter.itemCount)
             }
         }
 
@@ -103,7 +104,7 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityChatBinding.inflate(layoutInflater)
+        binding = ActivityChatBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
