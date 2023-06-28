@@ -18,6 +18,7 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
 import kosa.hdit5.whereru.databinding.ActivityMainViewPagerBinding
+import kosa.hdit5.whereru.util.GlobalState
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         // 파이어베이스 메시징 인스턴스로 토큰생성or가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import kosa.hdit5spring.whereru.main.service.MissingBoardService;
@@ -19,14 +20,13 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("main")
-@SessionAttributes("currUser")
 public class MainController {
 	
 	@Autowired
 	MissingBoardService missingBoardService;
 	
 	@RequestMapping("main")
-	public ResponseEntity<List<MissingBoardVo>> mainPage() {
+	public ResponseEntity<List<MissingBoardVo>> mainPage(@SessionAttribute UserVO currUser) {
 		List<MissingBoardVo> list = missingBoardService.getTotalList(); 
 		
 		return ResponseEntity.ok(list);
@@ -41,7 +41,7 @@ public class MainController {
 	}
 
 	@PostMapping("detail")
-	public ResponseEntity<MissingBoardVo> getMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
+	public ResponseEntity<MissingBoardVo> getMissingBoardDetail(@RequestBody Map<String, Object> map, @SessionAttribute UserVO currUser) {
 
 		int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
 		MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
@@ -50,7 +50,7 @@ public class MainController {
 	}
 
 	@PostMapping("deletemissingboard")
-	public ResponseEntity deleteMissingBoardDetail(@RequestBody Map<String, Object> map, UserVO currUser) {
+	public ResponseEntity deleteMissingBoardDetail(@RequestBody Map<String, Object> map, @SessionAttribute UserVO currUser) {
 
 		int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
 		missingBoardService.deleteMissingBoard(missingBoardSeq, currUser.getUserSeq());
@@ -60,7 +60,7 @@ public class MainController {
 	}
 
 	@PostMapping("updatemissingboard")
-   public ResponseEntity<MissingBoardVo> updateMissingBoardDetail(@RequestBody MissingBoardVo missingBoardVo, UserVO currUser) {
+   public ResponseEntity<MissingBoardVo> updateMissingBoardDetail(@RequestBody MissingBoardVo missingBoardVo, @SessionAttribute UserVO currUser) {
 
 		missingBoardService.updateMissingBoard(missingBoardVo);
 		
