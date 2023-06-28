@@ -82,17 +82,6 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		log.debug("세션 종료" + session.toString());
 		
-//		int userIndex = -1;
-//		for(int i = 0; i < socketSessionList.size(); i++) {
-//			if(socketSessionList.get(i).getSession().getId().equals(session.getId())) {
-//				userIndex = i;
-//				break;
-//			}
-//		}
-//		if(userIndex > -1) {
-//			socketSessionList.remove(userIndex);
-//		}
-		
 		String userId = "";
 		for(String key : socketSessionMap.keySet()) {
 			if(socketSessionMap.get(key).getId().equals(session.getId())) {

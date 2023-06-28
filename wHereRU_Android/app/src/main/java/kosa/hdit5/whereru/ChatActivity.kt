@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kosa.hdit5.whereru.databinding.ActivityChatBinding
 import kosa.hdit5.whereru.databinding.ChatItemBinding
+import kosa.hdit5.whereru.util.GlobalState
 import kosa.hdit5.whereru.util.OkHttpClientSingleton
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -136,7 +137,7 @@ class ChatActivity : AppCompatActivity() {
         val date = sdf.format(System.currentTimeMillis())
 
         return "{" +
-                "\"chatSender\":\"userId\"," +
+                "\"chatSender\":\"" + GlobalState.userId + "\"," +
                 "\"chatReceiver\":\"userId\"," +
                 "\"chatType\":\"text\"," +
                 "\"chatContent\":\"" + text + "\"," +
