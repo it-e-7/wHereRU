@@ -18,5 +18,6 @@ interface WhereRUAPI {
     @POST("whereru/user/login")
     fun login(@Body user: UserVO): Call<ResponseBody>
 
-
+    @POST("whereru/user/register")
+    fun register(@Body user:UserVO): Call<ResponseBody>
 }

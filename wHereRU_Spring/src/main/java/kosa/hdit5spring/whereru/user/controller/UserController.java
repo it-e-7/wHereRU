@@ -22,10 +22,12 @@ public class UserController {
 
 	private final UserService service;
 
-	// ·Î±×ÀÎ
+	// ï¿½Î±ï¿½ï¿½ï¿½
     @PostMapping("login")
     public ResponseEntity<String> login(@RequestBody UserVO userVO, HttpSession session) {
         UserVO vo = service.login(userVO);
+        System.out.println(userVO);
+        System.out.println(vo);
         if (vo == null) {
             return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
         } else {
@@ -35,7 +37,7 @@ public class UserController {
     }
 	
 
-	// È¸¿ø°¡ÀÔ
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@PostMapping("register")
 	public ResponseEntity<String> register(@RequestBody UserVO userVO) {
 		System.out.println("register:" + userVO);
