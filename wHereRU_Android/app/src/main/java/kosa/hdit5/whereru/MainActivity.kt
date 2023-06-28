@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnCompleteListener
             }
             val token = task.result
-            //Log.d("토큰", token.toString()) // 내 토큰은 나중에 채팅알림에 사용해야 할듯
+            Log.d("토큰", token.toString()) // 내 토큰은 나중에 채팅알림에 사용해야 할듯
         })
 
         // 알림 채널 생성 및 설정
