@@ -37,7 +37,7 @@ public class MainController {
 
 		missingBoardService.writeMissingBoard(missingBoardVo);
 
-		return "µ¥ÀÌÅÍ Àü¼Û ¼º°ø";
+		return "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½";
 	}
 
 	@PostMapping("detail")

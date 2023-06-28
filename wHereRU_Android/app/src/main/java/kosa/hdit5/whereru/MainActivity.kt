@@ -11,13 +11,22 @@ import androidx.core.app.NotificationCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import android.content.Intent
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
+import kosa.hdit5.whereru.databinding.ActivityMainViewPagerBinding
+
 class MainActivity : AppCompatActivity() {
 
     private val channelId = "default_channel_id"
     private val channelName = "Default Channel"
     private val channelDescription = "Default Channel for Notifications"
     private val notificationId = 1
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +58,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ChatActivity::class.java)
             startActivity(intent)
         }
+
+        val fragment = MainViewPager()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, fragment)
+            .commit()
+
         binding.noticeButton.setOnClickListener {
             //FCM http 요청
             Log.d("========Start========","")
@@ -91,6 +106,9 @@ class MainActivity : AppCompatActivity() {
         notificationManager.notify(notificationId, notificationBuilder.build())
 
     }
+
+
+
 
     private fun showError(message: String) {
         Log.e("Error", message)
