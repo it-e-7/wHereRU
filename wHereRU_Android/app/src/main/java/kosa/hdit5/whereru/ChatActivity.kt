@@ -36,7 +36,7 @@ class ChatActivity : AppCompatActivity() {
             binding.chatEdit.text.clear()
         }
 
-        chatSocket.
+
     }
 
     override fun onDestroy() {
