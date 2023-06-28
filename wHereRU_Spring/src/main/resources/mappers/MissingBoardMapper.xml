@@ -18,7 +18,6 @@
 	</resultMap>
 
 
-
 	<insert id="writeMissingBoard" parameterType="MissingBoard">
 
 		call insert_missing_board_and_images (#{missingName},#{missingAge},
@@ -53,7 +52,6 @@
 		 WHERE missing_seq = #{missingSeq}
 	</update>
 		 
-	
 	<select id="getTotalList" resultType="MissingBoard">
 		SELECT
 		  mb.missing_seq,
@@ -88,4 +86,5 @@
 		  mb.missing_point,
 		  mb.user_seq
 	</select>
+	
 </mapper>  

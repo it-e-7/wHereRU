@@ -34,10 +34,8 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 알림 채널 생성 및 설정
-        createNotificationChannel()
 
-        // 파이어베이스 메시징 인스턴스 생성
+        // 파이어베이스 메시징 인스턴스로 토큰생성or가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 val exception = task.exception
@@ -48,9 +46,11 @@ class MainActivity : AppCompatActivity() {
                 return@OnCompleteListener
             }
             val token = task.result
-            Log.d("토큰", token.toString())
+            //Log.d("토큰", token.toString()) // 내 토큰은 나중에 채팅알림에 사용해야 할듯
         })
 
+        // 알림 채널 생성 및 설정
+        createNotificationChannel()
         // 알림 생성 및 표시
         showNotification()
 
@@ -64,6 +64,13 @@ class MainActivity : AppCompatActivity() {
             .add(R.id.fragment_container, fragment)
             .commit()
 
+        binding.noticeButton.setOnClickListener {
+            //FCM http 요청
+            Log.d("========Start========","")
+            val requestNoticeService = RequestNoticeService()
+            requestNoticeService.requestToFCM()
+            Log.d("=========End==========","")
+        }
     }
 
     // 알림 채널 생성 및 설정
