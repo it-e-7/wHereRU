@@ -26,15 +26,16 @@ class RegisterActivity : Activity() {
             val userPw = binding.loginPw.text.toString()
             val userPwConfirm = binding.loginCheckPw.text.toString()
 
+            val user = UserVO(null, userName, userId, userPw)
+            val registerService: WhereRUAPI = RetrofitBuilder.api
+            val call = registerService.register(user)
 
+            // 패스워드 검사
             if (userPw != userPwConfirm) {
                 Toast.makeText(this@RegisterActivity, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
 
-            val user = UserVO(null, userName, userId, userPw)
-            val registerService: WhereRUAPI = RetrofitBuilder.api
-            val call = registerService.register(user)
 
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

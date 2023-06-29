@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class UserController {
 
 	private final UserService service;
 
-	// �α���
+	// 로그인
     @PostMapping("login")
     public ResponseEntity<String> login(@RequestBody UserVO userVO, HttpSession session) {
         UserVO vo = service.login(userVO);
@@ -37,7 +38,7 @@ public class UserController {
     }
 	
 
-	// ȸ������
+	// 회원가입
 	@PostMapping("register")
 	public ResponseEntity<String> register(@RequestBody UserVO userVO) {
 		System.out.println("register:" + userVO);
@@ -51,5 +52,12 @@ public class UserController {
 	    } catch (IllegalArgumentException e) {
 	        return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 	    }
+	}
+	
+	// 아이디 중복 확인
+	@GetMapping("checkuseridExist")
+	public boolean checkUserIdExist(@RequestBody String userId) {
+		
+        return service.isUserIdExist(userId);
 	}
 }
