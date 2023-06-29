@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         showNotification()
 
         binding.chatButton.setOnClickListener {
-            val intent = Intent(this, ChatActivity::class.java)
+            val intent = Intent(this, ChatListActivity::class.java)
             startActivity(intent)
         }
 

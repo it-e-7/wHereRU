@@ -45,6 +45,11 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 		
 		try {
 			JsonObject parsedChat = JsonParser.parseString(message.getPayload().toString()).getAsJsonObject();
+			
+			if(parsedChat.get("type") != null) {
+				socketSessionMap.put(parsedChat.get("user").toString(), session);
+			}
+			
 			ChatVO chat = new ChatVO();
 			
 			String chatSender = parsedChat.get("chatSender").toString();
@@ -81,17 +86,6 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		log.debug("세션 종료" + session.toString());
-		
-//		int userIndex = -1;
-//		for(int i = 0; i < socketSessionList.size(); i++) {
-//			if(socketSessionList.get(i).getSession().getId().equals(session.getId())) {
-//				userIndex = i;
-//				break;
-//			}
-//		}
-//		if(userIndex > -1) {
-//			socketSessionList.remove(userIndex);
-//		}
 		
 		String userId = "";
 		for(String key : socketSessionMap.keySet()) {
