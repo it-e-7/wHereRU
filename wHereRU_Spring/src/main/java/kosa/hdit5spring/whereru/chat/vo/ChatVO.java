@@ -9,6 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class ChatVO {
 	
+	int chatSeq;
 	String chatSender;
 	String chatReceiver;
 	String chatType;

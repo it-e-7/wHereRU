@@ -5,7 +5,17 @@
 
 <mapper namespace="kosa.hdit5spring.whereru.chat.mapper.ChatMapper">
 
-	<insert id="selectAllChatList">
+	<insert id="insertChat" statementType="CALLABLE" parameterType="ChatVO">
+		CALL INSERTCHAT(#{chatSender}, #{chatReceiver}, #{chatType}, #{chatContent}, #{chatDate})
+	</insert>
+
+	<insert id="selectAllChat">
 		select * from book;
 	</insert>
+	
+	<select id="selectAllChatList">
+		<![CDATA[
+	         
+		]]>
+	</select>
 </mapper>
