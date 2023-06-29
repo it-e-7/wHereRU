@@ -2,6 +2,8 @@ package kosa.hdit5.whereru.util.retrofit.main.vo
 
 data class UserVO (
 
-    val userId: String,
-    val userPw: String
+    val userSeq: String? = null,
+    val userName: String? = null,
+    val userId: String? = null,
+    val userPw: String? = null
 )

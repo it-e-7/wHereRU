@@ -44,11 +44,12 @@ class LoginActivity : Activity() {
             val userId = binding.loginId.text.toString()
             val userPw = binding.loginPw.text.toString()
             val loginService: WhereRUAPI=RetrofitBuilder.api//LoginService = retrofit.create(LoginService::class.java)
-            val call = loginService.login(UserVO(userId, userPw))
+            val call = loginService.login(UserVO(userId = userId, userPw = userPw))
 
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     Log.d("hong","onRespnose들어옴")
+                    Log.d("hong", "$response")
                     if (response.isSuccessful) {
                         Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
                         var mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
