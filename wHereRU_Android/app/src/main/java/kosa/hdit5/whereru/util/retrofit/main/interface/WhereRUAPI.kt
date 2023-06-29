@@ -15,7 +15,6 @@ interface WhereRUAPI {
     @POST("whereru/main/main")
     fun getTotalList(): Call<List<MissingBoardVo>>
 
-
     @POST("whereru/user/login")
     fun login(@Body user: UserVO): Call<ResponseBody>
 
@@ -24,4 +23,7 @@ interface WhereRUAPI {
 
     /*@GET("whreru/user/checkuseridExist")
     fun checkUserIdExist(@Query("userId") userId: String): Call<Boolean>*/
+
+    @GET("whereru/main/detail")
+    fun getMissingBoardDetail(@Body params: Map<String, Any>): Call<MissingBoardVo>
 }
