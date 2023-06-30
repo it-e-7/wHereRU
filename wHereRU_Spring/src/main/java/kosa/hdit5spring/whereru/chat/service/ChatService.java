@@ -9,5 +9,5 @@ public interface ChatService {
 
 	public int addChat(ChatVO chatVO);
 	public String getChatList();
-	public List<ChatListVO> getChatListByUserId(String userId);
+	public List<ChatListVO> getChatRoomListByUserId(String userId);
 }

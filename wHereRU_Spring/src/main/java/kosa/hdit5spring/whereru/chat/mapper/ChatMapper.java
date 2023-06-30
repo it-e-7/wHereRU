@@ -12,5 +12,5 @@ public interface ChatMapper {
 
 	public int insertChat(ChatVO chatVO);
 	public int selectAllChat();
-	public List<ChatListVO> selectAllChatList(String userId);
+	public List<ChatListVO> selectAllChatRoom(String userId);
 }

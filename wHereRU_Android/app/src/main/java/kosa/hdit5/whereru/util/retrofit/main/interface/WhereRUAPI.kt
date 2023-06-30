@@ -1,5 +1,6 @@
 package kosa.hdit5.whereru.util.retrofit.main.`interface`
 
+import kosa.hdit5.whereru.ChatListVO
 import kosa.hdit5.whereru.util.retrofit.main.vo.MissingBoardVo
 import kosa.hdit5.whereru.util.retrofit.main.vo.UserVO
 import okhttp3.ResponseBody
@@ -20,4 +21,7 @@ interface WhereRUAPI {
 
     @POST("whereru/user/register")
     fun register(@Body user:UserVO): Call<ResponseBody>
+
+    @GET("whereru/chat/list")
+    fun getChatRoomList(): Call<List<ChatListVO>>
 }

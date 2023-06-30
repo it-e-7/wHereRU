@@ -17,7 +17,6 @@ public class ChatServiceImpl implements ChatService {
 	
 	@Override
 	public int addChat(ChatVO chatVO) {
-		System.out.println(chatVO.getChatSender());
 		return mapper.insertChat(chatVO);
 	}
 
@@ -28,8 +27,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 	
 	@Override
-	public List<ChatListVO> getChatListByUserId(String userId) {
+	public List<ChatListVO> getChatRoomListByUserId(String userId) {
 		
-		return mapper.selectAllChatList(userId);
+		return mapper.selectAllChatRoom(userId);
 	}
 }
