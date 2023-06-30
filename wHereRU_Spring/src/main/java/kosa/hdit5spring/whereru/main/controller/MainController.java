@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import kosa.hdit5spring.whereru.main.service.MissingBoardService;
 import kosa.hdit5spring.whereru.main.vo.MissingBoardVo;
+import kosa.hdit5spring.whereru.notice.service.NoticeService;
 import kosa.hdit5spring.whereru.user.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +25,8 @@ public class MainController {
 	
 	@Autowired
 	MissingBoardService missingBoardService;
+	@Autowired
+	NoticeService noticeService;
 	
 	@RequestMapping("main")
 	public ResponseEntity<List<MissingBoardVo>> mainPage(@SessionAttribute UserVO currUser) {
@@ -36,7 +39,9 @@ public class MainController {
 	public String writeMissingBoard(@RequestBody MissingBoardVo missingBoardVo) {
 
 		missingBoardService.writeMissingBoard(missingBoardVo);
-
+		//게시글정상처리되고 나면 알림 전송
+		List<String> tokenList = noticeService.getTokenList(missingBoardVo.getUserSeq());
+		noticeService.requestToFCM(tokenList);
 		return "������ ���� ����";
 	}
 
@@ -48,7 +53,7 @@ public class MainController {
 
 		return ResponseEntity.ok(detail);
 	}
-
+	
 	@PostMapping("deletemissingboard")
 	public ResponseEntity deleteMissingBoardDetail(@RequestBody Map<String, Object> map, @SessionAttribute UserVO currUser) {
 
