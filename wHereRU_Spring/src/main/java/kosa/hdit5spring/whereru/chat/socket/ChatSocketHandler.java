@@ -43,37 +43,42 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		
+		System.out.println(message);
+		
 		try {
 			JsonObject parsedChat = JsonParser.parseString(message.getPayload().toString()).getAsJsonObject();
 			
 			if(parsedChat.get("type") != null) {
 				socketSessionMap.put(parsedChat.get("user").toString(), session);
-			}
-			
-			ChatVO chat = new ChatVO();
-			
-			String chatSender = parsedChat.get("chatSender").toString();
-			String chatReceiver = parsedChat.get("chatReceiver").toString();
-			String chatContent = parsedChat.get("chatContent").toString();
-			String chatType = parsedChat.get("chatType").toString();
-			String chatDate = parsedChat.get("chatDate").toString();
-			
-			chat.setChatSender(chatSender);
-			chat.setChatReceiver(chatReceiver);
-			chat.setChatContent(chatContent);
-			chat.setChatType(chatType);
-			chat.setChatDate(chatDate);
-			
-			// echo
-			session.sendMessage(message);
-			
-			// receiver에게 채팅 보내기
-			socketSessionMap.put(parsedChat.get("chatSender").toString(), session);
-			
-			WebSocketSession receiverSession = socketSessionMap.get(parsedChat.get("chatReceiver").toString());
-			
-			if(receiverSession != null) {
-				receiverSession.sendMessage(message);
+			} else {
+				ChatVO chat = new ChatVO();
+				
+				String chatSender = parsedChat.get("chatSender").getAsString();
+				String chatReceiver = parsedChat.get("chatReceiver").getAsString();
+				String chatContent = parsedChat.get("chatContent").getAsString();
+				String chatType = parsedChat.get("chatType").getAsString();
+				String chatDate = parsedChat.get("chatDate").getAsString();
+				
+				chat.setChatSender(chatSender);
+				chat.setChatReceiver(chatReceiver);
+				chat.setChatContent(chatContent);
+				chat.setChatType(chatType);
+				chat.setChatDate(chatDate);
+				
+				service.addChat(chat);
+				
+				// echo
+				session.sendMessage(message);
+				
+				// receiver에게 채팅 보내기
+				socketSessionMap.put(parsedChat.get("chatSender").toString(), session);
+				
+				WebSocketSession receiverSession = socketSessionMap.get(parsedChat.get("chatReceiver").toString());
+				
+				if(receiverSession != null) {
+					receiverSession.sendMessage(message);
+				}
+				
 			}
 			
 		} catch (Exception err) {

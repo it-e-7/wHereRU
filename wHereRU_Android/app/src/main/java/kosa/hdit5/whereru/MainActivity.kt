@@ -1,6 +1,12 @@
 package kosa.hdit5.whereru
 
 import android.app.Notification
+
+import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,15 +16,41 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.inappmessaging.FirebaseInAppMessaging
 import com.google.firebase.messaging.RemoteMessage
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
 
+
+    lateinit var binding:ActivityMainBinding
+
+    private val channelId = "default_channel_id"
+    private val channelName = "Default Channel"
+    private val channelDescription = "Default Channel for Notifications"
+    private val notificationId = 1
+
+    val resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        //Contract가 나와야함
+        ActivityResultContracts.StartActivityForResult()
+
+    ){
+        //결과 처리하는 부분
+            result ->
+        if(result.resultCode== Activity.RESULT_OK){
+            //만약 결과가 OK면 처리를 진행
+            val fragment = MainViewPager()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // 파이어베이스 메시징 인스턴스로 토큰 생성 또는 가져오기
@@ -42,6 +74,12 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragment)
             .commit()
+        binding.writeButton.setOnClickListener {
+            val intent = Intent(this, WritePageActivity::class.java)
+
+            resultLauncher.launch(intent)
+        }
+
 
         binding.noticeButton.setOnClickListener {
 //            val token = "dwZTkMA2SfGmBSxr8iIpZN"
@@ -65,6 +103,13 @@ class MainActivity : AppCompatActivity() {
 
             // 푸시 알림을 2번 디바이스로 전송합니다.
             firebaseMessaging.send(notification)
+        }
+
+
+        binding.detailButton.setOnClickListener {
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("missingBoardSeq", 21)
+            startActivity(intent)
         }
     }
     private fun sendFCMMessage() {

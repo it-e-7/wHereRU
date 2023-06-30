@@ -157,28 +157,18 @@ class ChatActivity : AppCompatActivity() {
         binding.chatBox.layoutManager = LinearLayoutManager(this)
         binding.chatBox.adapter = chatAdapter
 
-        client = OkHttpClientSingleton.instance
-
-        val request: Request = Request.Builder()
-            .url("http://10.0.2.2:8080/whereru/chatSocket")
-            .build()
-        val listener: WebSocketListener = WebSocketListener()
-
-        chatSocket = client.newWebSocket(request, listener)
+        createSocketConnection()
 
         binding.chatButton.setOnClickListener {
+            Log.d("ChatActivity", "버튼 클릭 리스너 달려있어요~")
+            Log.d("ChatActivity", "소켓 정보 : $chatSocket")
 
             chatSocket.send(createChatJSON(binding.chatEdit.text.toString()))
             binding.chatEdit.text.clear()
         }
 
-
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        client.dispatcher.executorService.shutdown()
-    }
 
     fun createChatJSON(text: String): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm")
@@ -191,5 +181,16 @@ class ChatActivity : AppCompatActivity() {
                 "\"chatContent\":\"" + text + "\"," +
                 "\"chatDate\":\"" + date + "\"" +
                 "}"
+    }
+
+    fun createSocketConnection() {
+        client = OkHttpClientSingleton.instance
+
+        val request: Request = Request.Builder()
+            .url("http://10.0.2.2:8080/whereru/chatSocket")
+            .build()
+        val listener: WebSocketListener = WebSocketListener()
+
+        chatSocket = client.newWebSocket(request, listener)
     }
 }

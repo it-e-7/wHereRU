@@ -21,6 +21,7 @@ public class MissingBoardServiceImpl implements MissingBoardService{
 		missingBoardMapper.writeMissingBoard(missingBoardVo);
 		
 	}
+	
 	@Override
 	public MissingBoardVo getMissingBoardDetail(int missingSeq, String userSeq) {
 		MissingBoardVo detail = missingBoardMapper.selectMissingBoardDetail(missingSeq);
@@ -29,9 +30,9 @@ public class MissingBoardServiceImpl implements MissingBoardService{
 			detail.setOwner(userSeq.equals(detail.getUserSeq()));
 		}
 		
-		
 		return detail;
 	}
+	
 	@Override
 	public List<MissingBoardVo> getTotalList() {
 		List<MissingBoardVo> list = missingBoardMapper.getTotalList();

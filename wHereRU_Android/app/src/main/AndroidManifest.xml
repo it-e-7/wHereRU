@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
     <application
         android:allowBackup="true"
@@ -31,6 +32,24 @@
             android:exported="true" />
 
         <activity
+            android:name=".DetailActivity"
+            android:exported="true" >
+<!--        <intent-filter>-->
+<!--            <action android:name="android.intent.action.MAIN" />-->
+
+<!--            <category android:name="android.intent.category.LAUNCHER" />-->
+<!--        </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".WritePageActivity"
+            android:exported="true" >
+<!--        <intent-filter>-->
+<!--            <action android:name="android.intent.action.MAIN" />-->
+
+<!--            <category android:name="android.intent.category.LAUNCHER" />-->
+<!--        </intent-filter>-->
+        </activity>
+        <activity
             android:name=".ChatListActivity"
             android:exported="false" />
         <activity
@@ -42,11 +61,11 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>
         </activity>
 
         <meta-data
@@ -58,6 +77,14 @@
         <!-- <action android:name="com.google.firebase.MESSAGING_EVENT" /> -->
         <!-- </intent-filter> -->
         <!-- </service> -->
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <!--            <intent-filter>
+                            <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                        </intent-filter>-->
+        </service>
         <activity
             android:name=".ChatActivity"
             android:exported="false" />
@@ -65,13 +92,11 @@
             android:name=".MainActivity"
             android:exported="true">
 
-            <!--
-                <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--                <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 

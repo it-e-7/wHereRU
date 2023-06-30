@@ -23,10 +23,17 @@ public class UserServiceImpl implements UserService {
 	    String existUserId = mapper.selectUserIdByUserId(userId);
 		
 	    if (existUserId != null) {
-	        throw new IllegalArgumentException("ÀÌ¹Ì Á¸ÀçÇÏ´Â ÀÌ¸ŞÀÏÀÔ´Ï´Ù.");
+	        throw new IllegalArgumentException("ì¡´ì¬í•˜ëŠ” ì•„ì´ë”” ì…ë‹ˆë‹¤.");
 	    }
 
 	    int cnt = mapper.insertUserByUserVO(userVO);
 	    return cnt == 1;
+	}
+	
+	@Override
+	public boolean isUserIdExist(String userId) {
+		
+		String existUserId = mapper.selectUserIdByUserId(userId);
+        return existUserId != null;
 	}
 }
