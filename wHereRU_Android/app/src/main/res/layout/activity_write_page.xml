@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/writepage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WritePageActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/img_box"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/img_button1"
+            android:layout_width="83dp"
+            android:layout_height="185dp"
+            android:layout_marginStart="36dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_plus"
+            android:text="이미지 버튼1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.066" />
+
+        <ImageButton
+            android:id="@+id/img_button2"
+            android:layout_width="83dp"
+            android:layout_height="185dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_plus"
+            android:text="이미지 버튼2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/img_button3"
+            app:layout_constraintHorizontal_bias="0.54"
+            app:layout_constraintStart_toEndOf="@+id/img_button1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.073" />
+
+        <ImageButton
+            android:id="@+id/img_button3"
+            android:layout_width="83dp"
+            android:layout_height="185dp"
+            android:layout_marginEnd="36dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_plus"
+            android:text="이미지 버튼3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.073" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/write_box"
+        android:layout_width="410dp"
+        android:layout_height="433dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_box"
+        app:layout_constraintVertical_bias="0.324">
+
+        <EditText
+            android:id="@+id/write_age"
+            android:layout_width="150dp"
+            android:layout_height="49dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:hint="나이"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/write_outfit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/write_name" />
+
+        <EditText
+            android:id="@+id/write_sex"
+            android:layout_width="150dp"
+            android:layout_height="49dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:hint="성별"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/write_outfit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/write_age"
+            app:layout_constraintTop_toBottomOf="@+id/write_name"
+            app:layout_constraintVertical_bias="0.491" />
+
+        <EditText
+            android:id="@+id/write_outfit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="48dp"
+            android:hint="차림새"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/write_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/write_time"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="40dp"
+            android:hint="시간대"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/write_point"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/write_point"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="위치"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/write_name"
+            android:layout_width="405dp"
+            android:layout_height="49dp"
+            android:hint="이름"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/finish_write_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="4dp"
+        android:text="작성완료"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.425"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/write_box" />
+</androidx.constraintlayout.widget.ConstraintLayout>

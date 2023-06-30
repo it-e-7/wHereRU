@@ -46,22 +46,27 @@ class LoginActivity : Activity() {
             val loginService: WhereRUAPI=RetrofitBuilder.api//LoginService = retrofit.create(LoginService::class.java)
             val call = loginService.login(UserVO(userId = userId, userPw = userPw))
 
-            call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+            call.enqueue(object : Callback<UserVO> {
+                override fun onResponse(call: Call<UserVO>, response: Response<UserVO>) {
+
                     Log.d("hong","onRespnose들어옴")
                     Log.d("hong", "$response")
+
+                    val loginVo = response.body()
+                    Log.d("hong","$loginVo")
                     if (response.isSuccessful) {
                         Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
                         var mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
                         GlobalState.isLogin = true;
                         GlobalState.userId = userId;
+                        GlobalState.userSeq = (response.body()?.userSeq)?.toInt()
                         startActivity(mainIntent)
                     } else {
                         Toast.makeText(this@LoginActivity, "로그인 실패", Toast.LENGTH_SHORT).show()
                     }
                 }
 
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                override fun onFailure(call: Call<UserVO>, t: Throwable) {
                     Toast.makeText(this@LoginActivity, "통신 에러", Toast.LENGTH_SHORT).show()
                 }
             })

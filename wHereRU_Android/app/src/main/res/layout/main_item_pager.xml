@@ -5,35 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_view"
+        android:layout_width="334dp"
+        android:layout_height="423dp"
+        android:layout_marginTop="112dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        <ImageView
+            android:id="@+id/main_image_view"
+            android:layout_width="332dp"
+            android:layout_height="325dp"
+            app:layout_constraintBottom_toTopOf="@+id/main_missing_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+
+        </ImageView>
+
+        <TextView
             android:id="@+id/main_missing_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
             android:gravity="center"
-            android:text="이름" />
+            android:text="이름"
+            app:layout_constraintBottom_toTopOf="@+id/main_missing_age"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        <TextView
             android:id="@+id/main_missing_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
             android:gravity="center"
-            android:text="나이" />
+            android:text="나이"
+            app:layout_constraintBottom_toTopOf="@+id/main_missing_sex"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        <TextView
             android:id="@+id/main_missing_sex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="성별" />
+            android:text="성별"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    >
 </androidx.constraintlayout.widget.ConstraintLayout>
