@@ -7,4 +7,6 @@ public interface UserService {
 	UserVO login(UserVO vo);
 
 	boolean registerUser(UserVO userVO);
+	
+	boolean isUserIdExist(String userId);
 }

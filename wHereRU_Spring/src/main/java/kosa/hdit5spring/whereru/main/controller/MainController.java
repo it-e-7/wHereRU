@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.google.gson.JsonParser;
 
 import kosa.hdit5spring.whereru.main.service.MissingBoardService;
 import kosa.hdit5spring.whereru.main.vo.MissingBoardVo;
@@ -34,19 +37,22 @@ public class MainController {
 
 	@RequestMapping("writemissingboard")
 	public String writeMissingBoard(@RequestBody MissingBoardVo missingBoardVo) {
-
+		
 		missingBoardService.writeMissingBoard(missingBoardVo);
-
-		return "������ ���� ����";
+		
+		
+		return "success";
 	}
 
 	@PostMapping("detail")
-	public ResponseEntity<MissingBoardVo> getMissingBoardDetail(@RequestBody Map<String, Object> map, @SessionAttribute UserVO currUser) {
+	public MissingBoardVo getMissingBoardDetail(@RequestBody int missingBoardSeq, @SessionAttribute UserVO currUser) {
 
-		int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
+		System.out.println(missingBoardSeq);
 		MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
+		
+		System.out.println("MissingBoardService" + detail);
 
-		return ResponseEntity.ok(detail);
+		return detail;
 	}
 
 	@PostMapping("deletemissingboard")

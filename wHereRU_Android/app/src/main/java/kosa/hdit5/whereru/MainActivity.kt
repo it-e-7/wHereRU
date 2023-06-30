@@ -1,5 +1,8 @@
 package kosa.hdit5.whereru
 
+
+
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -11,6 +14,8 @@ import androidx.core.app.NotificationCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
 
 import kosa.hdit5.whereru.databinding.ActivityMainViewPagerBinding
@@ -18,17 +23,33 @@ import kosa.hdit5.whereru.util.GlobalState
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var binding:ActivityMainBinding
+
     private val channelId = "default_channel_id"
     private val channelName = "Default Channel"
     private val channelDescription = "Default Channel for Notifications"
     private val notificationId = 1
 
+    val resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        //Contract가 나와야함
+        ActivityResultContracts.StartActivityForResult()
 
+    ){
+        //결과 처리하는 부분
+            result ->
+        if(result.resultCode== Activity.RESULT_OK){
+            //만약 결과가 OK면 처리를 진행
+            val fragment = MainViewPager()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // 파이어베이스 메시징 인스턴스로 토큰생성or가져오기
@@ -59,6 +80,12 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragment)
             .commit()
+        binding.writeButton.setOnClickListener {
+            val intent = Intent(this, WritePageActivity::class.java)
+
+            resultLauncher.launch(intent)
+        }
+
 
         binding.noticeButton.setOnClickListener {
             //FCM http 요청
@@ -66,6 +93,13 @@ class MainActivity : AppCompatActivity() {
             val requestNoticeService = RequestNoticeService()
             requestNoticeService.requestToFCM()
             Log.d("=========End==========","")
+        }
+
+
+        binding.detailButton.setOnClickListener {
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("missingBoardSeq", 21)
+            startActivity(intent)
         }
     }
 
