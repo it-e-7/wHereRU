@@ -5,8 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import kosa.hdit5.whereru.databinding.ActivityMainViewPagerBinding
 import kosa.hdit5.whereru.databinding.MainItemPagerBinding
@@ -20,9 +23,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MyPagerViewHolder(val binding : MainItemPagerBinding) : RecyclerView.ViewHolder(binding.root)
+class MyPagerViewHolder(val binding : MainItemPagerBinding) : RecyclerView.ViewHolder(binding.root){
+    val imageView: ImageView = binding.mainImageView
+}
 
 class MyPagerAdapter(private var myData: MutableList<MainMissingBoardVo>): RecyclerView.Adapter<MyPagerViewHolder>() {
+
     override fun getItemCount(): Int {
         return myData.size
     }
@@ -39,12 +45,15 @@ class MyPagerAdapter(private var myData: MutableList<MainMissingBoardVo>): Recyc
 
     override fun onBindViewHolder(holder: MyPagerViewHolder, position: Int) {
         val binding = holder.binding
+        val imageView = holder.imageView
 
-        Log.d("bindviewholder", myData[position].toString())
 
         binding.mainMissingName.text = myData[position].missingName
         binding.mainMissingAge.text = myData[position].missingAge.toString()
         binding.mainMissingSex.text = myData[position].missingSex
+
+        val imageUrl = myData[position].missingImg
+        Glide.with(imageView.context).load(imageUrl).into(imageView)
     }
 
     fun setItem(data: MutableList<MainMissingBoardVo>) {
@@ -71,20 +80,17 @@ class MainViewPager : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         myDataAdapter = MyPagerAdapter(myData)
         binding.mainviewpager.adapter = myDataAdapter
 
         getTotalList()
 
-//        val testList = mutableListOf<MainMissingBoardVo>()
-//        val test = MainMissingBoardVo("홍길동", 20, "남자")
-//        Log.d("hong", "여기 실행 됐니?")
-//        testList.add(test)
-//        myDataAdapter.setItem(testList)
-//        Log.d("hong", "여기 실행 됐니?22")
     }
 
     private fun getTotalList() {
+        myData.clear()
+        myDataAdapter.notifyDataSetChanged()
         val call = apiService.getTotalList()
         Log.d("Hong","일단 여기로 들어옴")
         call.enqueue(object : Callback<List<MissingBoardVo>> {
@@ -93,18 +99,16 @@ class MainViewPager : Fragment() {
                 call: Call<List<MissingBoardVo>>,
                 response: Response<List<MissingBoardVo>>
             ) {
-                Log.d("Hong","onResponse까지 옴")
-                Log.d("Hong","$response")
                 if (response.isSuccessful) {
-                    Log.d("Hong","response.isSuccessful 까지 들어옴")
                     val missingPersonList = response.body()
                     if(missingPersonList !=null){
                         for(missingPerson in missingPersonList){
+                            val image = missingPerson.imgUrl1
                             val missingName = missingPerson.missingName
                             val age = missingPerson.missingAge
                             val sex = missingPerson.missingSex
 
-                            val mainMissingBoardVo = MainMissingBoardVo(missingName,age,sex)
+                            val mainMissingBoardVo = MainMissingBoardVo(missingName,age,sex,image)
                             myData.add(mainMissingBoardVo)
 
                         }
