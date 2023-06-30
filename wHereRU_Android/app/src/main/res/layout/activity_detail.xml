@@ -35,7 +35,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="이름"
+            android:text="이 름"
             android:textSize="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -48,6 +48,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:textSize="16dp"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/detail_name_tv"
             app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +60,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="나이"
+            android:text="나  이"
             android:textSize="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_name_tv" />
@@ -85,7 +86,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="성별"
+            android:text="성  별"
             android:textSize="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_age_tv" />
@@ -98,6 +99,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:textSize="16dp"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/detail_sex_tv"
             app:layout_constraintTop_toBottomOf="@+id/detail_age" />
@@ -119,10 +121,10 @@
             android:layout_width="280dp"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
-
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:textSize="16dp"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.055"
             app:layout_constraintStart_toEndOf="@+id/detail_outfit_tv"
@@ -144,11 +146,11 @@
             android:id="@+id/detail_time"
             android:layout_width="280dp"
             android:layout_height="48dp"
-
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:textSize="16dp"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/detail_time_tv"
@@ -161,7 +163,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="위치"
+            android:text="위  치"
             android:textSize="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_time_tv" />
@@ -174,31 +176,10 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:textSize="16dp"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/detail_point_tv"
             app:layout_constraintTop_toBottomOf="@+id/detail_time" />
-
-        <TextView
-            android:id="@+id/test1"
-            android:layout_width="280dp"
-            android:layout_height="48dp"
-            android:text="테스트"
-            android:textSize="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/test2" />
-
-        <TextView
-            android:id="@+id/test2"
-            android:layout_width="280dp"
-            android:layout_height="48dp"
-            android:text="테스트"
-            android:textSize="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_point_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
