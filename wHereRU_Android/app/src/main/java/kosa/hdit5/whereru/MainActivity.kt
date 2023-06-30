@@ -1,29 +1,19 @@
 package kosa.hdit5.whereru
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.os.Build
+import android.app.Notification
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.core.app.NotificationCompat
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import android.content.Intent
+import androidx.core.content.ContextCompat
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.inappmessaging.FirebaseInAppMessaging
+import com.google.firebase.messaging.RemoteMessage
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
 
-import kosa.hdit5.whereru.databinding.ActivityMainViewPagerBinding
-import kosa.hdit5.whereru.util.GlobalState
 
 class MainActivity : AppCompatActivity() {
-
-    private val channelId = "default_channel_id"
-    private val channelName = "Default Channel"
-    private val channelDescription = "Default Channel for Notifications"
-    private val notificationId = 1
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,24 +21,17 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 파이어베이스 메시징 인스턴스로 토큰생성or가져오기
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                val exception = task.exception
-                exception?.let {
-                    // 토큰 가져오기 실패
-                    showError("Fetching FCM registration token failed: ${it.message}")
-                }
-                return@OnCompleteListener
-            }
-            val token = task.result
-            Log.d("토큰", token.toString()) // 내 토큰은 나중에 채팅알림에 사용해야 할듯
-        })
+        // 파이어베이스 메시징 인스턴스로 토큰 생성 또는 가져오기
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                Log.d("토큰", token ?: "Token is null")
 
-        // 알림 채널 생성 및 설정
-        createNotificationChannel()
-        // 알림 생성 및 표시
-        showNotification()
+            } else {
+                val exception = task.exception
+                Log.e("Error", "Fetching FCM registration token failed: ${exception?.message}")
+            }
+        }
 
         binding.chatButton.setOnClickListener {
             val intent = Intent(this, ChatListActivity::class.java)
@@ -61,52 +44,45 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         binding.noticeButton.setOnClickListener {
-            //FCM http 요청
-            Log.d("========Start========","")
-            val requestNoticeService = RequestNoticeService()
-            requestNoticeService.requestToFCM()
-            Log.d("=========End==========","")
+//            val token = "dwZTkMA2SfGmBSxr8iIpZN"
+//            val title = "Sample Title"
+//            val message = "Sample Message"
+//            Log.d("로그","버튼실행")
+//            MessageSender.sendInAppMessage(token, title, message)
+//            val intent = Intent(this,InAppMSGService::class.java)
+//            ContextCompat.startForegroundService(this,intent)
+//            sendFCMMessage()
+            val token = "ezYV150HQni7HzCP3e2_BP:APA91bHH1FlIXD-0g_IX06WNkzaRz_aCkvVOO4RkDa2IbFJfyG9oAtf5gv-6sF8XRmCj-0fMVggcntMG45DmSTCoqBQtsTYPpDtSWdiUDwxtR3T_hWLvQi0uVWStDYU-y5e3M5i8o1gm" // 2번 디바이스의 토큰 정보를 입력합니다.
+
+            // FirebaseMessaging 인스턴스를 가져옵니다.
+            val firebaseMessaging = FirebaseMessaging.getInstance()
+
+            // 푸시 알림을 생성합니다.
+            val notification = RemoteMessage.Builder(token)
+                .setMessageId("your_message_id")
+                .setData(mapOf("title" to "In-App Message", "body" to "토스트로 출력되는 인앱 메시지입니다."))
+                .build()
+
+            // 푸시 알림을 2번 디바이스로 전송합니다.
+            firebaseMessaging.send(notification)
         }
     }
+    private fun sendFCMMessage() {
+        Log.d("hi","sendmsg")
+        val message = HashMap<String, String>()
+        message["title"] = "인앱메시지 제목"
+        message["content"] = "인앱메시지 내용"
 
-    // 알림 채널 생성 및 설정
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(
-                channelId,
-                channelName,
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description = channelDescription
-            }
+        val targetDeviceToken = "exmGr566QyK-xaWtBhRwwX"
 
-            val notificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(notificationChannel)
-        }
+        val data = HashMap<String, String>()
+        data["message"] = message.toString()
+
+        FirebaseMessaging.getInstance().send(
+            RemoteMessage.Builder(targetDeviceToken)
+                .setData(data)
+                .build()
+        )
     }
 
-    // 알림 생성 및 표시
-    private fun showNotification() {
-        val title = "Notification Title"
-        val message = "Notification Message"
-
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.icon)
-            .setContentTitle(title)
-            .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(notificationId, notificationBuilder.build())
-
-    }
-
-
-
-
-    private fun showError(message: String) {
-        Log.e("Error", message)
-    }
 }
