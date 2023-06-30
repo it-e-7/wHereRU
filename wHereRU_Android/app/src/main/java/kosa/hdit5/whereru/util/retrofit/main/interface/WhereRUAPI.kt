@@ -24,6 +24,6 @@ interface WhereRUAPI {
     /*@GET("whreru/user/checkuseridExist")
     fun checkUserIdExist(@Query("userId") userId: String): Call<Boolean>*/
 
-    @GET("whereru/main/detail")
-    fun getMissingBoardDetail(@Body params: Map<String, Any>): Call<MissingBoardVo>
+    @POST("whereru/main/detail")
+    fun getMissingBoardDetail(@Body params: Int): Call<MissingBoardVo>
 }

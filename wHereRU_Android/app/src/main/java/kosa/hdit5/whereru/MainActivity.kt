@@ -67,6 +67,13 @@ class MainActivity : AppCompatActivity() {
             requestNoticeService.requestToFCM()
             Log.d("=========End==========","")
         }
+
+
+        binding.detailButton.setOnClickListener {
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("missingBoardSeq", 21)
+            startActivity(intent)
+        }
     }
 
     // 알림 채널 생성 및 설정
