@@ -80,7 +80,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14dp"
-        android:hint="아이디 중복 확인"
         android:textColorHint="@color/green"
         app:layout_constraintBottom_toTopOf="@id/register_pw_tv"
         app:layout_constraintEnd_toEndOf="parent"
