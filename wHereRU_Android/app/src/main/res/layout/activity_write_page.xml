@@ -62,7 +62,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/write_box"
         android:layout_width="410dp"
-        android:layout_height="433dp"
+        android:layout_height="405dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -115,7 +115,7 @@
             android:id="@+id/write_time"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="32dp"
             android:hint="시간대"
             android:textSize="20dp"
             app:layout_constraintBottom_toTopOf="@+id/write_point"
@@ -127,10 +127,12 @@
             android:id="@+id/write_point"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginBottom="44dp"
             android:hint="위치"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
@@ -154,7 +156,7 @@
         android:text="작성완료"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.425"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/write_box" />
+        app:layout_constraintTop_toBottomOf="@+id/write_box"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

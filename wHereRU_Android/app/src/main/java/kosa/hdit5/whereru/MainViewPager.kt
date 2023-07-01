@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -47,13 +48,13 @@ class MyPagerAdapter(private var myData: MutableList<MainMissingBoardVo>): Recyc
         val binding = holder.binding
         val imageView = holder.imageView
 
-
         binding.mainMissingName.text = myData[position].missingName
         binding.mainMissingAge.text = myData[position].missingAge.toString()
         binding.mainMissingSex.text = myData[position].missingSex
 
         val imageUrl = myData[position].missingImg
         Glide.with(imageView.context).load(imageUrl).into(imageView)
+
     }
 
     fun setItem(data: MutableList<MainMissingBoardVo>) {
