@@ -115,17 +115,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/write_name" />
 
-        <!--        <EditText-->
-<!--            android:id="@+id/write_time"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_marginBottom="32dp"-->
-<!--            android:hint="시간대"-->
-<!--            android:textSize="20dp"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/write_point"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.0"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
         <Button
             android:id="@+id/show_picker_button"
             android:layout_width="match_parent"
@@ -137,33 +126,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/write_outfit"
             app:layout_constraintVertical_bias="0.0" />
-<!--        <DatePicker-->
-<!--            android:id="@+id/write_date_picker"-->
-<!--            android:layout_width="150dp"-->
-<!--            android:layout_height="49dp"-->
-<!--            android:layout_marginStart="24dp"-->
-<!--            android:layout_marginTop="40dp"-->
-<!--            android:calendarViewShown="false"-->
-<!--            android:datePickerMode="calendar"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/write_point"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/write_outfit"-->
-<!--            app:layout_constraintVertical_bias="0.0" />-->
-
-<!--        <TimePicker-->
-<!--            android:id="@+id/write_time_picker"-->
-<!--            android:layout_width="150dp"-->
-<!--            android:layout_height="49dp"-->
-<!--            android:layout_marginTop="12dp"-->
-<!--            android:layout_marginEnd="32dp"-->
-<!--            android:layout_marginBottom="23dp"-->
-<!--            android:timePickerMode="clock"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/write_point"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="1.0"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/write_date_picker"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/write_outfit"-->
-<!--            app:layout_constraintVertical_bias="1.0" />-->
 
         <EditText
             android:id="@+id/write_point"

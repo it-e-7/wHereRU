@@ -43,6 +43,7 @@ public class MainController {
 		
 		missingBoardService.writeMissingBoard(missingBoardVo);
 		//게시글정상처리되고 나면 알림 전송
+		//작동 안함 오류
 //		List<String> tokenList = noticeService.getTokenList(missingBoardVo.getUserSeq());
 //		noticeService.requestToFCM(tokenList);
 		
