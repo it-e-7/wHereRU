@@ -161,6 +161,10 @@ class ChatActivity : AppCompatActivity() {
         binding.chatBox.layoutManager = LinearLayoutManager(this)
         binding.chatBox.adapter = chatAdapter
 
+        binding.chatBox.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            binding.chatBox.smoothScrollToPosition(chatAdapter.itemCount)
+        }
+
         createSocketConnection()
 
         binding.chatButton.setOnClickListener {
