@@ -25,6 +25,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/img_plus"
             android:text="이미지 버튼1"
+            android:background="@drawable/write_page_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,6 +38,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/img_plus"
             android:text="이미지 버튼2"
+            android:background="@drawable/write_page_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/img_button3"
             app:layout_constraintHorizontal_bias="0.54"
@@ -52,6 +54,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/img_plus"
             android:text="이미지 버튼3"
+            android:background="@drawable/write_page_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -81,7 +84,8 @@
             android:textSize="20dp"
             app:layout_constraintBottom_toTopOf="@+id/write_outfit"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/write_name" />
+            app:layout_constraintTop_toBottomOf="@+id/write_name"
+            app:layout_constraintVertical_bias="0.529" />
 
         <EditText
             android:id="@+id/write_sex"
@@ -97,51 +101,91 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/write_age"
             app:layout_constraintTop_toBottomOf="@+id/write_name"
-            app:layout_constraintVertical_bias="0.491" />
+            app:layout_constraintVertical_bias="0.529" />
 
         <EditText
             android:id="@+id/write_outfit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="48dp"
+            android:layout_marginTop="100dp"
             android:hint="차림새"
             android:textSize="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/write_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/write_name" />
 
-        <EditText
-            android:id="@+id/write_time"
+        <!--        <EditText-->
+<!--            android:id="@+id/write_time"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_marginBottom="32dp"-->
+<!--            android:hint="시간대"-->
+<!--            android:textSize="20dp"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/write_point"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+        <Button
+            android:id="@+id/show_picker_button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="32dp"
-            android:hint="시간대"
-            android:textSize="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="40dp"
+            android:text="날짜 및 시간 선택하기"
             app:layout_constraintBottom_toTopOf="@+id/write_point"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/write_outfit"
+            app:layout_constraintVertical_bias="0.0" />
+<!--        <DatePicker-->
+<!--            android:id="@+id/write_date_picker"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="49dp"-->
+<!--            android:layout_marginStart="24dp"-->
+<!--            android:layout_marginTop="40dp"-->
+<!--            android:calendarViewShown="false"-->
+<!--            android:datePickerMode="calendar"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/write_point"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/write_outfit"-->
+<!--            app:layout_constraintVertical_bias="0.0" />-->
+
+<!--        <TimePicker-->
+<!--            android:id="@+id/write_time_picker"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="49dp"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:layout_marginEnd="32dp"-->
+<!--            android:layout_marginBottom="23dp"-->
+<!--            android:timePickerMode="clock"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/write_point"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="1.0"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/write_date_picker"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/write_outfit"-->
+<!--            app:layout_constraintVertical_bias="1.0" />-->
 
         <EditText
             android:id="@+id/write_point"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="44dp"
+            android:layout_marginBottom="16dp"
             android:hint="위치"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/write_name"
             android:layout_width="405dp"
             android:layout_height="49dp"
+            android:layout_marginTop="28dp"
             android:hint="이름"
             android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

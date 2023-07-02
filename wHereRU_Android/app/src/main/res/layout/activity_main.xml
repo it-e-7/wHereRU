@@ -7,22 +7,26 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/alerm_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="알람버튼 들어갈 자리"
+    <ImageButton
+        android:id="@+id/alarm_button"
+        android:layout_width="68dp"
+        android:layout_height="63dp"
+        android:src="@drawable/alarm"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.052" />
+        app:layout_constraintVertical_bias="0.023" />
 
     <FrameLayout
         android:id="@+id/fragment_container"
-        android:layout_width="334dp"
-        android:layout_height="423dp"
+        android:layout_width="match_parent"
+        android:layout_height="409dp"
         android:layout_marginTop="112dp"
+        android:background="@drawable/write_page_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
