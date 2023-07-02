@@ -79,6 +79,21 @@ class ChatListActivity : AppCompatActivity() {
         binding.chatListBox.layoutManager = LinearLayoutManager(this)
         chatListAdapter = ChatListAdapter(chatListData)
         binding.chatListBox.adapter = chatListAdapter
+
+
+        // footer 설정 !!!
+        binding.footer.homeIcon.setOnClickListener {
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.chatIcon.setOnClickListener {
+            var intent = Intent(this, ChatListActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.mypageIcon.setOnClickListener {
+            var intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun getChatRoomList() {

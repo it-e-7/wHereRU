@@ -76,4 +76,6 @@
         app:layout_constraintStart_toEndOf="@+id/notice_button"
         app:layout_constraintTop_toBottomOf="@+id/chat_button" />
 
+    <include layout="@layout/footer" android:id="@+id/footer"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

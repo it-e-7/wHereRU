@@ -111,6 +111,20 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("missingBoardSeq", 21)
             startActivity(intent)
         }
+
+        // footer 설정 !!!
+        binding.footer.homeIcon.setOnClickListener {
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.chatIcon.setOnClickListener {
+            var intent = Intent(this, ChatListActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.mypageIcon.setOnClickListener {
+            var intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
     private fun sendFCMMessage() {
         Log.d("hi","sendmsg")
