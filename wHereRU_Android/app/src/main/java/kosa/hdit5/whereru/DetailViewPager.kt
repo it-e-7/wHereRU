@@ -125,6 +125,3 @@ class DetailViewPager : Fragment() {
     }
 
 }
-    
-    
-

@@ -1,7 +1,5 @@
 package kosa.hdit5spring.whereru.user.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import kosa.hdit5spring.whereru.main.vo.MissingBoardVo;
 import kosa.hdit5spring.whereru.user.service.UserService;
 import kosa.hdit5spring.whereru.user.vo.UserVO;
 import lombok.RequiredArgsConstructor;

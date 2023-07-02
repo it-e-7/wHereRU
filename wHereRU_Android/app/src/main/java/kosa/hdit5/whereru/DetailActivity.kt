@@ -9,7 +9,6 @@ import kosa.hdit5.whereru.databinding.ActivityDetailBinding
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
 import kosa.hdit5.whereru.util.retrofit.main.vo.MissingBoardVo
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,20 +17,20 @@ import kotlin.properties.Delegates
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private var ifFabOpen = false
-    var isAuthor by Delegates.notNull<Boolean>()
+    var isAuthor = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        /*
         // 프래그먼트 인스턴스 생성
         val fragment = DetailViewPager()
 
         // 프래그먼트를 프래그먼트 컨테이너에 추가
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
-           .commit()
+           .commit()*/
 
 
         val missingBoardSeq = intent.getIntExtra("missingBoardSeq", -1)
@@ -91,25 +90,25 @@ class DetailActivity : AppCompatActivity() {
     private fun toggleFab() {
         val fabHeight = binding.fab.height.toFloat()
 
-        val isAuthor = true
-
         if (ifFabOpen) {
             if (isAuthor) {
                 // 글 작성자
-                ObjectAnimator.ofFloat(binding.fabDelete, "translationY", -fabHeight - 24).apply { start() }
+                ObjectAnimator.ofFloat(binding.fabDelete, "translationY", -fabHeight - 24)
+                    .apply { start() }
             } else {
                 // 일반사람
-                ObjectAnimator.ofFloat(binding.fabChat, "translationY", -fabHeight).apply { start() }
+                ObjectAnimator.ofFloat(binding.fabChat, "translationY", -fabHeight)
+                    .apply { start() }
             }
 
         } else {
-                if (isAuthor) {
-                    // 글 작성자
-                    ObjectAnimator.ofFloat(binding.fabDelete, "translationY", 0f).apply { start() }
-                } else {
-                    // 일반사람
-                    ObjectAnimator.ofFloat(binding.fabChat, "translationY", 0f).apply { start() }
-                }
+            if (isAuthor) {
+                // 글 작성자
+                ObjectAnimator.ofFloat(binding.fabDelete, "translationY", 0f).apply { start() }
+            } else {
+                // 일반사람
+                ObjectAnimator.ofFloat(binding.fabChat, "translationY", 0f).apply { start() }
+            }
         }
 
         ifFabOpen = !ifFabOpen
