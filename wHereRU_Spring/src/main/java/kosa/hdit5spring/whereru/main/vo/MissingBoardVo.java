@@ -20,7 +20,7 @@ public class MissingBoardVo {
 	
 	private boolean isOwner;
 
-	private String images;
+	private String missingImgUrls;
 
 	private String imgUrl1;
 	private String imgUrl2;

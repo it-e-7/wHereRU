@@ -15,7 +15,7 @@
 		<result column="missing_time" property="missingTime" />
 		<result column="missing_point" property="missingPoint" />
 		<result column="user_seq" property="userSeq" />
-		<result column="images" property="images" />
+		<result column="missing_img_urls" property="missingImgUrls" />
 		
 	</resultMap>
 
@@ -31,13 +31,14 @@
 	<select id="selectMissingBoardDetail" parameterType="int"
 		resultType="MissingBoard">
 		SELECT M.*,
-      LISTAGG(I.img_url, ',') WITHIN GROUP (ORDER BY I.img_url) AS images
+      LISTAGG(I.img_url, ',') WITHIN GROUP (ORDER BY I.img_url) AS missing_img_urls
       FROM MissingBoard M
       LEFT JOIN image I
       ON M.missing_seq = I.missing_seq
       WHERE M.missing_seq = #{missingSeq}
       GROUP BY M.missing_seq, m.missing_name, m.missing_age, m.missing_sex,
-      m.missing_outfit, m.missing_time, m.missing_point, m.user_seq	</select>
+      m.missing_outfit, m.missing_time, m.missing_point, m.user_seq	
+      </select>
 
 	<!-- 완료 -->
 	<delete id="deleteMissingBoard" parameterType="int">
