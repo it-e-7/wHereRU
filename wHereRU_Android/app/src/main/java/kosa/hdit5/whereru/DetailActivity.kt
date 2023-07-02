@@ -97,7 +97,7 @@ class DetailActivity : AppCompatActivity() {
                     .apply { start() }
             } else {
                 // 일반사람
-                ObjectAnimator.ofFloat(binding.fabChat, "translationY", -fabHeight)
+                ObjectAnimator.ofFloat(binding.fabChat, "translationY", -fabHeight - 24)
                     .apply { start() }
             }
 
