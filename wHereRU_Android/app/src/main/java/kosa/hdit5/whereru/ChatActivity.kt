@@ -12,12 +12,16 @@ import kosa.hdit5.whereru.databinding.ChatItemBinding
 import kosa.hdit5.whereru.databinding.LeftChatItemBinding
 import kosa.hdit5.whereru.util.GlobalState
 import kosa.hdit5.whereru.util.OkHttpClientSingleton
+import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
+import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.WebSocket
 import okio.ByteString
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
 import java.text.SimpleDateFormat
 import kotlin.reflect.typeOf
 
@@ -27,7 +31,7 @@ data class ChatVO (
     val chatType: String,
     val chatContent: String,
     val chatDate: String,
-    val viewType: Int
+    var viewType: Int
 )
 
 object ViewType {
@@ -96,9 +100,11 @@ class ChatActivity : AppCompatActivity() {
 
     private lateinit var client: OkHttpClient
     private lateinit var chatSocket: WebSocket
-    var chatAdapter = ChatAdapter(mutableListOf())
+    var roomSeq: Int = -1
+    var chatAdapter = ChatAdapter(mutableListOf<ChatVO>())
     lateinit var receiverId: String
     lateinit var binding: ActivityChatBinding
+    private var apiService: WhereRUAPI = RetrofitBuilder.api
 
     inner class WebSocketListener : okhttp3.WebSocketListener() {
 
@@ -107,7 +113,7 @@ class ChatActivity : AppCompatActivity() {
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
-            Log.d("Socket","Receiving : $text")
+            Log.d("ChatActivity","Socket Receiving : $text")
             val chatJson = JSONObject(text)
             var viewType = ViewType.RIGHT_CHAT;
 
@@ -122,8 +128,6 @@ class ChatActivity : AppCompatActivity() {
                                 chatJson.getString("chatDate"),
                                 viewType)
 
-            Log.d("message", "$chatvo")
-
             runOnUiThread {
                 chatAdapter.addItem(chatvo)
                 binding.chatBox.smoothScrollToPosition(chatAdapter.itemCount)
@@ -131,17 +135,17 @@ class ChatActivity : AppCompatActivity() {
         }
 
         override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-            Log.d("Socket", "Receiving bytes : $bytes")
+            Log.d("ChatActivity", "Receiving bytes : $bytes")
         }
 
         override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-            Log.d("Socket","Closing : $code / $reason")
+            Log.d("ChatActivity","Closing : $code / $reason")
             webSocket.close(1000, null)
             webSocket.cancel()
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-            Log.d("Socket","Error : " + t.message)
+            Log.d("ChatActivity","Error : " + t.message)
         }
     }
 
@@ -160,13 +164,12 @@ class ChatActivity : AppCompatActivity() {
         createSocketConnection()
 
         binding.chatButton.setOnClickListener {
-            Log.d("ChatActivity", "버튼 클릭 리스너 달려있어요~")
-            Log.d("ChatActivity", "소켓 정보 : $chatSocket")
-
             chatSocket.send(createChatJSON(binding.chatEdit.text.toString()))
             binding.chatEdit.text.clear()
         }
 
+        roomSeq = intent.getIntExtra("roomSeq", -1)
+        getChatList()
     }
 
 
@@ -192,5 +195,44 @@ class ChatActivity : AppCompatActivity() {
         val listener: WebSocketListener = WebSocketListener()
 
         chatSocket = client.newWebSocket(request, listener)
+    }
+
+    fun getChatList() {
+        val call = apiService.getChatList(roomSeq)
+        call.enqueue(object : Callback<List<ChatVO>> {
+            override fun onResponse(
+
+                call: Call<List<ChatVO>>,
+                response: retrofit2.Response<List<ChatVO>>
+            ) {
+                if (response.isSuccessful) {
+                    var chatList = response.body()
+                    if(chatList !=null){
+                        var newData = mutableListOf<ChatVO>()
+
+                        for(chat in chatList) {
+                            if(GlobalState.userId == chat.chatSender) {
+                                chat.viewType = ViewType.RIGHT_CHAT
+                            } else {
+                                chat.viewType = ViewType.LEFT_CHAT
+                            }
+                            newData.add(chat)
+                        }
+                        Log.d("ChatActivity", "채팅 리스트 : $chatList")
+                        chatAdapter.setItem(newData)
+                        binding.chatBox.smoothScrollToPosition(chatAdapter.itemCount)
+                    }
+                } else {
+                    // 서버로부터 응답을 받지 못한 경우 처리
+                    Log.d("ChatActivity","채팅 리스트 받아오기 실패")
+                }
+
+            }
+
+            override fun onFailure(call: Call<List<ChatVO>>, t: Throwable) {
+                // 요청 자체가 실패한 경우 처리
+                Log.d("ChatActivity","채팅 리스트 ERROR")
+            }
+        })
     }
 }

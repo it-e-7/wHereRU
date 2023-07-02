@@ -9,33 +9,46 @@
 		CALL INSERTCHAT(#{chatSender}, #{chatReceiver}, #{chatType}, #{chatContent}, #{chatDate})
 	</insert>
 
-	<insert id="selectAllChat">
-		select * from book;
-	</insert>
+	<select id="selectAllChat" parameterType="int" resultType="ChatVO">
+		SELECT c.chat_seq, sender.sender_id as chat_sender, receiver.receiver_id as chat_receiver, c.chat_type, c.chat_content, c.chat_date, c.chat_checked
+		FROM
+		(SELECT c.chat_seq, u.user_id as sender_id
+		FROM (SELECT *
+    		FROM CHATLIST
+    		WHERE ROOM_SEQ = #{roomSeq}) c, TB_USER u
+		WHERE c.chat_sender = u.user_seq) sender,
+		(SELECT c.chat_seq, u.user_id as receiver_id
+		FROM (SELECT *
+		    FROM CHATLIST
+		    WHERE ROOM_SEQ = #{roomSeq}) c, TB_USER u
+		WHERE c.chat_receiver = u.user_seq) receiver,
+		CHATLIST c
+		WHERE c.chat_seq = sender.chat_seq AND sender.chat_seq = receiver.chat_seq
+	</select>
 	
 	<select id="selectAllChatRoom" parameterType="String" resultType="ChatListVO">
 		<![CDATA[
-	         SELECT rsc.room_seq, rsc.sender_name, rsc.chat_count, cl.chat_seq, cl.chat_type, cl.chat_content, cl.chat_date
-FROM (SELECT co.room_seq, ru.sender_name, co.chat_count
-        FROM ((SELECT t.room_seq, COUNT(CASE WHEN c.chat_checked = 'false' THEN 1 END) AS chat_count
-                FROM chatlist c JOIN tb_chatting t ON c.room_seq = t.room_seq
-                WHERE c.chat_receiver = (SELECT user_seq FROM tb_user WHERE user_id = #{userId})
-                GROUP BY t.room_seq) co 
-            JOIN 
-                (SELECT u.user_name as sender_name, c2.room_seq
-                FROM TB_USER u, TB_CHATTING c2
-                WHERE user_id != #{userId} AND ((c2.USER_SEQ1 = u.user_seq) OR (c2.USER_SEQ2 = u.user_seq))) ru ON co.room_seq = ru.room_seq)) rsc
-        JOIN
-        (SELECT c.room_seq, cl.chat_seq, cl.chat_type, cl.chat_content, cl.chat_date
-        FROM chatlist cl JOIN tb_chatting c ON cl.room_seq = c.room_seq
-        WHERE c.room_seq IN (SELECT room_seq
-                            FROM chatlist
-                            WHERE chat_receiver = (SELECT user_seq FROM tb_user WHERE user_id = #{userId}))
-            AND cl.chat_seq = (SELECT MAX(chat_seq)
-                                FROM chatlist
-                                WHERE room_seq = cl.room_seq)) cl 
-        ON rsc.room_seq = cl.room_seq
-        ORDER BY cl.chat_seq DESC
+	         SELECT rsc.room_seq, rsc.sender_name, rsc.sender_id, rsc.chat_count, cl.chat_seq, cl.chat_type as last_chat_type, cl.chat_content as last_chat_content, cl.chat_date as last_chat_date
+			FROM (SELECT co.room_seq, ru.sender_name, ru.sender_id, co.chat_count
+        			FROM ((SELECT t.room_seq, COUNT(CASE WHEN c.chat_checked = 'false' THEN 1 END) AS chat_count
+                			FROM chatlist c JOIN tb_chatting t ON c.room_seq = t.room_seq
+                			WHERE c.chat_receiver = (SELECT user_seq FROM tb_user WHERE user_id = #{userId})
+                			GROUP BY t.room_seq) co 
+            			JOIN 
+            			    (SELECT u.user_name as sender_name, u.user_id as sender_id, c2.room_seq
+                			FROM TB_USER u, TB_CHATTING c2
+                			WHERE user_id != #{userId} AND ((c2.USER_SEQ1 = u.user_seq) OR (c2.USER_SEQ2 = u.user_seq))) ru ON co.room_seq = ru.room_seq)) rsc
+        			JOIN
+        			(SELECT c.room_seq, cl.chat_seq, cl.chat_type, cl.chat_content, cl.chat_date
+        			FROM chatlist cl JOIN tb_chatting c ON cl.room_seq = c.room_seq
+        			WHERE c.room_seq IN (SELECT room_seq
+        			                    FROM chatlist
+        			                    WHERE chat_receiver = (SELECT user_seq FROM tb_user WHERE user_id = #{userId}))
+        			    AND cl.chat_seq = (SELECT MAX(chat_seq)
+        			                        FROM chatlist
+        			                        WHERE room_seq = cl.room_seq)) cl 
+        			ON rsc.room_seq = cl.room_seq
+        		ORDER BY cl.chat_seq DESC
 		]]>
 	</select>
 </mapper>
