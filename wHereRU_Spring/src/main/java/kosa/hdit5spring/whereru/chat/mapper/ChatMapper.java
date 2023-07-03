@@ -11,6 +11,6 @@ import kosa.hdit5spring.whereru.chat.vo.ChatVO;
 public interface ChatMapper {
 
 	public int insertChat(ChatVO chatVO);
-	public int selectAllChat();
+	public List<ChatVO> selectAllChat(int roomSeq);
 	public List<ChatListVO> selectAllChatRoom(String userId);
 }

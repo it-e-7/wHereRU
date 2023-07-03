@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class ChatListVO {
 
 	private int roomSeq;
+	private String senderId;
 	private String senderImg;
 	private String senderName;
 	private String lastChatType;
