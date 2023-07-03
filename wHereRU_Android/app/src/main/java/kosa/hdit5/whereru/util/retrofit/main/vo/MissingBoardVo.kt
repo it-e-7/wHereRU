@@ -12,8 +12,16 @@ data class MissingBoardVo(
     val imgUrl1: String,
     val imgUrl2: String?,
     val imgUrl3: String?,
-    val owner: Boolean
-)
+    val owner: Boolean,
+    val missingImgUrls: String
+) {
+    // 쉼표로 구분된 이미지 URL 문자열을 리스트로 변환
+    fun getImageUrls(): List<String> {
+        return missingImgUrls?.split(",") ?: listOf()
+    }
+}
+
+
 data class MainMissingBoardVo(
     val missingName: String,
     val missingAge: Int,
@@ -33,3 +41,4 @@ data class writeMissingBoardVo(
     val imgUrl2: String?,
     val imgUrl3: String?
 )
+

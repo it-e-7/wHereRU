@@ -19,7 +19,9 @@ public class MissingBoardVo {
 	private int userSeq;
 	
 	private boolean isOwner;
-	
+
+	private String missingImgUrls;
+
 	private String imgUrl1;
 	private String imgUrl2;
 	private String imgUrl3;
