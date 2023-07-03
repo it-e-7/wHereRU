@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragment)
             .commit()
+
         binding.writeButton.setOnClickListener {
             val intent = Intent(this, WritePageActivity::class.java)
 
@@ -77,11 +78,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.noticeButton.setOnClickListener {
 
-        }
-        binding.detailButton.setOnClickListener {
-            val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("missingBoardSeq", 181)
-            startActivity(intent)
         }
 
         // footer 설정 !!!
