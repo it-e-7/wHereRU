@@ -8,6 +8,6 @@ import kosa.hdit5spring.whereru.chat.vo.ChatVO;
 public interface ChatService {
 
 	public int addChat(ChatVO chatVO);
-	public List<ChatVO> getChatList(int roomSeq);
+	public List<ChatVO> getChatList(int roomSeq, String userId);
 	public List<ChatListVO> getChatRoomListByUserId(String userId);
 }

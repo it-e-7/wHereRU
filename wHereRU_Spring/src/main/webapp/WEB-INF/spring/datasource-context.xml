@@ -29,6 +29,7 @@
 				<value>classpath:mappers/UserMapper.xml</value>
 				<value>classpath:mappers/MissingBoardMapper.xml</value>
 				<value>classpath:mappers/ChatMapper.xml</value>
+				<value>classpath:mappers/NoticeMapper.xml</value>
 			</list>
 		</property>
 	</bean>

@@ -5,16 +5,7 @@
     android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    android:layout_marginBottom="20dp">
-
-    <TextView
-        android:id="@+id/chat_sender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="보낸이"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_marginTop="6dp">
 
     <TextView
         android:id="@+id/chat_text"
@@ -23,24 +14,22 @@
         android:autoLink="web"
         android:gravity="start|center_vertical"
         android:linksClickable="true"
-        android:padding="10dp"
         android:text="안녕하세요."
         android:textColor="@color/black"
+        android:background="@drawable/chat_box_left"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chat_sender" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/chat_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginStart="4dp"
         android:text="오전 10:23"
-        android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/chat_text"
+        android:textSize="9dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/chat_text"
-        app:layout_constraintTop_toTopOf="@+id/chat_text"
         app:layout_constraintVertical_bias="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

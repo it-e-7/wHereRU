@@ -65,11 +65,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.chatButton.setOnClickListener {
-            val intent = Intent(this, ChatListActivity::class.java)
-            startActivity(intent)
-        }
-
         val fragment = MainViewPager()
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragment)
