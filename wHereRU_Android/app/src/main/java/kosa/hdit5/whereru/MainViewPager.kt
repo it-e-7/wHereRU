@@ -1,5 +1,6 @@
 package kosa.hdit5.whereru
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -70,6 +72,11 @@ class MyPagerAdapter(private var myData: MutableList<MainMissingBoardVo>): Recyc
         val binding = holder.binding
         val imageView = holder.imageView
 
+        holder.itemView.setOnClickListener {
+            val intent = Intent(binding.root.context, DetailActivity::class.java)
+            intent.putExtra("missingBoardSeq", myData[position].missingSeq)
+            holder.itemView.context.startActivity(intent)
+        }
         binding.mainMissingName.text = myData[position].missingName
         binding.mainMissingAge.text = myData[position].missingAge.toString()
         binding.mainMissingSex.text = myData[position].missingSex
@@ -127,12 +134,13 @@ class MainViewPager : Fragment() {
                     val missingPersonList = response.body()
                     if(missingPersonList !=null){
                         for(missingPerson in missingPersonList){
+                            val missing_seq = missingPerson.missingSeq
                             val image = missingPerson.imgUrl1
                             val missingName = missingPerson.missingName
                             val age = missingPerson.missingAge
                             val sex = missingPerson.missingSex
 
-                            val mainMissingBoardVo = MainMissingBoardVo(missingName,age,sex,image)
+                            val mainMissingBoardVo = MainMissingBoardVo(missing_seq,missingName,age,sex,image)
                             myData.add(mainMissingBoardVo)
 
                         }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kosa.hdit5.whereru.databinding.ActivityChatListBinding
 import kosa.hdit5.whereru.databinding.ChatListItemBinding
+import kosa.hdit5.whereru.databinding.ChatListZeroCountItemBinding
 import kosa.hdit5.whereru.util.GlobalState
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
@@ -29,30 +30,77 @@ data class ChatListVO (
     val lastChatDate: String,
     val chatCount: Int
 )
+
+object ChatListViewType {
+    val ZERO_COUNT = 0
+    val NUM_COUNT = 1
+}
 class ChatListViewHolder(val binding: ChatListItemBinding): RecyclerView.ViewHolder(binding.root)
+class ZeroCountChatListViewHolder(val binding: ChatListZeroCountItemBinding): RecyclerView.ViewHolder(binding.root)
 
 class ChatListAdapter(var data: MutableList<ChatListVO>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return data.size;
     }
 
+    override fun getItemViewType(position: Int): Int {
+        if(data[position].chatCount == 0) {
+            return ChatListViewType.ZERO_COUNT
+        } else {
+            return ChatListViewType.NUM_COUNT
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ChatListViewHolder(ChatListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return if(viewType == ChatListViewType.ZERO_COUNT) {
+            ZeroCountChatListViewHolder(ChatListZeroCountItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        } else {
+            ChatListViewHolder(ChatListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        }
+
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        var binding = (holder as ChatListViewHolder).binding
+        var ampm = "오전"
+        var hour = 0
+        var min = 0
+        var time = data[position].lastChatDate.substring(11)
+        hour = time.substring(0,2).toInt()
+        min = time.substring(3).toInt()
+        if(hour >= 12) {
+            ampm = "오후"
+            if(hour > 12) {
+                hour -= 12
+            }
+        }
 
-        binding.chatListItemName.text = data[position].senderName
-        binding.chatListItemChat.text = data[position].lastChatContent
-        binding.chatListItemDate.text = data[position].lastChatDate
-        binding.chatListItemCount.text = data[position].chatCount.toString()
+        if(holder is ChatListViewHolder) {
+            var binding = holder.binding
+            binding.chatListItemName.text = data[position].senderName
+            binding.chatListItemChat.text = data[position].lastChatContent
+            binding.chatListItemDate.text = "$ampm $hour:${min.toString().padStart(2, '0')}"
+            binding.chatListItemCount.text = data[position].chatCount.toString()
 
-        holder.itemView.setOnClickListener {
-            val chatIntent = Intent(binding.root.context, ChatActivity::class.java)
-            chatIntent.putExtra("sender", data[position].senderId)
-            chatIntent.putExtra("roomSeq", data[position].roomSeq)
-            chatIntent.run { binding.root.context.startActivity(chatIntent) }
+            holder.itemView.setOnClickListener {
+                val chatIntent = Intent(binding.root.context, ChatActivity::class.java)
+                chatIntent.putExtra("sender", data[position].senderId)
+                chatIntent.putExtra("senderName", data[position].senderName)
+                chatIntent.putExtra("roomSeq", data[position].roomSeq)
+                chatIntent.run { binding.root.context.startActivity(chatIntent) }
+            }
+        } else if(holder is ZeroCountChatListViewHolder) {
+            var binding = holder.binding
+            binding.chatListItemName.text = data[position].senderName
+            binding.chatListItemChat.text = data[position].lastChatContent
+            binding.chatListItemDate.text = "$ampm $hour:${min.toString().padStart(2, '0')}"
+
+            holder.itemView.setOnClickListener {
+                val chatIntent = Intent(binding.root.context, ChatActivity::class.java)
+                chatIntent.putExtra("sender", data[position].senderId)
+                chatIntent.putExtra("senderName", data[position].senderName)
+                chatIntent.putExtra("roomSeq", data[position].roomSeq)
+                chatIntent.run { binding.root.context.startActivity(chatIntent) }
+            }
         }
     }
 
@@ -94,6 +142,11 @@ class ChatListActivity : AppCompatActivity() {
             var intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getChatRoomList()
     }
 
     fun getChatRoomList() {

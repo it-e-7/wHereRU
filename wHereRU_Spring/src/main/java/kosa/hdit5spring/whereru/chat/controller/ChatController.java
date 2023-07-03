@@ -21,8 +21,8 @@ public class ChatController {
 	private ChatService service;
 
 	@GetMapping("/chat")
-	public List<ChatVO> getChatController(@RequestParam("roomSeq") int roomSeq) {
-		return service.getChatList(roomSeq);
+	public List<ChatVO> getChatController(@RequestParam("roomSeq") int roomSeq, @SessionAttribute UserVO currUser) {
+		return service.getChatList(roomSeq, currUser.getUserId());
 	}
 	
 	@GetMapping("/chat/list")
