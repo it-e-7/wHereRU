@@ -1,6 +1,8 @@
 package kosa.hdit5.whereru
 
 import android.animation.ObjectAnimator
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -88,9 +90,16 @@ class DetailActivity : AppCompatActivity() {
 
         binding.fabDelete.setOnClickListener {
             deleteMissingBoard()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
-    }
 
+        binding.leftArrow.setOnClickListener {
+            Log.d("arrow", "qqqqqqqqqqqqqq")
+            this.finish()
+        }
+        
+    }
     private fun toggleFab() {
         val fabHeight = binding.fab.height.toFloat()
 
