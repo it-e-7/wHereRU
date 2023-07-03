@@ -9,6 +9,9 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -53,7 +56,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         private fun showToast(message: String?) {
             Log.d("check","토스트?")
             Handler(Looper.getMainLooper()).post {
-                Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+                val inflater = LayoutInflater.from(applicationContext)
+                val layout = inflater.inflate(R.layout.custom_toast, null)
+                val textView = layout.findViewById<TextView>(R.id.toast_message)
+                textView.text = message
+
+                val toast = Toast(applicationContext)
+                toast.duration = Toast.LENGTH_SHORT
+                toast.view = layout
+                toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 16)
+                toast.show()
             }
         }
         
@@ -63,7 +75,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val channelName = "Default Channel"
 
             val notificationBuilder = NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.icon)
+                .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
                 .setContentTitle("Notification Title")
                 .setContentText(message)
                 .setAutoCancel(true)

@@ -65,6 +65,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.noticecenterButton.setOnClickListener {
+            val intent = Intent(this, NoticeCenterActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.chatButton.setOnClickListener {
             val intent = Intent(this, ChatListActivity::class.java)
             startActivity(intent)
@@ -74,15 +79,13 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragment)
             .commit()
+
         binding.writeButton.setOnClickListener {
             val intent = Intent(this, WritePageActivity::class.java)
 
             resultLauncher.launch(intent)
         }
 
-        binding.noticeButton.setOnClickListener {
-
-        }
         binding.detailButton.setOnClickListener {
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("missingBoardSeq", 181)
