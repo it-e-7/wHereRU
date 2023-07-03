@@ -78,12 +78,13 @@ class ChatListAdapter(var data: MutableList<ChatListVO>): RecyclerView.Adapter<R
             var binding = holder.binding
             binding.chatListItemName.text = data[position].senderName
             binding.chatListItemChat.text = data[position].lastChatContent
-            binding.chatListItemDate.text = "$ampm $hour:$min"
+            binding.chatListItemDate.text = "$ampm $hour:${min.toString().padStart(2, '0')}"
             binding.chatListItemCount.text = data[position].chatCount.toString()
 
             holder.itemView.setOnClickListener {
                 val chatIntent = Intent(binding.root.context, ChatActivity::class.java)
                 chatIntent.putExtra("sender", data[position].senderId)
+                chatIntent.putExtra("senderName", data[position].senderName)
                 chatIntent.putExtra("roomSeq", data[position].roomSeq)
                 chatIntent.run { binding.root.context.startActivity(chatIntent) }
             }
@@ -91,11 +92,12 @@ class ChatListAdapter(var data: MutableList<ChatListVO>): RecyclerView.Adapter<R
             var binding = holder.binding
             binding.chatListItemName.text = data[position].senderName
             binding.chatListItemChat.text = data[position].lastChatContent
-            binding.chatListItemDate.text = "$ampm $hour:$min"
+            binding.chatListItemDate.text = "$ampm $hour:${min.toString().padStart(2, '0')}"
 
             holder.itemView.setOnClickListener {
                 val chatIntent = Intent(binding.root.context, ChatActivity::class.java)
                 chatIntent.putExtra("sender", data[position].senderId)
+                chatIntent.putExtra("senderName", data[position].senderName)
                 chatIntent.putExtra("roomSeq", data[position].roomSeq)
                 chatIntent.run { binding.root.context.startActivity(chatIntent) }
             }

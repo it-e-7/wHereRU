@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kosa.hdit5.whereru.databinding.ActivityChatBinding
@@ -25,7 +26,7 @@ import retrofit2.Callback
 import java.text.SimpleDateFormat
 import kotlin.reflect.typeOf
 
-data class ChatVO (
+data class ChatVO(
     val chatSender: String,
     val chatReceiver: String,
     val chatType: String,
@@ -39,10 +40,11 @@ object ViewType {
     val LEFT_CHAT = 1
     val RIGHT_CHAT = 2
 }
-class ChatViewHolder(val binding: ChatItemBinding): RecyclerView.ViewHolder(binding.root)
-class LeftChatViewHolder(val binding: LeftChatItemBinding): RecyclerView.ViewHolder(binding.root)
 
-class ChatAdapter(var data: MutableList<ChatVO>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatViewHolder(val binding: ChatItemBinding) : RecyclerView.ViewHolder(binding.root)
+class LeftChatViewHolder(val binding: LeftChatItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return data.size;
     }
@@ -52,33 +54,46 @@ class ChatAdapter(var data: MutableList<ChatVO>): RecyclerView.Adapter<RecyclerV
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if(viewType == ViewType.LEFT_CHAT) {
-            LeftChatViewHolder(LeftChatItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return if (viewType == ViewType.LEFT_CHAT) {
+            LeftChatViewHolder(
+                LeftChatItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
         } else {
-            ChatViewHolder(ChatItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            ChatViewHolder(
+                ChatItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
         }
 
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        if(holder is LeftChatViewHolder) {
+        if (holder is LeftChatViewHolder) {
             var binding = holder.binding
 
-            if(data[position].chatType == "text") {
-                binding.chatSender.text = data[position].chatSender
+            binding.chatDate.text = getHourMin(data[position].chatDate)
+
+            if (data[position].chatType == "text") {
                 binding.chatText.text = data[position].chatContent
-                binding.chatDate.text = data[position].chatDate
+
             } else {
 
             }
         } else {
             var binding = (holder as ChatViewHolder).binding
 
-            if(data[position].chatType == "text") {
-                binding.chatSender.text = data[position].chatSender
+            binding.chatDate.text = getHourMin(data[position].chatDate)
+
+            if (data[position].chatType == "text") {
                 binding.chatText.text = data[position].chatContent
-                binding.chatDate.text = data[position].chatDate
             } else {
 
             }
@@ -91,11 +106,26 @@ class ChatAdapter(var data: MutableList<ChatVO>): RecyclerView.Adapter<RecyclerV
         data.add(chat)
         notifyDataSetChanged()
     }
+
     fun setItem(newData: MutableList<ChatVO>) {
         data = newData
         notifyDataSetChanged()
     }
+
+    fun getHourMin(date: String): String {
+        var hour = 0
+        var min = 0
+        var time = date.substring(11)
+        hour = time.substring(0, 2).toInt()
+        min = time.substring(3).toInt()
+        if (hour > 12) {
+            hour -= 12
+        }
+
+        return "$hour:${min.toString().padStart(2, '0')}"
+    }
 }
+
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var client: OkHttpClient
@@ -113,20 +143,22 @@ class ChatActivity : AppCompatActivity() {
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
-            Log.d("ChatActivity","Socket Receiving : $text")
+            Log.d("ChatActivity", "Socket Receiving : $text")
             val chatJson = JSONObject(text)
             var viewType = ViewType.RIGHT_CHAT;
 
-            if(GlobalState.userId == chatJson.getString("chatReceiver")) {
+            if (GlobalState.userId == chatJson.getString("chatReceiver")) {
                 viewType = ViewType.LEFT_CHAT;
             }
 
-            val chatvo = ChatVO(chatJson.getString("chatSender"),
-                                chatJson.getString("chatReceiver"),
-                                chatJson.getString("chatType"),
-                                chatJson.getString("chatContent"),
-                                chatJson.getString("chatDate"),
-                                viewType)
+            val chatvo = ChatVO(
+                chatJson.getString("chatSender"),
+                chatJson.getString("chatReceiver"),
+                chatJson.getString("chatType"),
+                chatJson.getString("chatContent"),
+                chatJson.getString("chatDate"),
+                viewType
+            )
 
             runOnUiThread {
                 chatAdapter.addItem(chatvo)
@@ -139,13 +171,13 @@ class ChatActivity : AppCompatActivity() {
         }
 
         override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-            Log.d("ChatActivity","Closing : $code / $reason")
+            Log.d("ChatActivity", "Closing : $code / $reason")
             webSocket.close(1000, null)
             webSocket.cancel()
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-            Log.d("ChatActivity","Error : " + t.message)
+            Log.d("ChatActivity", "Error : " + t.message)
         }
     }
 
@@ -172,8 +204,25 @@ class ChatActivity : AppCompatActivity() {
             binding.chatEdit.text.clear()
         }
 
+        binding.chatEdit.doOnTextChanged {
+                text, start, before, count ->
+            if(!text.isNullOrEmpty()) {
+                binding.chatButton.setImageResource(R.drawable.chat_send_active)
+            } else {
+                binding.chatButton.setImageResource(R.drawable.chat_button)
+            }
+
+        }
+
+        binding.arrowLeft.setOnClickListener {
+            this.finish()
+        }
+
         roomSeq = intent.getIntExtra("roomSeq", -1)
         getChatList()
+
+        binding.senderName.text = intent.getStringExtra("senderName")
+
     }
 
 
@@ -211,11 +260,11 @@ class ChatActivity : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     var chatList = response.body()
-                    if(chatList !=null){
+                    if (chatList != null) {
                         var newData = mutableListOf<ChatVO>()
 
-                        for(chat in chatList) {
-                            if(GlobalState.userId == chat.chatSender) {
+                        for (chat in chatList) {
+                            if (GlobalState.userId == chat.chatSender) {
                                 chat.viewType = ViewType.RIGHT_CHAT
                             } else {
                                 chat.viewType = ViewType.LEFT_CHAT
@@ -228,14 +277,14 @@ class ChatActivity : AppCompatActivity() {
                     }
                 } else {
                     // 서버로부터 응답을 받지 못한 경우 처리
-                    Log.d("ChatActivity","채팅 리스트 받아오기 실패")
+                    Log.d("ChatActivity", "채팅 리스트 받아오기 실패")
                 }
 
             }
 
             override fun onFailure(call: Call<List<ChatVO>>, t: Throwable) {
                 // 요청 자체가 실패한 경우 처리
-                Log.d("ChatActivity","채팅 리스트 ERROR")
+                Log.d("ChatActivity", "채팅 리스트 ERROR")
             }
         })
     }
