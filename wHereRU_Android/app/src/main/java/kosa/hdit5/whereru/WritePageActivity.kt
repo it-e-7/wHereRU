@@ -72,6 +72,10 @@ class WritePageActivity : AppCompatActivity() {
         binding = ActivityWritePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.leftArrow.setOnClickListener {
+            this.finish()
+        }
+
         fun showDateTimePicker(){
             val currentDate = Calendar.getInstance()
             val year = currentDate.get(Calendar.YEAR)
