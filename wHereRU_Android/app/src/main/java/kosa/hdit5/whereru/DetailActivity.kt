@@ -98,7 +98,7 @@ class DetailActivity : AppCompatActivity() {
             Log.d("arrow", "qqqqqqqqqqqqqq")
             this.finish()
         }
-        
+
     }
     private fun toggleFab() {
         val fabHeight = binding.fab.height.toFloat()
