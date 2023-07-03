@@ -8,6 +8,13 @@
 	<insert id="insertChat" statementType="CALLABLE" parameterType="ChatVO">
 		CALL INSERTCHAT(#{chatSender}, #{chatReceiver}, #{chatType}, #{chatContent}, #{chatDate})
 	</insert>
+	
+	<update id="updateChatChecked" parameterType="map">
+		UPDATE CHATLIST
+			SET CHAT_CHECKED = 'true'
+			WHERE ROOM_SEQ = #{roomSeq} AND CHAT_RECEIVER = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId})
+			
+	</update>
 
 	<select id="selectAllChat" parameterType="int" resultType="ChatVO">
 		SELECT c.chat_seq, sender.sender_id as chat_sender, receiver.receiver_id as chat_receiver, c.chat_type, c.chat_content, c.chat_date, c.chat_checked

@@ -44,6 +44,7 @@ class WritePageActivity : AppCompatActivity() {
                     when {
                         imageButton1Bitmap == null -> {
                             imageButton1Bitmap = imageUri
+                            Log.d("hong","imagButton1: ${imageButton1Bitmap}")
                             binding.imgButton1.setImageURI(imageButton1Bitmap)
 
                         }
@@ -118,7 +119,7 @@ class WritePageActivity : AppCompatActivity() {
         }
 
         binding.finishWriteButton.setOnClickListener {
-
+            Log.d("hong","버튼버튼버튼ㅐ")
             var imgFileName1 = (GlobalState.userSeq.toString())+".1.png"
             var imgFileName2 = (GlobalState.userSeq.toString())+".2.png"
             var imgFileName3 = (GlobalState.userSeq.toString())+".3.png"
@@ -126,8 +127,10 @@ class WritePageActivity : AppCompatActivity() {
             var storage2 = storage.child(imgFileName2)
             var storage3 = storage.child(imgFileName3)
 
-
+            Log.d("hong","$storage1")
+            Log.d("hong","스토리지 다음에 : $imageButton1Bitmap")
             if (storage1 != null && imageButton1Bitmap != null) {
+                Log.d("hong","제발")
                 storage1.putFile(imageButton1Bitmap!!).addOnSuccessListener { uploadTask ->
                     Log.d("hong", "upload 성공")
                     uploadTask.storage.downloadUrl
@@ -138,6 +141,7 @@ class WritePageActivity : AppCompatActivity() {
                             checkUploadComplete()
                         }
                         .addOnFailureListener {
+                            Log.d("hong","it")
                             // Handle failure
                         }
 
@@ -206,6 +210,7 @@ class WritePageActivity : AppCompatActivity() {
                     count = 0
                     if (response.isSuccessful) {
                         setResult(RESULT_OK)
+                        Log.d("youmin","fa;slkdfj;lskdfj;l")
                         finish()
                     } else {
 
