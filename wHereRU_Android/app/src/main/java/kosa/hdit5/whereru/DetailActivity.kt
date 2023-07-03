@@ -23,14 +23,14 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        /*
+
         // 프래그먼트 인스턴스 생성
         val fragment = DetailViewPager()
 
         // 프래그먼트를 프래그먼트 컨테이너에 추가
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
-           .commit()*/
+           .commit()
 
 
         val missingBoardSeq = intent.getIntExtra("missingBoardSeq", -1)

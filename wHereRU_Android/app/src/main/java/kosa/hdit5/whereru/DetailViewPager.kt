@@ -5,9 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
+import android.webkit.URLUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kosa.hdit5.whereru.databinding.ActivityDetailViewPagerBinding
 import kosa.hdit5.whereru.databinding.DetailItemPagerBinding
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
@@ -17,12 +18,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+class DetailPagerViewHolder(val binding: DetailItemPagerBinding) : RecyclerView.ViewHolder(binding.root)
 
-class DetailPagerViewHolder(val binding : DetailItemPagerBinding) : RecyclerView.ViewHolder(binding.root)
-
-class DetailPagerAdapter(private var DetailData: MutableList<MissingBoardVo>): RecyclerView.Adapter<DetailPagerViewHolder>() {
-
-    private var imageUrlList: MutableList<String> = mutableListOf()
+class DetailPagerAdapter(private var DetailData: MutableList<MissingBoardVo>) : RecyclerView.Adapter<DetailPagerViewHolder>() {
+    private val imageUrlList = mutableListOf<String>()
 
     override fun getItemCount(): Int {
         return DetailData.size
@@ -41,14 +40,16 @@ class DetailPagerAdapter(private var DetailData: MutableList<MissingBoardVo>): R
     override fun onBindViewHolder(holder: DetailPagerViewHolder, position: Int) {
         val binding = holder.binding
 
-//        Log.d("bindviewholder", imageUrlList[position])
-
-        if(imageUrlList[position].toUri() != null) {
-            binding.detailImg.setImageURI(imageUrlList[position].toUri())
+        if (position < imageUrlList.size && URLUtil.isValidUrl(imageUrlList[position])) {
+            Log.d("Image URL", imageUrlList[position])
+            Glide.with(holder.itemView.context)
+                .load(imageUrlList[position])
+                .into(binding.detailImg)
+        } else {
+            Log.d("Image URL", "Invalid URL or position out of range: $position")
         }
 
     }
-
 
     fun setItem(data: MutableList<MissingBoardVo>) {
         Log.d("setItem", data.toString())
@@ -58,18 +59,14 @@ class DetailPagerAdapter(private var DetailData: MutableList<MissingBoardVo>): R
     }
 
     private fun buildImageUrlList() {
+        Log.d("function", "building image url list")
         imageUrlList.clear()
-        DetailData.forEach { missingBoardVo ->
-            imageUrlList.add(missingBoardVo.imgUrl1)
-            missingBoardVo.imgUrl2?.let { imageUrlList.add(it) }
-            missingBoardVo.imgUrl3?.let { imageUrlList.add(it) }
+        DetailData.forEach { MissingBoardVo ->
+            imageUrlList.addAll(MissingBoardVo.getImageUrls())  // 문자열을 리스트로 변환하고 추가
         }
+        Log.d("function", "list built: $imageUrlList")
     }
-
 }
-
-
-
 
 class DetailViewPager : Fragment() {
     private lateinit var binding: ActivityDetailViewPagerBinding
@@ -80,7 +77,7 @@ class DetailViewPager : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = ActivityDetailViewPagerBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -92,7 +89,6 @@ class DetailViewPager : Fragment() {
         binding.detailviewpager.adapter = DetailDataAdapter
 
         getTotalList()
-
     }
 
     private fun getTotalList() {
@@ -102,10 +98,10 @@ class DetailViewPager : Fragment() {
                 call: Call<List<MissingBoardVo>>,
                 response: Response<List<MissingBoardVo>>
             ) {
-                Log.d("Hong","$response")
+                Log.d("Hong", "$response")
                 if (response.isSuccessful) {
                     val missingPersonimgList = response.body()
-                    if(missingPersonimgList !=null){
+                    if (missingPersonimgList != null) {
                         missingPersonimgList.forEach { img ->
                             DetailData.add(img)
                         }
@@ -113,13 +109,13 @@ class DetailViewPager : Fragment() {
                     }
                 } else {
                     // 서버로부터 응답을 받지 못한 경우 처리
-                    Log.d("Hong","실패")
+                    Log.d("Hong", "실패")
                 }
             }
 
             override fun onFailure(call: Call<List<MissingBoardVo>>, t: Throwable) {
                 // 요청 자체가 실패한 경우 처리
-                Log.d("Hong","ERROR")
+                Log.d("Hong", "ERROR")
             }
         })
     }
