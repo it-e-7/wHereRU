@@ -19,13 +19,13 @@
         android:theme="@style/Theme.WHereRU"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <!--        <service
-                    android:name=".MyFirebaseMessagingService"
-                    android:exported="false">
-                    <intent-filter>
-                        <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                    </intent-filter>
-                </service>-->
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <service
             android:name=".InAppMSGService"
             android:enabled="true"
@@ -79,14 +79,6 @@
         <!-- <action android:name="com.google.firebase.MESSAGING_EVENT" /> -->
         <!-- </intent-filter> -->
         <!-- </service> -->
-
-        <service
-            android:name=".MyFirebaseMessagingService"
-            android:exported="false">
-            <!--            <intent-filter>
-                            <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                        </intent-filter>-->
-        </service>
 
         <activity
             android:name=".ChatActivity"

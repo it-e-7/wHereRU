@@ -1,14 +1,12 @@
 package kosa.hdit5.whereru
 
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.storage.FirebaseStorage
@@ -16,13 +14,11 @@ import kosa.hdit5.whereru.databinding.ActivityWritePageBinding
 import kosa.hdit5.whereru.util.GlobalState
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
-import kosa.hdit5.whereru.util.retrofit.main.vo.MissingBoardVo
-import kosa.hdit5.whereru.util.retrofit.main.vo.UserVO
 import kosa.hdit5.whereru.util.retrofit.main.vo.writeMissingBoardVo
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.Calendar
 
 class WritePageActivity : AppCompatActivity() {
 
@@ -36,6 +32,7 @@ class WritePageActivity : AppCompatActivity() {
     var imageButton1Bitmap: Uri? = null
     var imageButton2Bitmap: Uri? = null
     var imageButton3Bitmap: Uri? = null
+    var combinedDateTime: String =""
     // 사진 추가 -> 갤러리 연동
     var imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -74,7 +71,34 @@ class WritePageActivity : AppCompatActivity() {
         binding = ActivityWritePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        fun showDateTimePicker(){
+            val currentDate = Calendar.getInstance()
+            val year = currentDate.get(Calendar.YEAR)
+            val month = currentDate.get(Calendar.MONTH)
+            val day = currentDate.get(Calendar.DAY_OF_MONTH)
+            val hour = currentDate.get(Calendar.HOUR_OF_DAY)
+            val minute = currentDate.get(Calendar.MINUTE)
 
+            val datePickerDialog = DatePickerDialog(this@WritePageActivity, { _, selectedYear, selectedMonth, selectedDay ->
+
+                val timePickerDialog = TimePickerDialog(this@WritePageActivity, { _, selectedHour, selectedMinute ->
+                    // 선택된 날짜와 시간을 처리하는 로직을 추가합니다.
+                    val selectedDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
+                    val selectedTime = "$selectedHour:$selectedMinute"
+                    combinedDateTime = "$selectedDate $selectedTime"
+                    Log.d("Combined DateTime", combinedDateTime)
+                }, hour, minute, true)
+
+                timePickerDialog.show()
+            }, year, month, day)
+
+            datePickerDialog.show()
+        }
+
+        val showPickerButton = binding.showPickerButton
+        showPickerButton.setOnClickListener {
+            showDateTimePicker()
+        }
         binding.imgButton1.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
@@ -170,11 +194,12 @@ class WritePageActivity : AppCompatActivity() {
             val writeAge = binding.writeAge.text.toString()
             val writeSex = binding.writeSex.text.toString()
             val writeOutfit = binding.writeOutfit.text.toString()
-            val writeTime = binding.writeTime.text.toString()
+            val combinedDateTime = combinedDateTime
+            Log.d("hong","combinedDateTime : $combinedDateTime")
             val writePoint = binding.writePoint.text.toString()
             Log.d("hong","imgurl1:$imgUrl1")
             val writeService: WhereRUAPI = RetrofitBuilder.api
-            val call = writeService.writeMissingBoard(writeMissingBoardVo(missingName = writeName, missingAge = writeAge.toInt(), missingSex = writeSex, missingOutfit = writeOutfit, missingTime = writeTime, missingPoint = writePoint, imgUrl1 = imgUrl1, imgUrl2 = imgUrl2, imgUrl3 = imgUrl3, userSeq = GlobalState.userSeq))
+            val call = writeService.writeMissingBoard(writeMissingBoardVo(missingName = writeName, missingAge = writeAge.toInt(), missingSex = writeSex, missingOutfit = writeOutfit, missingTime = combinedDateTime, missingPoint = writePoint, imgUrl1 = imgUrl1, imgUrl2 = imgUrl2, imgUrl3 = imgUrl3, userSeq = GlobalState.userSeq))
 
             call.enqueue(object : Callback<String> {
                 override fun onResponse(call: Call<String>, response: Response<String>) {
@@ -196,6 +221,7 @@ class WritePageActivity : AppCompatActivity() {
 
         }
     }
+
 
 
 }
