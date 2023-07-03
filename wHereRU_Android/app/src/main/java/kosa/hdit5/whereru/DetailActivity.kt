@@ -39,8 +39,6 @@ class DetailActivity : AppCompatActivity() {
 
 
         if (missingBoardSeq != -1) {
-            //val params = HashMap<String, Any>()
-            //params["missingBoardSeq"] = missingBoardSeq
 
             val detailPageService: WhereRUAPI = RetrofitBuilder.api
             val call = detailPageService.getMissingBoardDetail(missingBoardSeq)
@@ -98,6 +96,35 @@ class DetailActivity : AppCompatActivity() {
             Log.d("arrow", "qqqqqqqqqqqqqq")
             this.finish()
         }
+
+        binding.fabChat.setOnClickListener {
+
+            val detailPageService: WhereRUAPI = RetrofitBuilder.api
+            val call = detailPageService.openChatActivity(missingBoardSeq)
+            val chatIntent = Intent(this, ChatActivity::class.java)
+
+            call.enqueue(object : Callback<DetailMissingBoardVo> {
+                override fun onResponse(
+                    call: Call<DetailMissingBoardVo>,
+                    response: Response<DetailMissingBoardVo>
+                ) {
+                    Log.d("DetailActivityCustom", response.toString())
+                    if (response.isSuccessful && response.body() != null) {
+                        val detail = response.body()!!
+
+                        chatIntent.putExtra("sender", detail.userId)
+                        chatIntent.putExtra("senderName", detail.userName)
+                    }
+                }
+
+                override fun onFailure(call: Call<DetailMissingBoardVo>, t: Throwable) {
+                    Log.e("DetailActivityCustom", "Failed to retrieve missing board detail", t)
+                }
+            })
+
+            startActivity(chatIntent)
+        }
+
 
     }
     private fun toggleFab() {

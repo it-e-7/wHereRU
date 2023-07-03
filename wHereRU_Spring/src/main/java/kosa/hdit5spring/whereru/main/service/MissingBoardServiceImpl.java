@@ -12,51 +12,57 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MissingBoardServiceImpl implements MissingBoardService{
+public class MissingBoardServiceImpl implements MissingBoardService {
 
 	@Autowired
 	MissingBoardMapper missingBoardMapper;
-	
+
 	@Override
-	public void writeMissingBoard(MissingBoardVo missingBoardVo) {		
+	public void writeMissingBoard(MissingBoardVo missingBoardVo) {
 		missingBoardMapper.writeMissingBoard(missingBoardVo);
-		
+
 	}
-	
+
 	@Override
 	public DetailMissingBoardVo getMissingBoardDetail(int missingSeq, String userSeq) {
-		
+
 		System.out.println(missingSeq + " " + userSeq);
 		DetailMissingBoardVo detail = missingBoardMapper.selectMissingBoardDetail(missingSeq);
-		if(detail != null && userSeq != null) {
+		if (detail != null && userSeq != null) {
 			detail.setOwner(userSeq.equals(String.valueOf(detail.getUserSeq())));
 		}
-		
+
 		return detail;
 	}
-	
+
 	@Override
 	public List<MissingBoardVo> getTotalList() {
 		List<MissingBoardVo> list = missingBoardMapper.getTotalList();
 		return list;
 	}
 
-   
-   public void deleteMissingBoard(int missingSeq, String userSeq)  {
-	   
-	   DetailMissingBoardVo detail = missingBoardMapper.selectMissingBoardDetail(missingSeq);
+	@Override
+	public void deleteMissingBoard(int missingSeq, String userSeq) {
+
+		DetailMissingBoardVo detail = missingBoardMapper.selectMissingBoardDetail(missingSeq);
 
 //	   TODO: if(detail != null && userSeq != null && userSeq.equals(detail.getUserSeq())) {
-		   missingBoardMapper.deleteMissingBoard(missingSeq);
-   }
-   
-   
-   public void updateMissingBoard(MissingBoardVo missingBoardVo) {
-	   
-	    DetailMissingBoardVo original = missingBoardMapper.selectMissingBoardDetail(missingBoardVo.getMissingSeq());
+		missingBoardMapper.deleteMissingBoard(missingSeq);
+	}
+
+	@Override
+	public void updateMissingBoard(MissingBoardVo missingBoardVo) {
+
+		DetailMissingBoardVo original = missingBoardMapper.selectMissingBoardDetail(missingBoardVo.getMissingSeq());
 
 //	    TODO: if (original != null && userSeq != null && userSeq.equals(original.getUserSeq())) {
-	        missingBoardMapper.updateMissingBoard(missingBoardVo);
-	   
-   }
+		missingBoardMapper.updateMissingBoard(missingBoardVo);
+
+	}
+
+	@Override
+	public DetailMissingBoardVo openChatActivity(int missingSeq) {
+
+		return missingBoardMapper.openChatActivity(missingSeq);
+	}
 }

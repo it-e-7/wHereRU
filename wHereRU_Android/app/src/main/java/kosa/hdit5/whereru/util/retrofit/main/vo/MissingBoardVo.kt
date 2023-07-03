@@ -25,8 +25,11 @@ data class DetailMissingBoardVo(
     val missingPoint: String,
     val userSeq: Int,
     val owner: Boolean,
-    val missingImgUrls: String
+    val missingImgUrls: String,
+    val userId: String,
+    val userName: String
 )
+
 
 {
     // 쉼표로 구분된 이미지 URL 문자열을 리스트로 변환
