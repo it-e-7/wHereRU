@@ -23,6 +23,7 @@ data class MissingBoardVo(
 
 
 data class MainMissingBoardVo(
+    val missingSeq:Int,
     val missingName: String,
     val missingAge: Int,
     val missingSex: String,
