@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 import kosa.hdit5spring.whereru.chat.service.ChatService;
 import kosa.hdit5spring.whereru.chat.vo.ChatVO;
 import kosa.hdit5spring.whereru.chat.vo.SocketSessionVO;
+import kosa.hdit5spring.whereru.notice.service.NoticeService;
 
 public class ChatSocketHandler extends TextWebSocketHandler {
 	
@@ -29,6 +30,8 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	
 	@Autowired
 	ChatService service;
+	@Autowired
+	NoticeService noticeService;
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -77,6 +80,8 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 				
 				if(receiverSession != null) {
 					receiverSession.sendMessage(message);
+					noticeService.sendingToOne(chat.getChatReceiver());
+					
 				}
 				
 			}

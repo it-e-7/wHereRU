@@ -65,6 +65,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.noticecenterButton.setOnClickListener {
+            val intent = Intent(this, NoticeCenterActivity::class.java)
+            startActivity(intent)
+        }
+
         val fragment = MainViewPager()
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragment)
@@ -74,10 +79,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, WritePageActivity::class.java)
 
             resultLauncher.launch(intent)
-        }
-
-        binding.noticeButton.setOnClickListener {
-
         }
 
         // footer 설정 !!!

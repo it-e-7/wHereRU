@@ -9,25 +9,77 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kosa.hdit5spring.whereru.chat.vo.ChatVO;
 import kosa.hdit5spring.whereru.notice.mapper.NoticeMapper;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
 
 	@Autowired
 	NoticeMapper noticeMapper;
 	
 	@Override
+	public String getToken(String userId) {
+		String token = noticeMapper.getToken(userId);
+		System.out.println("여기에요"+token);
+		return token;
+	}
+	
+	@Override
 	public List<String> getTokenList(int userSeq) {
 		List<String> tokenList = noticeMapper.getTokenList(userSeq);
 		return tokenList;
 	}
-	
 	@Override
-	public void requestToFCM(List<String> tokenList) {
+	public void sendingToOne(String userId) {	
+		String token = getToken(userId);
+		 try {
+			 	System.out.println(token);
+	            String url = "https://fcm.googleapis.com/fcm/send";
 
+	            // FCM서버키
+	            String serverKey = "AAAAQGwJreo:APA91bERH85R8sckereChqMrm1niq1MQh7qXOEXSESjpvn5eDPzt72z_1JT114p5IFv90z8dAeHJ88l62__SIKpkXuVdoDU1QVWbMgGna96_K297YIuEB9_A0OtX0lfiN1cAFtFswkuE";
+
+	            // 요청보낼타겟디바이스토큰
+	            String targetToken = token;
+
+	            // 바디설정
+	            String message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \"도움이 필요한 사람이 생겼어요!\", \"body\": \"당신의 따뜻한 손길이 필요해요!!\" } }";
+	            System.out.println(message);
+	            URL obj = new URL(url);
+	            HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+
+	            // 요청방식
+	            conn.setRequestMethod("POST");
+
+	            // 헤더설정
+	            conn.setRequestProperty("Content-Type", "application/json");
+	            conn.setRequestProperty("Authorization", "key=" + serverKey);
+
+	            // 스트림생성 및 전송
+	            conn.setDoOutput(true);
+	            OutputStream os = conn.getOutputStream();
+	            os.write(message.getBytes());
+	            os.flush();
+	            os.close();
+
+	            int responseCode = conn.getResponseCode();
+	            System.out.println("Response Code: " + responseCode);
+	            
+	            if (responseCode == HttpURLConnection.HTTP_OK) {
+	                
+	            } else {
+	                
+	            }
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		}
+	@Override
+	public void sendingToAll(int userSeq) {
+		
+		List<String> tokenList = getTokenList(userSeq);
+		
 		for(String token : tokenList) {
 			Thread t = new Thread(()->{
 			 try {
@@ -40,20 +92,20 @@ public class NoticeServiceImpl implements NoticeService {
 		            // 요청보낼타겟디바이스토큰
 		            String targetToken = token;
 
-		            // 바디
-		            String message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \"HI!!\", \"body\": \"Can you look at this??\" } }";
+		            // 바디설정
+		            String message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \"도움이 필요한 사람이 생겼어요!\", \"body\": \"당신의 따뜻한 손길이 필요해요!!\" } }";
 		            System.out.println(message);
 		            URL obj = new URL(url);
 		            HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
 
-		            // Set request method
+		            // 요청방식
 		            conn.setRequestMethod("POST");
 
-		            // Set request headers
+		            // 헤더설정
 		            conn.setRequestProperty("Content-Type", "application/json");
 		            conn.setRequestProperty("Authorization", "key=" + serverKey);
 
-		            // Enable output stream and write the message data
+		            // 스트림생성 및 전송
 		            conn.setDoOutput(true);
 		            OutputStream os = conn.getOutputStream();
 		            os.write(message.getBytes());
