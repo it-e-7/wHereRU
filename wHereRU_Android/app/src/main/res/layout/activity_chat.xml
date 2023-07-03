@@ -61,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:text="게시글 바로 가기"
+                android:textSize="14dp"
                 app:layout_constraintStart_toEndOf="@+id/detail_image"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,6 +72,8 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginBottom="8dp"
                 android:text="홍길동 5세 남아"
+                android:textSize="12dp"
+                android:textColor="#777777"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/detail_image"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />

@@ -12,6 +12,7 @@ import kosa.hdit5.whereru.databinding.ActivityChatBinding
 import kosa.hdit5.whereru.databinding.ChatItemBinding
 import kosa.hdit5.whereru.databinding.LeftChatItemBinding
 import kosa.hdit5.whereru.util.GlobalState
+import kosa.hdit5.whereru.util.GlobalState.userSeq
 import kosa.hdit5.whereru.util.OkHttpClientSingleton
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
@@ -219,7 +220,12 @@ class ChatActivity : AppCompatActivity() {
         }
 
         roomSeq = intent.getIntExtra("roomSeq", -1)
-        getChatList()
+        if(roomSeq == -1) {
+
+        } else {
+            getChatList()
+        }
+
 
         binding.senderName.text = intent.getStringExtra("senderName")
 
