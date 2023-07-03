@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 파이어베이스 메시징 인스턴스로 토큰 생성 또는 가져오기
+        // FCM을 위해 토큰 가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val token = task.result
@@ -80,32 +80,9 @@ class MainActivity : AppCompatActivity() {
             resultLauncher.launch(intent)
         }
 
-
         binding.noticeButton.setOnClickListener {
-//            val token = "dwZTkMA2SfGmBSxr8iIpZN"
-//            val title = "Sample Title"
-//            val message = "Sample Message"
-//            Log.d("로그","버튼실행")
-//            MessageSender.sendInAppMessage(token, title, message)
-//            val intent = Intent(this,InAppMSGService::class.java)
-//            ContextCompat.startForegroundService(this,intent)
-//            sendFCMMessage()
-            val token = "ezYV150HQni7HzCP3e2_BP:APA91bHH1FlIXD-0g_IX06WNkzaRz_aCkvVOO4RkDa2IbFJfyG9oAtf5gv-6sF8XRmCj-0fMVggcntMG45DmSTCoqBQtsTYPpDtSWdiUDwxtR3T_hWLvQi0uVWStDYU-y5e3M5i8o1gm" // 2번 디바이스의 토큰 정보를 입력합니다.
 
-            // FirebaseMessaging 인스턴스를 가져옵니다.
-            val firebaseMessaging = FirebaseMessaging.getInstance()
-
-            // 푸시 알림을 생성합니다.
-            val notification = RemoteMessage.Builder(token)
-                .setMessageId("your_message_id")
-                .setData(mapOf("title" to "In-App Message", "body" to "토스트로 출력되는 인앱 메시지입니다."))
-                .build()
-
-            // 푸시 알림을 2번 디바이스로 전송합니다.
-            firebaseMessaging.send(notification)
         }
-
-
         binding.detailButton.setOnClickListener {
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("missingBoardSeq", 181)
@@ -126,22 +103,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    private fun sendFCMMessage() {
-        Log.d("hi","sendmsg")
-        val message = HashMap<String, String>()
-        message["title"] = "인앱메시지 제목"
-        message["content"] = "인앱메시지 내용"
 
-        val targetDeviceToken = "exmGr566QyK-xaWtBhRwwX"
-
-        val data = HashMap<String, String>()
-        data["message"] = message.toString()
-
-        FirebaseMessaging.getInstance().send(
-            RemoteMessage.Builder(targetDeviceToken)
-                .setData(data)
-                .build()
-        )
-    }
 
 }
