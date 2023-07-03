@@ -14,8 +14,6 @@
         android:src="@drawable/alarm"
         android:scaleType="fitXY"
         android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:src="@drawable/alarm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.045"
@@ -40,10 +38,8 @@
         android:layout_marginTop="31dp"
         android:layout_marginBottom="56dp"
         android:text="글 작성"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.876"
-        app:layout_constraintTop_toBottomOf="@+id/chat_button" />
+        app:layout_constraintBottom_toTopOf="@+id/footer" />
 
     <include layout="@layout/footer" android:id="@+id/footer"/>
 
