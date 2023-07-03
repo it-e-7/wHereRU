@@ -12,11 +12,11 @@
 		<result column="user_pw" property="userPw" />
 	</resultMap>
 
-	<select id="getTokenList" parameterType="int"
+	<!-- <select id="getTokenList" parameterType="int"
 		resultType="String">
 		SELECT user_token
 		  FROM tb_user
 		 WHERE user_seq != #{userSeq}
-	</select>
+	</select> -->
 
 </mapper>

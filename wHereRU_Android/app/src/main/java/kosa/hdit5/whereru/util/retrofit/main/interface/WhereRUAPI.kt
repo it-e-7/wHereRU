@@ -2,6 +2,7 @@ package kosa.hdit5.whereru.util.retrofit.main.`interface`
 
 import kosa.hdit5.whereru.ChatListVO
 import kosa.hdit5.whereru.ChatVO
+import kosa.hdit5.whereru.util.retrofit.main.vo.DetailMissingBoardVo
 import kosa.hdit5.whereru.util.retrofit.main.vo.MissingBoardVo
 import kosa.hdit5.whereru.util.retrofit.main.vo.UserVO
 import kosa.hdit5.whereru.util.retrofit.main.vo.writeMissingBoardVo
@@ -36,5 +37,9 @@ interface WhereRUAPI {
     fun checkUserIdExist(@Query("userId") userId: String): Call<Boolean>*/
 
     @POST("whereru/main/detail")
-    fun getMissingBoardDetail(@Body params: Int): Call<MissingBoardVo>
+    fun getMissingBoardDetail(@Body params: Int): Call<DetailMissingBoardVo>
+
+    @POST("whereru/main/deletemissingboard")
+    fun deleteMissingBoard(@Body params: Int): Call<DetailMissingBoardVo>
+
 }

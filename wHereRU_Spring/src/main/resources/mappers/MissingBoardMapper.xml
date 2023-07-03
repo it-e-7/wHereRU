@@ -6,7 +6,7 @@
 <mapper
 	namespace="kosa.hdit5spring.whereru.main.mapper.MissingBoardMapper">
 
-	<resultMap type="MissingBoard" id="MissingBoardResult">
+	<resultMap type="DetailMissingBoard" id="DetailMissingBoardResult">
 		<result column="missing_seq" property="missingSeq" />
 		<result column="missing_name" property="missingName" />
 		<result column="missing_age" property="missingAge" />
@@ -16,6 +16,22 @@
 		<result column="missing_point" property="missingPoint" />
 		<result column="user_seq" property="userSeq" />
 		<result column="missing_img_urls" property="missingImgUrls" />
+		
+	</resultMap>
+		
+	<resultMap type="MissingBoard" id="MissingBoardResult">
+		<result column="missing_seq" property="missingSeq" />
+		<result column="missing_name" property="missingName" />
+		<result column="missing_age" property="missingAge" />
+		<result column="missing_sex" property="missingSex" />
+		<result column="missing_outfit" property="missingOutfit" />
+		<result column="missing_time" property="missingTime" />
+		<result column="missing_point" property="missingPoint" />
+		<result column="user_seq" property="userSeq" />
+	    <result property="imgUrl1" column="imgUrl1"/>
+	    <result property="imgUrl2" column="imgUrl2"/>
+	    <result property="imgUrl3" column="imgUrl3"/>
+	    <result property="isOwner" column="isOwner"/>
 		
 	</resultMap>
 
@@ -29,7 +45,7 @@
 	
 	<!-- 상세페이지 -->
 	<select id="selectMissingBoardDetail" parameterType="int"
-		resultType="MissingBoard">
+		resultMap="DetailMissingBoardResult">
 		SELECT M.*,
       LISTAGG(I.img_url, ',') WITHIN GROUP (ORDER BY I.img_url) AS missing_img_urls
       FROM MissingBoard M
@@ -47,7 +63,7 @@
 	</delete>
 
 	<!-- 수정 -->
-	<update id="updateMissingBoard" parameterType="MissingBoard">
+	<update id="updateMissingBoard" parameterType="DetailMissingBoard">
 		UPDATE MissingBoard 
 		   SET missing_name = #{missingName},
 			   missing_age = #{missingAge},
@@ -58,7 +74,7 @@
 		 WHERE missing_seq = #{missingSeq}
 	</update>
 		 
-	<select id="getTotalList" resultType="MissingBoard">
+	<select id="getTotalList" resultMap = "MissingBoardResult">
 		SELECT
 		  mb.missing_seq,
 		  mb.missing_name,
