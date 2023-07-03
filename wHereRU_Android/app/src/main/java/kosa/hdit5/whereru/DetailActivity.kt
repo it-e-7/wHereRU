@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kosa.hdit5.whereru.databinding.ActivityDetailBinding
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
-import kosa.hdit5.whereru.util.retrofit.main.vo.MissingBoardVo
+import kosa.hdit5.whereru.util.retrofit.main.vo.DetailMissingBoardVo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,11 +26,10 @@ class DetailActivity : AppCompatActivity() {
 
         // 프래그먼트 인스턴스 생성
         val fragment = DetailViewPager()
-
-        // 프래그먼트를 프래그먼트 컨테이너에 추가
+        fragment.arguments = intent.extras
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-           .commit()
+            .add(R.id.fragment_container, fragment)
+            .commit()
 
 
         val missingBoardSeq = intent.getIntExtra("missingBoardSeq", -1)
@@ -45,10 +44,10 @@ class DetailActivity : AppCompatActivity() {
             val call = detailPageService.getMissingBoardDetail(missingBoardSeq)
 
             Log.d("log.call", "$call")
-            call.enqueue(object : Callback<MissingBoardVo> {
+            call.enqueue(object : Callback<DetailMissingBoardVo> {
                 override fun onResponse(
-                    call: Call<MissingBoardVo>,
-                    response: Response<MissingBoardVo>
+                    call: Call<DetailMissingBoardVo>,
+                    response: Response<DetailMissingBoardVo>
                 ) {
                     Log.d("DetailActivityCustom", response.toString())
                     if (response.isSuccessful && response.body() != null) {
@@ -72,9 +71,10 @@ class DetailActivity : AppCompatActivity() {
                             binding.fabDelete.visibility = View.GONE
                         }
                     }
+
                 }
 
-                override fun onFailure(call: Call<MissingBoardVo>, t: Throwable) {
+                override fun onFailure(call: Call<DetailMissingBoardVo>, t: Throwable) {
                     // Handle failure here
                     Log.d("DetailActivityCustom", t.message.toString())
                     Log.e("DetailPageActivity", "Failed to retrieve missing board detail", t)

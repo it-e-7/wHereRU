@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kosa.hdit5spring.whereru.main.service.MissingBoardService;
+import kosa.hdit5spring.whereru.main.vo.DetailMissingBoardVo;
 import kosa.hdit5spring.whereru.main.vo.MissingBoardVo;
 import kosa.hdit5spring.whereru.notice.service.NoticeService;
 import kosa.hdit5spring.whereru.user.vo.UserVO;
@@ -47,10 +48,10 @@ public class MainController {
 	}
 
 	@PostMapping("detail")
-	public MissingBoardVo getMissingBoardDetail(@RequestBody int missingBoardSeq, @SessionAttribute UserVO currUser) {
+	public DetailMissingBoardVo getMissingBoardDetail(@RequestBody int missingBoardSeq, @SessionAttribute UserVO currUser) {
 
 	    System.out.println("MissingBoardSeq: " + missingBoardSeq);  
-		MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
+		DetailMissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
 		System.out.println("MissingBoardService" + detail);
  
 		return detail;
@@ -67,11 +68,11 @@ public class MainController {
 	}
 
 	@PostMapping("updatemissingboard")
-   public ResponseEntity<MissingBoardVo> updateMissingBoardDetail(@RequestBody MissingBoardVo missingBoardVo, @SessionAttribute UserVO currUser) {
+   public ResponseEntity<DetailMissingBoardVo> updateMissingBoardDetail(@RequestBody MissingBoardVo missingBoardVo, @SessionAttribute UserVO currUser) {
 
 		missingBoardService.updateMissingBoard(missingBoardVo);
 		
-	    MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardVo.getMissingSeq(), currUser.getUserSeq());
+	    DetailMissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardVo.getMissingSeq(), currUser.getUserSeq());
 
 		return ResponseEntity.ok(detail);
 	}

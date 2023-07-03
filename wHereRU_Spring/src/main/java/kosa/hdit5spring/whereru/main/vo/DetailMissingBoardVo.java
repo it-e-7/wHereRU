@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MissingBoardVo {
+public class DetailMissingBoardVo {
 
 	private int missingSeq;
 	private String missingName;
@@ -20,7 +20,6 @@ public class MissingBoardVo {
 	
 	private boolean isOwner;
 
-	private String imgUrl1;
-	private String imgUrl2;
-	private String imgUrl3;
+	private String missingImgUrls;
+
 }

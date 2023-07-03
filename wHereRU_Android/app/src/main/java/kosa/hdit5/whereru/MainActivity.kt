@@ -84,8 +84,8 @@ class MainActivity : AppCompatActivity() {
 
         }
         binding.detailButton.setOnClickListener {
-            val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("missingBoardSeq", 181)
+            var intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("missingBoardSeq", 188)
             startActivity(intent)
         }
 
