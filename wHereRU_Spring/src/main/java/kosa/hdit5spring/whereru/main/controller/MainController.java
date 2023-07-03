@@ -58,9 +58,8 @@ public class MainController {
 	}
 	
 	@PostMapping("deletemissingboard")
-	public ResponseEntity deleteMissingBoardDetail(@RequestBody Map<String, Object> map, @SessionAttribute UserVO currUser) {
+	public ResponseEntity deleteMissingBoardDetail(@RequestBody int missingBoardSeq, @SessionAttribute UserVO currUser) {
 
-		int missingBoardSeq = Integer.parseInt(map.get("missingBoardSeq").toString());
 		missingBoardService.deleteMissingBoard(missingBoardSeq, currUser.getUserSeq());
 
 		System.out.println("delete: " + missingBoardSeq);

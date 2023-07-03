@@ -38,4 +38,8 @@ interface WhereRUAPI {
 
     @POST("whereru/main/detail")
     fun getMissingBoardDetail(@Body params: Int): Call<DetailMissingBoardVo>
+
+    @POST("whereru/main/deletemissingboard")
+    fun deleteMissingBoard(@Body params: Int): Call<DetailMissingBoardVo>
+
 }

@@ -85,6 +85,10 @@ class DetailActivity : AppCompatActivity() {
         binding.fab.setOnClickListener {
             toggleFab()
         }
+
+        binding.fabDelete.setOnClickListener {
+            deleteMissingBoard()
+        }
     }
 
     private fun toggleFab() {
@@ -94,20 +98,24 @@ class DetailActivity : AppCompatActivity() {
             if (isAuthor) {
                 // 글 작성자
                 ObjectAnimator.ofFloat(binding.fabDelete, "translationY", 0f).apply { start() }
-                ObjectAnimator.ofFloat(binding.fabChat, "translationY", -fabHeight - 24).apply { start() }
+                ObjectAnimator.ofFloat(binding.fabChat, "translationY", -fabHeight - 24)
+                    .apply { start() }
             } else {
                 // 일반사람
                 ObjectAnimator.ofFloat(binding.fabChat, "translationY", 0f).apply { start() }
-                ObjectAnimator.ofFloat(binding.fabDelete, "translationY", -fabHeight - 24).apply { start() }
+                ObjectAnimator.ofFloat(binding.fabDelete, "translationY", -fabHeight - 24)
+                    .apply { start() }
             }
         } else {
             if (isAuthor) {
                 // 글 작성자
-                ObjectAnimator.ofFloat(binding.fabDelete, "translationY", -fabHeight - 24).apply { start() }
+                ObjectAnimator.ofFloat(binding.fabDelete, "translationY", -fabHeight - 24)
+                    .apply { start() }
                 ObjectAnimator.ofFloat(binding.fabChat, "translationY", 0f).apply { start() }
             } else {
                 // 일반사람
-                ObjectAnimator.ofFloat(binding.fabChat, "translationY", -fabHeight - 24).apply { start() }
+                ObjectAnimator.ofFloat(binding.fabChat, "translationY", -fabHeight - 24)
+                    .apply { start() }
                 ObjectAnimator.ofFloat(binding.fabDelete, "translationY", 0f).apply { start() }
             }
         }
@@ -115,4 +123,32 @@ class DetailActivity : AppCompatActivity() {
         ifFabOpen = !ifFabOpen
     }
 
+
+    private fun deleteMissingBoard() {
+        val missingBoardSeq = intent.getIntExtra("missingBoardSeq", -1)
+
+        if (missingBoardSeq != -1) {
+            val deleteService: WhereRUAPI = RetrofitBuilder.api
+            val call = deleteService.deleteMissingBoard(missingBoardSeq)
+
+            call.enqueue(object : Callback<DetailMissingBoardVo> {
+                override fun onResponse(call: Call<DetailMissingBoardVo>, response: Response<DetailMissingBoardVo>) {
+                    if (response.isSuccessful) {
+                        // 삭제 성공
+                        Log.d("DetailActivity", "삭제 성공")
+                        finish()
+                    } else {
+                        // 삭제 실패
+                        Log.d("DetailActivity", "Failed to delete missing board")
+                    }
+                }
+
+                override fun onFailure(call: Call<DetailMissingBoardVo>, t: Throwable) {
+
+                    Log.d("DetailActivityCustom", t.message.toString())
+                    Log.e("DetailActivityCustom", "Failed to delete missing board", t)
+                }
+            })
+        }
+    }
 }
