@@ -93,24 +93,26 @@ class DetailActivity : AppCompatActivity() {
         if (ifFabOpen) {
             if (isAuthor) {
                 // 글 작성자
-                ObjectAnimator.ofFloat(binding.fabDelete, "translationY", -fabHeight - 24)
-                    .apply { start() }
-            } else {
-                // 일반사람
-                ObjectAnimator.ofFloat(binding.fabChat, "translationY", -fabHeight - 24)
-                    .apply { start() }
-            }
-
-        } else {
-            if (isAuthor) {
-                // 글 작성자
                 ObjectAnimator.ofFloat(binding.fabDelete, "translationY", 0f).apply { start() }
+                ObjectAnimator.ofFloat(binding.fabChat, "translationY", -fabHeight - 24).apply { start() }
             } else {
                 // 일반사람
                 ObjectAnimator.ofFloat(binding.fabChat, "translationY", 0f).apply { start() }
+                ObjectAnimator.ofFloat(binding.fabDelete, "translationY", -fabHeight - 24).apply { start() }
+            }
+        } else {
+            if (isAuthor) {
+                // 글 작성자
+                ObjectAnimator.ofFloat(binding.fabDelete, "translationY", -fabHeight - 24).apply { start() }
+                ObjectAnimator.ofFloat(binding.fabChat, "translationY", 0f).apply { start() }
+            } else {
+                // 일반사람
+                ObjectAnimator.ofFloat(binding.fabChat, "translationY", -fabHeight - 24).apply { start() }
+                ObjectAnimator.ofFloat(binding.fabDelete, "translationY", 0f).apply { start() }
             }
         }
 
         ifFabOpen = !ifFabOpen
     }
+
 }
