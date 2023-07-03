@@ -15,4 +15,6 @@ public interface ChatMapper {
 	public List<ChatVO> selectAllChat(int roomSeq);
 	public List<ChatListVO> selectAllChatRoom(String userId);
 	public void updateChatChecked(@Param("roomSeq") int roomSeq, @Param("userId") String userId);
+	public void updateChatCheckedByReceiverSeq(@Param("receiverSeq") int receiverSeq, @Param("userId") String userId);
+	public List<ChatVO> selectAllChatByReceiverSeq(@Param("receiverSeq") int receiverSeq, @Param("userId") String userId);
 }

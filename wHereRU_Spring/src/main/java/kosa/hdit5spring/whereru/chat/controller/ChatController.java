@@ -25,6 +25,11 @@ public class ChatController {
 		return service.getChatList(roomSeq, currUser.getUserId());
 	}
 	
+	@GetMapping("/chat/user")
+	public List<ChatVO> getChatByReceiverController(@RequestParam("receiverSeq") int receiverSeq,@SessionAttribute UserVO currUser) {
+		return service.getChatRoomListByReceiverSeq(receiverSeq, currUser.getUserId());
+	}
+	
 	@GetMapping("/chat/list")
 	public List<ChatListVO> getChatListController(@SessionAttribute UserVO currUser) {
 		List<ChatListVO> result = service.getChatRoomListByUserId(currUser.getUserId());

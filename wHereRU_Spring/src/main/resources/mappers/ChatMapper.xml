@@ -15,6 +15,12 @@
 			WHERE ROOM_SEQ = #{roomSeq} AND CHAT_RECEIVER = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId})
 			
 	</update>
+	
+	<update id="updateChatCheckedByReceiverSeq" parameterType="map">
+		UPDATE CHATLIST
+			SET CHAT_CHECKED = 'true'
+			WHERE CHAT_RECEIVER = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId}) AND CHAT_SENDER = #{receiverSeq}
+	</update>
 
 	<select id="selectAllChat" parameterType="int" resultType="ChatVO">
 		SELECT c.chat_seq, sender.sender_id as chat_sender, receiver.receiver_id as chat_receiver, c.chat_type, c.chat_content, c.chat_date, c.chat_checked
@@ -28,6 +34,30 @@
 		FROM (SELECT *
 		    FROM CHATLIST
 		    WHERE ROOM_SEQ = #{roomSeq}) c, TB_USER u
+		WHERE c.chat_receiver = u.user_seq) receiver,
+		CHATLIST c
+		WHERE c.chat_seq = sender.chat_seq AND sender.chat_seq = receiver.chat_seq
+		ORDER BY c.chat_seq
+	</select>
+	
+	<select id="selectAllChatByReceiverSeq" parameterType="map" resultType="ChatVO">
+		SELECT c.chat_seq, sender.sender_id as chat_sender, receiver.receiver_id as chat_receiver, c.chat_type, c.chat_content, c.chat_date, c.chat_checked
+		FROM
+		(SELECT c.chat_seq, u.user_id as sender_id
+		FROM (SELECT *
+    		FROM CHATLIST
+    		WHERE ROOM_SEQ = (SELECT ROOM_SEQ
+FROM TB_CHATTING
+WHERE (USER_SEQ1 = #{receiverSeq} AND USER_SEQ2 = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId})) 
+    OR (USER_SEQ1 = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId}) AND USER_SEQ2 = #{receiverSeq}))) c, TB_USER u
+		WHERE c.chat_sender = u.user_seq) sender,
+		(SELECT c.chat_seq, u.user_id as receiver_id
+		FROM (SELECT *
+		    FROM CHATLIST
+		    WHERE ROOM_SEQ = (SELECT ROOM_SEQ
+FROM TB_CHATTING
+WHERE (USER_SEQ1 = #{receiverSeq} AND USER_SEQ2 = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId})) 
+    OR (USER_SEQ1 = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId}) AND USER_SEQ2 = #{receiverSeq}))) c, TB_USER u
 		WHERE c.chat_receiver = u.user_seq) receiver,
 		CHATLIST c
 		WHERE c.chat_seq = sender.chat_seq AND sender.chat_seq = receiver.chat_seq

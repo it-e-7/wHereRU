@@ -221,7 +221,7 @@ class ChatActivity : AppCompatActivity() {
 
         roomSeq = intent.getIntExtra("roomSeq", -1)
         if(roomSeq == -1) {
-
+            getChatListByUserSeq(intent.getIntExtra("receiverSeq", -1))
         } else {
             getChatList()
         }
@@ -230,6 +230,8 @@ class ChatActivity : AppCompatActivity() {
         binding.senderName.text = intent.getStringExtra("senderName")
 
     }
+
+
 
 
     fun createChatJSON(text: String): String {
@@ -258,6 +260,45 @@ class ChatActivity : AppCompatActivity() {
 
     fun getChatList() {
         val call = apiService.getChatList(roomSeq)
+        call.enqueue(object : Callback<List<ChatVO>> {
+            override fun onResponse(
+
+                call: Call<List<ChatVO>>,
+                response: retrofit2.Response<List<ChatVO>>
+            ) {
+                if (response.isSuccessful) {
+                    var chatList = response.body()
+                    if (chatList != null) {
+                        var newData = mutableListOf<ChatVO>()
+
+                        for (chat in chatList) {
+                            if (GlobalState.userId == chat.chatSender) {
+                                chat.viewType = ViewType.RIGHT_CHAT
+                            } else {
+                                chat.viewType = ViewType.LEFT_CHAT
+                            }
+                            newData.add(chat)
+                        }
+                        Log.d("ChatActivity", "채팅 리스트 : $chatList")
+                        chatAdapter.setItem(newData)
+                        binding.chatBox.smoothScrollToPosition(chatAdapter.itemCount)
+                    }
+                } else {
+                    // 서버로부터 응답을 받지 못한 경우 처리
+                    Log.d("ChatActivity", "채팅 리스트 받아오기 실패")
+                }
+
+            }
+
+            override fun onFailure(call: Call<List<ChatVO>>, t: Throwable) {
+                // 요청 자체가 실패한 경우 처리
+                Log.d("ChatActivity", "채팅 리스트 ERROR")
+            }
+        })
+    }
+
+    private fun getChatListByUserSeq(receiverSeq: Int) {
+        val call = apiService.getChatListByReceiverSeq(receiverSeq)
         call.enqueue(object : Callback<List<ChatVO>> {
             override fun onResponse(
 

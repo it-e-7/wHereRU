@@ -10,4 +10,5 @@ public interface ChatService {
 	public int addChat(ChatVO chatVO);
 	public List<ChatVO> getChatList(int roomSeq, String userId);
 	public List<ChatListVO> getChatRoomListByUserId(String userId);
+	public List<ChatVO> getChatRoomListByReceiverSeq(int receiverSeq, String userId);
 }
