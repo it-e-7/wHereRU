@@ -85,7 +85,21 @@ class MainActivity : AppCompatActivity() {
         }
         binding.detailButton.setOnClickListener {
             val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("missingBoardSeq", 21)
+            intent.putExtra("missingBoardSeq", 181)
+            startActivity(intent)
+        }
+
+        // footer 설정 !!!
+        binding.footer.homeIcon.setOnClickListener {
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.chatIcon.setOnClickListener {
+            var intent = Intent(this, ChatListActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.mypageIcon.setOnClickListener {
+            var intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }

@@ -21,9 +21,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public String getChatList() {
-		mapper.selectAllChat();
-		return "hi this is service";
+	public List<ChatVO> getChatList(int roomSeq) {
+		return mapper.selectAllChat(roomSeq);
 	}
 	
 	@Override

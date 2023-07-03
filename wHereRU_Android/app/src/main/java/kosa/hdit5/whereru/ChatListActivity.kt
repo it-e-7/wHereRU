@@ -20,11 +20,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 data class ChatListVO (
-    val chatSenderId: String,
-    val chatSenderName: String,
-    val chatSenderImgUrl: String,
-    val chatContent: String,
-    val chatDate: String,
+    val roomSeq: Int,
+    val senderId: String,
+    val senderName: String,
+    val senderImg: String,
+    val lastChatType: String,
+    val lastChatContent: String,
+    val lastChatDate: String,
     val chatCount: Int
 )
 class ChatListViewHolder(val binding: ChatListItemBinding): RecyclerView.ViewHolder(binding.root)
@@ -41,22 +43,29 @@ class ChatListAdapter(var data: MutableList<ChatListVO>): RecyclerView.Adapter<R
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         var binding = (holder as ChatListViewHolder).binding
 
-        binding.chatListItemName.text = data[position].chatSenderName
-        binding.chatListItemChat.text = data[position].chatContent
-        binding.chatListItemDate.text = data[position].chatDate
+        binding.chatListItemName.text = data[position].senderName
+        binding.chatListItemChat.text = data[position].lastChatContent
+        binding.chatListItemDate.text = data[position].lastChatDate
         binding.chatListItemCount.text = data[position].chatCount.toString()
 
         holder.itemView.setOnClickListener {
             val chatIntent = Intent(binding.root.context, ChatActivity::class.java)
-            chatIntent.putExtra("sender", data[position].chatSenderId)
+            chatIntent.putExtra("sender", data[position].senderId)
+            chatIntent.putExtra("roomSeq", data[position].roomSeq)
             chatIntent.run { binding.root.context.startActivity(chatIntent) }
         }
+    }
+
+    fun setItem(newData: MutableList<ChatListVO>) {
+        data = newData;
+        notifyDataSetChanged();
     }
 }
 
 class ChatListActivity : AppCompatActivity() {
 
     var chatListData = mutableListOf<ChatListVO>()
+    lateinit var chatListAdapter: ChatListAdapter;
     private var apiService: WhereRUAPI = RetrofitBuilder.api
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,29 +77,43 @@ class ChatListActivity : AppCompatActivity() {
         getChatRoomList()
 
         binding.chatListBox.layoutManager = LinearLayoutManager(this)
-        var chatListAdapter = ChatListAdapter(chatListData)
+        chatListAdapter = ChatListAdapter(chatListData)
         binding.chatListBox.adapter = chatListAdapter
 
-        if(GlobalState.userId == "hong") {
-            var chatListVO = ChatListVO("shin","신사임당","d","아이야","06-28",2)
-            chatListData.add(chatListVO)
-        } else {
-            var chatListVO = ChatListVO("hong","홍길동","d","ㅎㅇ","06-28",1)
-            chatListData.add(chatListVO)
+
+        // footer 설정 !!!
+        binding.footer.homeIcon.setOnClickListener {
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.chatIcon.setOnClickListener {
+            var intent = Intent(this, ChatListActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.mypageIcon.setOnClickListener {
+            var intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 
     fun getChatRoomList() {
         val call = apiService.getChatRoomList()
-        Log.d("getchatlist","일단 여기로 들어옴")
         call.enqueue(object : Callback<List<ChatListVO>> {
             override fun onResponse(
 
                 call: Call<List<ChatListVO>>,
                 response: Response<List<ChatListVO>>
             ) {
-                Log.d("getchatlist","onResponse까지 옴")
-                Log.d("getchatlist","$response")
+                if (response.isSuccessful) {
+                    val chatRoomList = response.body()
+                    if(chatRoomList !=null){
+                        Log.d("getchatlist", chatRoomList.toString())
+                        chatListAdapter.setItem(chatRoomList.toMutableList())
+                    }
+                } else {
+                    // 서버로부터 응답을 받지 못한 경우 처리
+                    Log.d("getchatlist","실패")
+                }
 
             }
 

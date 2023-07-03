@@ -4,16 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
-import com.google.gson.JsonParser;
 
 import kosa.hdit5spring.whereru.main.service.MissingBoardService;
 import kosa.hdit5spring.whereru.main.vo.MissingBoardVo;
@@ -43,8 +39,9 @@ public class MainController {
 		
 		missingBoardService.writeMissingBoard(missingBoardVo);
 		//게시글정상처리되고 나면 알림 전송
-		List<String> tokenList = noticeService.getTokenList(missingBoardVo.getUserSeq());
-		noticeService.requestToFCM(tokenList);
+		//작동 안함 오류
+//		List<String> tokenList = noticeService.getTokenList(missingBoardVo.getUserSeq());
+//		noticeService.requestToFCM(tokenList);
 		
 		return "success";
 	}
@@ -52,11 +49,10 @@ public class MainController {
 	@PostMapping("detail")
 	public MissingBoardVo getMissingBoardDetail(@RequestBody int missingBoardSeq, @SessionAttribute UserVO currUser) {
 
-		System.out.println(missingBoardSeq);
+	    System.out.println("MissingBoardSeq: " + missingBoardSeq);  
 		MissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
-		
 		System.out.println("MissingBoardService" + detail);
-
+ 
 		return detail;
 	}
 	

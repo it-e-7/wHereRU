@@ -12,7 +12,6 @@
 		<result column="user_pw" property="userPw" />
 	</resultMap>
 
-	<!-- 토큰리스트가져오기 -->
 	<select id="getTokenList" parameterType="int"
 		resultType="String">
 		SELECT user_token
@@ -20,4 +19,4 @@
 		 WHERE user_seq != #{userSeq}
 	</select>
 
-</mapper>  
+</mapper>

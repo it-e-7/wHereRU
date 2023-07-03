@@ -1,16 +1,15 @@
 package kosa.hdit5.whereru.util.retrofit.main.`interface`
 
 import kosa.hdit5.whereru.ChatListVO
+import kosa.hdit5.whereru.ChatVO
 import kosa.hdit5.whereru.util.retrofit.main.vo.MissingBoardVo
 import kosa.hdit5.whereru.util.retrofit.main.vo.UserVO
 import kosa.hdit5.whereru.util.retrofit.main.vo.writeMissingBoardVo
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Query
 
 interface WhereRUAPI {
 
@@ -28,6 +27,9 @@ interface WhereRUAPI {
 
     @GET("whereru/chat/list")
     fun getChatRoomList(): Call<List<ChatListVO>>
+
+    @GET("whereru/chat")
+    fun getChatList(@Query("roomSeq") roomSeq: Int): Call<List<ChatVO>>
 
     /*@GET("whreru/user/checkuseridExist")
     fun checkUserIdExist(@Query("userId") userId: String): Call<Boolean>*/
