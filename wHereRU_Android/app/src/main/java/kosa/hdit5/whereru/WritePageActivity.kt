@@ -4,11 +4,14 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.ScrollView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.NestedScrollView
 import com.google.firebase.storage.FirebaseStorage
 import kosa.hdit5.whereru.databinding.ActivityWritePageBinding
 import kosa.hdit5.whereru.util.GlobalState
@@ -74,6 +77,28 @@ class WritePageActivity : AppCompatActivity() {
 
         binding.leftArrow.setOnClickListener {
             this.finish()
+        }
+
+        val scrollView = findViewById<NestedScrollView>(R.id.write_page_scrollview) // 스크롤 뷰의 ID에 맞게 수정
+
+        scrollView.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            val contentView = scrollView.getChildAt(0)
+            contentView.getWindowVisibleDisplayFrame(rect)
+
+            val screenHeight = contentView.rootView.height
+            val keyboardHeight = screenHeight - rect.bottom
+
+            if (keyboardHeight > screenHeight * 0.15) { // 키보드가 일정 비율 이상 올라왔을 때
+                scrollView.post {
+                    //scrollView.scrollTo(0, 0) // 스크롤을 맨 위로 이동
+
+                }
+            } //else {
+//                scrollView.post {
+//                    scrollView.scrollTo(0, scrollView.bottom) // 스크롤을 맨 아래로 이동
+//                }
+//            }
         }
 
         fun showDateTimePicker(){
