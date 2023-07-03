@@ -28,7 +28,7 @@ interface WhereRUAPI {
 
     @GET("whereru/chat/list")
     fun getChatRoomList(): Call<List<ChatListVO>>
-}
+
     /*@GET("whreru/user/checkuseridExist")
     fun checkUserIdExist(@Query("userId") userId: String): Call<Boolean>*/
 
