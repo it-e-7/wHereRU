@@ -31,6 +31,7 @@
 		WHERE c.chat_receiver = u.user_seq) receiver,
 		CHATLIST c
 		WHERE c.chat_seq = sender.chat_seq AND sender.chat_seq = receiver.chat_seq
+		ORDER BY c.chat_seq
 	</select>
 	
 	<select id="selectAllChatRoom" parameterType="String" resultType="ChatListVO">

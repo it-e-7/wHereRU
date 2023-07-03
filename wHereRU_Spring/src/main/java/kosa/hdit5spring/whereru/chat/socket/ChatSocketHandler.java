@@ -80,7 +80,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 				
 				if(receiverSession != null) {
 					receiverSession.sendMessage(message);
-					noticeService.sendingToOne(chat.getChatReceiver());
+					//noticeService.sendingToOne(chat.getChatReceiver());
 					
 				}
 				
