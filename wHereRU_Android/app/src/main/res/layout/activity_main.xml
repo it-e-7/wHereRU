@@ -24,22 +24,28 @@
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="409dp"
+        android:layout_height="500dp"
         android:layout_marginTop="112dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/write_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/CircularExtendedFloatingActionButton"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
         android:layout_marginTop="31dp"
-        android:layout_marginBottom="56dp"
-        android:text="글 작성"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:src="@drawable/plus"
+        android:tint="@color/white"
+        app:backgroundTint="@color/green"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toTopOf="@id/footer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/footer" />
+ />
 
     <include layout="@layout/footer" android:id="@+id/footer"/>
 
