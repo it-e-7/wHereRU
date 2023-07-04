@@ -245,7 +245,7 @@ class ChatActivity : AppCompatActivity() {
                 "\"chatReceiver\":\"" + receiverId + "\"," +
                 "\"chatType\":\"text\"," +
                 "\"chatContent\":\"" + text + "\"," +
-                "\"chatDate\":\"" + date + "\"" +
+                "\"chatDate\":\"" + date + "\"," +
                 "\"missingSeq\":" + missingSeq +
                 "}"
     }

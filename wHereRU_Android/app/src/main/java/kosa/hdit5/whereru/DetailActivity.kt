@@ -112,8 +112,11 @@ class DetailActivity : AppCompatActivity() {
                     if (response.isSuccessful && response.body() != null) {
                         val detail = response.body()!!
 
+                        chatIntent.putExtra("missingSeq", detail.missingSeq)
+                        chatIntent.putExtra("receiverSeq", detail.userSeq)
                         chatIntent.putExtra("sender", detail.userId)
                         chatIntent.putExtra("senderName", detail.userName)
+                        startActivity(chatIntent)
                     }
                 }
 
@@ -122,7 +125,6 @@ class DetailActivity : AppCompatActivity() {
                 }
             })
 
-            startActivity(chatIntent)
         }
 
 
