@@ -13,7 +13,6 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -21,6 +20,7 @@ import kosa.hdit5spring.whereru.chat.service.ChatService;
 import kosa.hdit5spring.whereru.chat.vo.ChatVO;
 import kosa.hdit5spring.whereru.chat.vo.SocketSessionVO;
 import kosa.hdit5spring.whereru.notice.service.NoticeService;
+import kosa.hdit5spring.whereru.notice.service.SetNoticeService;
 
 public class ChatSocketHandler extends TextWebSocketHandler {
 	
@@ -32,6 +32,8 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	ChatService service;
 	@Autowired
 	NoticeService noticeService;
+	@Autowired
+	SetNoticeService setNoticeService;
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -45,8 +47,6 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		
-		System.out.println(message.getPayload().toString());
 		
 		try {
 			JsonObject parsedChat = JsonParser.parseString(message.getPayload().toString()).getAsJsonObject();
@@ -82,8 +82,8 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 				
 				if(receiverSession != null) {
 					receiverSession.sendMessage(message);
-					//noticeService.sendingToOne(chat.getChatReceiver());
-					
+					noticeService.sendingToOne(chat.getChatReceiver());
+					setNoticeService.setNoticeByChat(chat);
 				}
 				
 			}

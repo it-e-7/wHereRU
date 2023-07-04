@@ -19,11 +19,12 @@ import com.google.firebase.messaging.RemoteMessage
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
+import kosa.hdit5.whereru.util.GlobalState
 
 
 class MainActivity : AppCompatActivity() {
 
-
+    lateinit var token:String
     lateinit var binding:ActivityMainBinding
 
     private val channelId = "default_channel_id"
@@ -52,13 +53,13 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        val gradientDrawable = ContextCompat.getDrawable(this, R.drawable.gradient_background)
+        window.decorView.background = gradientDrawable
         // FCM을 위해 토큰 가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val token = task.result
-                Log.d("토큰", token ?: "Token is null")
-
+                token = task.result
+                Log.d("토큰-메인", "$token")
             } else {
                 val exception = task.exception
                 Log.e("Error", "Fetching FCM registration token failed: ${exception?.message}")
@@ -76,9 +77,16 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         binding.writeButton.setOnClickListener {
-            val intent = Intent(this, WritePageActivity::class.java)
+            val loginCheck = GlobalState.isLogin
+            if(loginCheck==true){
+                val intent = Intent(this, WritePageActivity::class.java)
 
-            resultLauncher.launch(intent)
+                resultLauncher.launch(intent)
+            }else{
+                val intent = Intent(this,LoginActivity::class.java)
+                startActivity(intent)
+            }
+
         }
 
         // footer 설정 !!!
@@ -91,8 +99,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.footer.mypageIcon.setOnClickListener {
-            var intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            val loginCheck = GlobalState.isLogin
+            if(loginCheck==true){
+                //적당한 페이지 이동(마이페이지)
+                val intent = Intent(this, MyPageActivity::class.java)
+
+                resultLauncher.launch(intent)
+            }else{
+                val intent = Intent(this,LoginActivity::class.java)
+                intent.putExtra("token",token)
+                startActivity(intent)
+            }
         }
     }
 

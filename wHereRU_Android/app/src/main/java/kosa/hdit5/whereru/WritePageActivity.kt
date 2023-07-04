@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
@@ -21,7 +22,9 @@ import kosa.hdit5.whereru.util.retrofit.main.vo.writeMissingBoardVo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class WritePageActivity : AppCompatActivity() {
 
@@ -31,11 +34,12 @@ class WritePageActivity : AppCompatActivity() {
 
     var storage = fbStorage.reference.child("images")
 
+    var noImage = false
 
     var imageButton1Bitmap: Uri? = null
     var imageButton2Bitmap: Uri? = null
     var imageButton3Bitmap: Uri? = null
-    var combinedDateTime: String =""
+    var formattedDateTime: String =""
     // 사진 추가 -> 갤러리 연동
     var imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -49,6 +53,7 @@ class WritePageActivity : AppCompatActivity() {
                             imageButton1Bitmap = imageUri
                             Log.d("hong","imagButton1: ${imageButton1Bitmap}")
                             binding.imgButton1.setImageURI(imageButton1Bitmap)
+                            noImage = true
 
                         }
 
@@ -89,16 +94,11 @@ class WritePageActivity : AppCompatActivity() {
             val screenHeight = contentView.rootView.height
             val keyboardHeight = screenHeight - rect.bottom
 
-            if (keyboardHeight > screenHeight * 0.15) { // 키보드가 일정 비율 이상 올라왔을 때
+            if (keyboardHeight > screenHeight * 0.15) {
                 scrollView.post {
-                    //scrollView.scrollTo(0, 0) // 스크롤을 맨 위로 이동
-
                 }
-            } //else {
-//                scrollView.post {
-//                    scrollView.scrollTo(0, scrollView.bottom) // 스크롤을 맨 아래로 이동
-//                }
-//            }
+            }
+
         }
 
         fun showDateTimePicker(){
@@ -115,8 +115,12 @@ class WritePageActivity : AppCompatActivity() {
                     // 선택된 날짜와 시간을 처리하는 로직을 추가합니다.
                     val selectedDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
                     val selectedTime = "$selectedHour:$selectedMinute"
-                    combinedDateTime = "$selectedDate $selectedTime"
-                    Log.d("Combined DateTime", combinedDateTime)
+                    val combinedDateTime = "$selectedDate $selectedTime"
+
+                    val desiredFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                    val date = desiredFormat.parse(combinedDateTime)
+                    formattedDateTime = desiredFormat.format(date)
+                    Log.d("Combined DateTime", formattedDateTime)
                 }, hour, minute, true)
 
                 timePickerDialog.show()
@@ -149,73 +153,94 @@ class WritePageActivity : AppCompatActivity() {
 
         binding.finishWriteButton.setOnClickListener {
             Log.d("hong","버튼버튼버튼ㅐ")
-            var imgFileName1 = (GlobalState.userSeq.toString())+".1.png"
-            var imgFileName2 = (GlobalState.userSeq.toString())+".2.png"
-            var imgFileName3 = (GlobalState.userSeq.toString())+".3.png"
-            var storage1 = storage.child(imgFileName1)
-            var storage2 = storage.child(imgFileName2)
-            var storage3 = storage.child(imgFileName3)
+            if(noImage==true){
 
-            Log.d("hong","$storage1")
-            Log.d("hong","스토리지 다음에 : $imageButton1Bitmap")
-            if (storage1 != null && imageButton1Bitmap != null) {
-                Log.d("hong","제발")
-                storage1.putFile(imageButton1Bitmap!!).addOnSuccessListener { uploadTask ->
-                    Log.d("hong", "upload 성공")
-                    uploadTask.storage.downloadUrl
-                        .addOnSuccessListener {
-                            imgUrl1=it.toString()
 
-                            Log.d("hong", "$it")
-                            checkUploadComplete()
-                        }
-                        .addOnFailureListener {
-                            Log.d("hong","it")
-                            // Handle failure
-                        }
+                var imgFileName1 = (GlobalState.userSeq.toString())+".1.png"
+                var imgFileName2 = (GlobalState.userSeq.toString())+".2.png"
+                var imgFileName3 = (GlobalState.userSeq.toString())+".3.png"
+                var storage1 = storage.child(imgFileName1)
+                var storage2 = storage.child(imgFileName2)
+                var storage3 = storage.child(imgFileName3)
 
+
+                if (storage1 != null && imageButton1Bitmap != null) {
+                    storage1.putFile(imageButton1Bitmap!!).addOnSuccessListener { uploadTask ->
+                        uploadTask.storage.downloadUrl
+                            .addOnSuccessListener {
+                                imgUrl1=it.toString()
+                                checkUploadComplete()
+                            }
+                            .addOnFailureListener {
+                                // Handle failure
+                            }
+
+                    }
+                }else{
+                    checkUploadComplete()
                 }
+
+                if (storage2 != null && imageButton2Bitmap != null) {
+                    storage2.putFile(imageButton2Bitmap!!).addOnSuccessListener { uploadTask ->
+                        Log.d("hong", "upload 성공")
+                        uploadTask.storage.downloadUrl
+                            .addOnSuccessListener {
+                                imgUrl2=it.toString()
+                                Log.d("hong", "$it")
+                                checkUploadComplete()
+                            }
+                            .addOnFailureListener {
+                                // Handle failure
+                            }
+
+                    }
+                }else{
+                    checkUploadComplete()
+                }
+
+                if (storage3 != null && imageButton3Bitmap != null) {
+                    storage3.putFile(imageButton3Bitmap!!).addOnSuccessListener { uploadTask ->
+                        Log.d("hong", "upload 성공")
+                        uploadTask.storage.downloadUrl
+                            .addOnSuccessListener {
+                                imgUrl3=it.toString()
+                                Log.d("hong", "$it")
+                                checkUploadComplete()
+                            }
+                            .addOnFailureListener {
+                                // Handle failure
+                            }
+
+                    }
+                }else{
+                    checkUploadComplete()
+                }
+
             }else{
-                checkUploadComplete()
+                Toast.makeText(applicationContext, "이미지를 등록해 주세요", Toast.LENGTH_SHORT).show()
             }
 
-            if (storage2 != null && imageButton2Bitmap != null) {
-                storage2.putFile(imageButton2Bitmap!!).addOnSuccessListener { uploadTask ->
-                    Log.d("hong", "upload 성공")
-                    uploadTask.storage.downloadUrl
-                        .addOnSuccessListener {
-                            imgUrl2=it.toString()
-                            Log.d("hong", "$it")
-                            checkUploadComplete()
-                        }
-                        .addOnFailureListener {
-                            // Handle failure
-                        }
+        }
 
-                }
+        binding.footer.homeIcon.setOnClickListener {
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.chatIcon.setOnClickListener {
+            var intent = Intent(this, ChatListActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.mypageIcon.setOnClickListener {
+            val loginCheck = GlobalState.isLogin
+            if(loginCheck==true){
+                //적당한 페이지 이동(마이페이지)
+                val intent = Intent(this, WritePageActivity::class.java)
+
+                startActivity(intent)
             }else{
-                checkUploadComplete()
+                val intent = Intent(this,LoginActivity::class.java)
+                startActivity(intent)
             }
-
-            if (storage3 != null && imageButton3Bitmap != null) {
-                storage3.putFile(imageButton3Bitmap!!).addOnSuccessListener { uploadTask ->
-                    Log.d("hong", "upload 성공")
-                    uploadTask.storage.downloadUrl
-                        .addOnSuccessListener {
-                            imgUrl3=it.toString()
-                            Log.d("hong", "$it")
-                            checkUploadComplete()
-                        }
-                        .addOnFailureListener {
-                            // Handle failure
-                        }
-
-                }
-            }else{
-                checkUploadComplete()
-            }
-
-
         }
 
     }
@@ -227,7 +252,7 @@ class WritePageActivity : AppCompatActivity() {
             val writeAge = binding.writeAge.text.toString()
             val writeSex = binding.writeSex.text.toString()
             val writeOutfit = binding.writeOutfit.text.toString()
-            val combinedDateTime = combinedDateTime
+            val combinedDateTime = formattedDateTime
             Log.d("hong","combinedDateTime : $combinedDateTime")
             val writePoint = binding.writePoint.text.toString()
             Log.d("hong","imgurl1:$imgUrl1")

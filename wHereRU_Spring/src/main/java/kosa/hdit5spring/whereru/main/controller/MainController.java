@@ -17,6 +17,7 @@ import kosa.hdit5spring.whereru.main.service.MissingBoardService;
 import kosa.hdit5spring.whereru.main.vo.DetailMissingBoardVo;
 import kosa.hdit5spring.whereru.main.vo.MissingBoardVo;
 import kosa.hdit5spring.whereru.notice.service.NoticeService;
+import kosa.hdit5spring.whereru.notice.service.SetNoticeService;
 import kosa.hdit5spring.whereru.user.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 
@@ -29,11 +30,13 @@ public class MainController {
 	MissingBoardService missingBoardService;
 	@Autowired
 	NoticeService noticeService;
+	@Autowired
+	SetNoticeService setNoticeService;
 	
 	@RequestMapping("main")
-	public ResponseEntity<List<MissingBoardVo>> mainPage(@SessionAttribute UserVO currUser) {
+	public ResponseEntity<List<MissingBoardVo>> mainPage() {
 		List<MissingBoardVo> list = missingBoardService.getTotalList(); 
-		
+		//@SessionAttribute UserVO currUser
 		return ResponseEntity.ok(list);
 	}
 
@@ -42,8 +45,8 @@ public class MainController {
 		
 		missingBoardService.writeMissingBoard(missingBoardVo);
 		//게시글정상처리되고 나면 알림 전송
-		//작동 안함 오류
-		//noticeService.sendingToAll(missingBoardVo.getUserSeq());
+		noticeService.sendingToAll(missingBoardVo.getUserSeq());
+		setNoticeService.setNoticeByBoard(missingBoardVo);
 		
 		return "success";
 	}
