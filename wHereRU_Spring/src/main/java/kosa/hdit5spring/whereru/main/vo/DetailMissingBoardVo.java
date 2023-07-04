@@ -21,5 +21,7 @@ public class DetailMissingBoardVo {
 	private boolean isOwner;
 
 	private String missingImgUrls;
-
+	
+	private String userId;
+	private String userName;
 }

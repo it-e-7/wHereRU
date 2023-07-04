@@ -12,4 +12,5 @@ public interface MissingBoardService {
 	void deleteMissingBoard(int missingSeq, String userSeq);
 	void updateMissingBoard(MissingBoardVo missingBoardVo);
 	List<MissingBoardVo> getTotalList();
+	DetailMissingBoardVo openChatActivity(int missingSeq);
 }

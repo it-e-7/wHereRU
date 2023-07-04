@@ -1,10 +1,11 @@
 package kosa.hdit5spring.whereru.main.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,7 +67,7 @@ public class MainController {
 	}
 
 	@PostMapping("updatemissingboard")
-   public ResponseEntity<DetailMissingBoardVo> updateMissingBoardDetail(@RequestBody MissingBoardVo missingBoardVo, @SessionAttribute UserVO currUser) {
+    public ResponseEntity<DetailMissingBoardVo> updateMissingBoardDetail(@RequestBody MissingBoardVo missingBoardVo, @SessionAttribute UserVO currUser) {
 
 		missingBoardService.updateMissingBoard(missingBoardVo);
 		
@@ -75,4 +76,10 @@ public class MainController {
 		return ResponseEntity.ok(detail);
 	}
 	    
+	@GetMapping("openchat/{missingBoardSeq}")
+	public DetailMissingBoardVo openChatActivity(@PathVariable int missingBoardSeq) {
+		
+        return missingBoardService.openChatActivity(missingBoardSeq);
+    }
+	
 }

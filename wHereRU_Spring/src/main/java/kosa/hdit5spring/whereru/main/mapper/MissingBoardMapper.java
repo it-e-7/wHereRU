@@ -15,5 +15,5 @@ public interface MissingBoardMapper {
    void deleteMissingBoard(int missingSeq);
    void updateMissingBoard(MissingBoardVo missingBoardVo);   
    public List<MissingBoardVo> getTotalList();
-	
+   public DetailMissingBoardVo openChatActivity(int missingSeq);
 }
