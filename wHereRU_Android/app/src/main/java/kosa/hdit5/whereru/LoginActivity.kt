@@ -9,18 +9,14 @@ import kosa.hdit5.whereru.databinding.ActivityLoginBinding
 import kosa.hdit5.whereru.util.GlobalState
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
-import kosa.hdit5.whereru.util.retrofit.main.okHttpClient
 import kosa.hdit5.whereru.util.retrofit.main.vo.UserVO
 import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.HttpUrl
-import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 class MyCookieJar : CookieJar {
     private var cookies: List<Cookie> = ArrayList()
@@ -31,6 +27,10 @@ class MyCookieJar : CookieJar {
 
     override fun loadForRequest(url: HttpUrl): List<Cookie> {
         return cookies
+    }
+
+    fun clearCookies() {
+        cookies = ArrayList()
     }
 }
 class LoginActivity : Activity() {
@@ -59,7 +59,8 @@ class LoginActivity : Activity() {
                         var mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
                         GlobalState.isLogin = true;
                         GlobalState.userId = userId;
-                        GlobalState.userSeq = (response.body()?.userSeq)?.toInt()
+                        GlobalState.userName = loginVo?.userName
+                        GlobalState.userSeq = (loginVo?.userSeq)?.toInt()
                         startActivity(mainIntent)
                     } else {
                         Toast.makeText(this@LoginActivity, "로그인 실패", Toast.LENGTH_SHORT).show()

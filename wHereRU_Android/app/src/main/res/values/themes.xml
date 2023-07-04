@@ -3,7 +3,22 @@
     <style name="Base.Theme.WHereRU" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
+
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
+        <item name="android:editTextStyle">@style/EditStyle</item>
+
     </style>
+
+    <style name="TextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/notob</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="EditStyle" parent="android:Widget.EditText">
+        <item name="android:fontFamily">@font/noto</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
     <style name="Theme.WHereRU" parent="Base.Theme.WHereRU" />
 
     <style name="CircularExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">

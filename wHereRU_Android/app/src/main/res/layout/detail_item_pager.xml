@@ -8,11 +8,13 @@
     <ImageView
         android:id="@+id/detail_img"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:gravity="center"
-        android:text="사진 들어갈 자리"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintDimensionRatio="H,1:0.85"
+        app:layout_constraintVertical_bias="0.015" />
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
