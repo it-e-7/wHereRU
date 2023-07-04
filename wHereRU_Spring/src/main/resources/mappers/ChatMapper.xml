@@ -6,7 +6,7 @@
 <mapper namespace="kosa.hdit5spring.whereru.chat.mapper.ChatMapper">
 
 	<insert id="insertChat" statementType="CALLABLE" parameterType="ChatVO">
-		CALL INSERTCHAT(#{chatSender}, #{chatReceiver}, #{chatType}, #{chatContent}, #{chatDate})
+		CALL INSERTCHAT(#{chatSender}, #{chatReceiver}, #{chatType}, #{chatContent}, #{chatDate}, #{missingSeq})
 	</insert>
 	
 	<update id="updateChatChecked" parameterType="map">
