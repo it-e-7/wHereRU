@@ -86,6 +86,7 @@ class ChatListAdapter(var data: MutableList<ChatListVO>): RecyclerView.Adapter<R
                 chatIntent.putExtra("sender", data[position].senderId)
                 chatIntent.putExtra("senderName", data[position].senderName)
                 chatIntent.putExtra("roomSeq", data[position].roomSeq)
+                //chatIntent.putExtra("receiverSeq", 4)
                 chatIntent.run { binding.root.context.startActivity(chatIntent) }
             }
         } else if(holder is ZeroCountChatListViewHolder) {
@@ -99,6 +100,7 @@ class ChatListAdapter(var data: MutableList<ChatListVO>): RecyclerView.Adapter<R
                 chatIntent.putExtra("sender", data[position].senderId)
                 chatIntent.putExtra("senderName", data[position].senderName)
                 chatIntent.putExtra("roomSeq", data[position].roomSeq)
+                //chatIntent.putExtra("receiverSeq", 4)
                 chatIntent.run { binding.root.context.startActivity(chatIntent) }
             }
         }

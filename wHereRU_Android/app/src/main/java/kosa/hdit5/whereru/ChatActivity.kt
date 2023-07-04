@@ -131,10 +131,10 @@ class ChatActivity : AppCompatActivity() {
 
     private lateinit var client: OkHttpClient
     private lateinit var chatSocket: WebSocket
-    var roomSeq: Int = -1
-    var chatAdapter = ChatAdapter(mutableListOf<ChatVO>())
-    lateinit var receiverId: String
-    lateinit var binding: ActivityChatBinding
+    private var roomSeq: Int = -1
+    private var chatAdapter = ChatAdapter(mutableListOf<ChatVO>())
+    private lateinit var receiverId: String
+    private lateinit var binding: ActivityChatBinding
     private var apiService: WhereRUAPI = RetrofitBuilder.api
 
     inner class WebSocketListener : okhttp3.WebSocketListener() {
@@ -221,7 +221,8 @@ class ChatActivity : AppCompatActivity() {
 
         roomSeq = intent.getIntExtra("roomSeq", -1)
         if(roomSeq == -1) {
-
+            // 여기도 수정해야함
+            getChatListByUserSeq(intent.getIntExtra("receiverSeq", -1))
         } else {
             getChatList()
         }
@@ -232,9 +233,12 @@ class ChatActivity : AppCompatActivity() {
     }
 
 
+
+
     fun createChatJSON(text: String): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm")
         val date = sdf.format(System.currentTimeMillis())
+        val missingSeq = intent.getIntExtra("missingSeq", 1)
 
         return "{" +
                 "\"chatSender\":\"" + GlobalState.userId + "\"," +
@@ -242,6 +246,7 @@ class ChatActivity : AppCompatActivity() {
                 "\"chatType\":\"text\"," +
                 "\"chatContent\":\"" + text + "\"," +
                 "\"chatDate\":\"" + date + "\"" +
+                "\"missingSeq\":" + missingSeq +
                 "}"
     }
 
@@ -258,6 +263,45 @@ class ChatActivity : AppCompatActivity() {
 
     fun getChatList() {
         val call = apiService.getChatList(roomSeq)
+        call.enqueue(object : Callback<List<ChatVO>> {
+            override fun onResponse(
+
+                call: Call<List<ChatVO>>,
+                response: retrofit2.Response<List<ChatVO>>
+            ) {
+                if (response.isSuccessful) {
+                    var chatList = response.body()
+                    if (chatList != null) {
+                        var newData = mutableListOf<ChatVO>()
+
+                        for (chat in chatList) {
+                            if (GlobalState.userId == chat.chatSender) {
+                                chat.viewType = ViewType.RIGHT_CHAT
+                            } else {
+                                chat.viewType = ViewType.LEFT_CHAT
+                            }
+                            newData.add(chat)
+                        }
+                        Log.d("ChatActivity", "채팅 리스트 : $chatList")
+                        chatAdapter.setItem(newData)
+                        binding.chatBox.smoothScrollToPosition(chatAdapter.itemCount)
+                    }
+                } else {
+                    // 서버로부터 응답을 받지 못한 경우 처리
+                    Log.d("ChatActivity", "채팅 리스트 받아오기 실패")
+                }
+
+            }
+
+            override fun onFailure(call: Call<List<ChatVO>>, t: Throwable) {
+                // 요청 자체가 실패한 경우 처리
+                Log.d("ChatActivity", "채팅 리스트 ERROR")
+            }
+        })
+    }
+
+    private fun getChatListByUserSeq(receiverSeq: Int) {
+        val call = apiService.getChatListByReceiverSeq(receiverSeq)
         call.enqueue(object : Callback<List<ChatVO>> {
             override fun onResponse(
 

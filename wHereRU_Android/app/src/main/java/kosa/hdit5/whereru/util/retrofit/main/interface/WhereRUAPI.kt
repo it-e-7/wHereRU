@@ -34,6 +34,9 @@ interface WhereRUAPI {
     @GET("whereru/chat")
     fun getChatList(@Query("roomSeq") roomSeq: Int): Call<List<ChatVO>>
 
+    @GET("whereru/chat/user")
+    fun getChatListByReceiverSeq(@Query("receiverSeq") receiverSeq: Int): Call<List<ChatVO>>
+
     /*@GET("whreru/user/checkuseridExist")
     fun checkUserIdExist(@Query("userId") userId: String): Call<Boolean>*/
 
