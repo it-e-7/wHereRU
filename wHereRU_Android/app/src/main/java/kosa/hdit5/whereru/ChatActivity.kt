@@ -48,8 +48,19 @@ object ViewType {
     val RIGHT_CHAT = 2
 }
 
-class ChatViewHolder(val binding: ChatItemBinding) : RecyclerView.ViewHolder(binding.root)
-class LeftChatViewHolder(val binding: LeftChatItemBinding) : RecyclerView.ViewHolder(binding.root)
+class ChatViewHolder(val binding: ChatItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    init {
+        binding.chatImage.visibility = View.GONE
+        binding.chatText.visibility = View.VISIBLE
+    }
+
+}
+class LeftChatViewHolder(val binding: LeftChatItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    init {
+        binding.chatImage.visibility = View.GONE
+        binding.chatText.visibility = View.VISIBLE
+    }
+}
 
 class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
@@ -89,12 +100,15 @@ class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<Recycler
             binding.chatDate.text = getHourMin(data[position].chatDate)
 
             if (data[position].chatType == "text") {
+                Log.d("ChatActivity", "CHATTING DATA : ${data[position]}")
                 binding.chatText.text = data[position].chatContent
-
+                binding.chatText.visibility = View.VISIBLE
+                binding.chatImage.visibility = View.GONE
             } else {
-                binding.chatText.visibility = View.INVISIBLE
+                Log.d("ChatActivity", "IMAGE CHATTING DATA : ${data[position]}")
+                binding.chatText.visibility = View.GONE
                 binding.chatImage.visibility = View.VISIBLE
-                Glide.with(binding.root)
+                Glide.with(holder.itemView)
                     .load(data[position].chatContent)
                     .override(600, 800)
                     .transform(CenterCrop(), RoundedCorners(30))
@@ -106,11 +120,15 @@ class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<Recycler
             binding.chatDate.text = getHourMin(data[position].chatDate)
 
             if (data[position].chatType == "text") {
+                Log.d("ChatActivity", "CHATTING DATA : ${data[position]}")
                 binding.chatText.text = data[position].chatContent
+                binding.chatText.visibility = View.VISIBLE
+                binding.chatImage.visibility = View.GONE
             } else {
-                binding.chatText.visibility = View.INVISIBLE
+                Log.d("ChatActivity", "IMAGE CHATTING DATA : ${data[position]}")
+                binding.chatText.visibility = View.GONE
                 binding.chatImage.visibility = View.VISIBLE
-                Glide.with(binding.root)
+                Glide.with(holder.itemView)
                     .load(data[position].chatContent)
                     .override(600, 800)
                     .transform(CenterCrop(), RoundedCorners(30))
@@ -123,7 +141,7 @@ class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<Recycler
 
     fun addItem(chat: ChatVO) {
         data.add(chat)
-        notifyDataSetChanged()
+        notifyItemInserted(data.size - 1)
     }
 
     fun setItem(newData: MutableList<ChatVO>) {
