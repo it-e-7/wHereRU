@@ -3,9 +3,10 @@ package kosa.hdit5.whereru
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import com.google.firebase.messaging.FirebaseMessaging
 import kosa.hdit5.whereru.databinding.ActivityRegisterBinding
-import kosa.hdit5.whereru.util.GlobalState
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
 import kosa.hdit5.whereru.util.retrofit.main.vo.UserVO
@@ -19,14 +20,13 @@ class RegisterActivity : Activity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.registerBtn.setOnClickListener {
             val userName = binding.registerName.text.toString()
             val userId = binding.registerId.text.toString()
             val userPw = binding.loginPw.text.toString()
             val userPwConfirm = binding.loginCheckPw.text.toString()
-
-            val user = UserVO(null, userName, userId, userPw)
+            val userToken = intent.getStringExtra("token")
+            val user = UserVO(null, userName, userId, userPw,userToken)
             val registerService: WhereRUAPI = RetrofitBuilder.api
             val call = registerService.register(user)
 

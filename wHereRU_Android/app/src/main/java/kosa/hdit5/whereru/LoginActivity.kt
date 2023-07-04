@@ -9,18 +9,13 @@ import kosa.hdit5.whereru.databinding.ActivityLoginBinding
 import kosa.hdit5.whereru.util.GlobalState
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
-import kosa.hdit5.whereru.util.retrofit.main.okHttpClient
 import kosa.hdit5.whereru.util.retrofit.main.vo.UserVO
 import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.HttpUrl
-import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MyCookieJar : CookieJar {
     private var cookies: List<Cookie> = ArrayList()
@@ -74,8 +69,9 @@ class LoginActivity : Activity() {
 
         // 회원가입 버튼 클릭 이벤트
         binding.registerLink.setOnClickListener {
-
+            val token = intent.getStringExtra("token")
             val registerIntent = Intent(this, RegisterActivity::class.java)
+            registerIntent.putExtra("token",token)
             startActivity(registerIntent)
         }
     }

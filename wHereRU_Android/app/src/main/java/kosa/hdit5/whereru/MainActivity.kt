@@ -23,7 +23,7 @@ import kosa.hdit5.whereru.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-
+    lateinit var token:String
     lateinit var binding:ActivityMainBinding
 
     private val channelId = "default_channel_id"
@@ -56,9 +56,8 @@ class MainActivity : AppCompatActivity() {
         // FCM을 위해 토큰 가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val token = task.result
-                Log.d("토큰", token ?: "Token is null")
-
+                token = task.result
+                Log.d("토큰-메인", "$token")
             } else {
                 val exception = task.exception
                 Log.e("Error", "Fetching FCM registration token failed: ${exception?.message}")
@@ -92,6 +91,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.footer.mypageIcon.setOnClickListener {
             var intent = Intent(this, LoginActivity::class.java)
+            intent.putExtra("token",token)
             startActivity(intent)
         }
     }

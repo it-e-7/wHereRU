@@ -10,6 +10,7 @@
 		<result column="user_name" property="userName" />
 		<result column="user_id" property="userId" />
 		<result column="user_pw" property="userPw" />
+		<result column="user_token" property="userToken" />
 	</resultMap>
 
 	<!-- 로그인 -->
@@ -31,7 +32,7 @@
 
 	<!-- 회원가입 -->
 	<insert id="insertUserByUserVO" parameterType="UserVO">
-		INSERT INTO tb_user (user_name, user_id, user_pw)
-		VALUES (#{userName}, #{userId}, #{userPw})
+		INSERT INTO tb_user (user_name, user_id, user_pw,user_token)
+		VALUES (#{userName}, #{userId}, #{userPw},#{userToken})
 	</insert>
 </mapper>  
