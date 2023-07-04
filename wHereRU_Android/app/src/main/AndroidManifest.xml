@@ -59,7 +59,6 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true">
-
         </activity>
 
         <meta-data
@@ -82,7 +81,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
+
         </activity>
     </application>
 

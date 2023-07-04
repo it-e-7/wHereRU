@@ -59,8 +59,10 @@ class LoginActivity : Activity() {
                         var mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
                         GlobalState.isLogin = true;
                         GlobalState.userId = userId;
+                        GlobalState .userToken = intent.getStringExtra("token")
                         GlobalState.userName = loginVo?.userName
                         GlobalState.userSeq = (loginVo?.userSeq)?.toInt()
+                        
                         startActivity(mainIntent)
                     } else {
                         Toast.makeText(this@LoginActivity, "로그인 실패", Toast.LENGTH_SHORT).show()
@@ -75,8 +77,9 @@ class LoginActivity : Activity() {
 
         // 회원가입 버튼 클릭 이벤트
         binding.registerLink.setOnClickListener {
-
+            val token = intent.getStringExtra("token")
             val registerIntent = Intent(this, RegisterActivity::class.java)
+            registerIntent.putExtra("token",token)
             startActivity(registerIntent)
         }
     }

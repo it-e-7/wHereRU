@@ -23,6 +23,7 @@
 		<typeAlias alias="DetailMissingBoard" type="kosa.hdit5spring.whereru.main.vo.DetailMissingBoardVo" />
 		<typeAlias alias="ChatVO" type="kosa.hdit5spring.whereru.chat.vo.ChatVO" />
 		<typeAlias alias="ChatListVO" type="kosa.hdit5spring.whereru.chat.vo.ChatListVO" />		
+		<typeAlias alias="NoticeVO" type="kosa.hdit5spring.whereru.notice.vo.NoticeVO" />		
 	</typeAliases>
 
 </configuration>	
