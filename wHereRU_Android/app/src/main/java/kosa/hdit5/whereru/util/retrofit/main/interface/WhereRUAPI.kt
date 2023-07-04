@@ -4,6 +4,7 @@ import kosa.hdit5.whereru.ChatListVO
 import kosa.hdit5.whereru.ChatVO
 import kosa.hdit5.whereru.util.retrofit.main.vo.DetailMissingBoardVo
 import kosa.hdit5.whereru.util.retrofit.main.vo.MissingBoardVo
+import kosa.hdit5.whereru.util.retrofit.main.vo.NoticeVO
 import kosa.hdit5.whereru.util.retrofit.main.vo.UserVO
 import kosa.hdit5.whereru.util.retrofit.main.vo.writeMissingBoardVo
 import okhttp3.ResponseBody
@@ -15,6 +16,8 @@ import retrofit2.http.Query
 
 interface WhereRUAPI {
 
+    @POST("whereru/notice/getnoticelist")
+    fun getNoticeList(@Body userToken: String?): Call<List<NoticeVO>>
     @POST("whereru/main/main")
     fun getTotalList(): Call<List<MissingBoardVo>>
 

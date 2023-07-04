@@ -55,6 +55,7 @@ class LoginActivity : Activity() {
                         GlobalState.isLogin = true;
                         GlobalState.userId = userId;
                         GlobalState.userSeq = (response.body()?.userSeq)?.toInt()
+                        GlobalState .userToken = intent.getStringExtra("token")
                         startActivity(mainIntent)
                     } else {
                         Toast.makeText(this@LoginActivity, "로그인 실패", Toast.LENGTH_SHORT).show()
