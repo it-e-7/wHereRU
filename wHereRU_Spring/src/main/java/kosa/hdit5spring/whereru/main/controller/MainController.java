@@ -52,13 +52,16 @@ public class MainController {
 	}
 
 	@PostMapping("detail")
-	public DetailMissingBoardVo getMissingBoardDetail(@RequestBody int missingBoardSeq, @SessionAttribute UserVO currUser) {
+	public DetailMissingBoardVo getMissingBoardDetail(@RequestBody int missingBoardSeq, @SessionAttribute(required = false) UserVO currUser) {
 
-	    System.out.println("MissingBoardSeq: " + missingBoardSeq);  
-		DetailMissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
-		System.out.println("MissingBoardService" + detail);
- 
-		return detail;
+	    String userSeq = null;
+	    if (currUser != null) {
+	        userSeq = currUser.getUserSeq();
+	    }
+
+	    DetailMissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, userSeq);
+
+	    return detail;
 	}
 	
 	@PostMapping("deletemissingboard")

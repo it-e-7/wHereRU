@@ -26,7 +26,6 @@ public class MissingBoardServiceImpl implements MissingBoardService {
 	@Override
 	public DetailMissingBoardVo getMissingBoardDetail(int missingSeq, String userSeq) {
 
-		System.out.println(missingSeq + " " + userSeq);
 		DetailMissingBoardVo detail = missingBoardMapper.selectMissingBoardDetail(missingSeq);
 		if (detail != null && userSeq != null) {
 			detail.setOwner(userSeq.equals(String.valueOf(detail.getUserSeq())));
