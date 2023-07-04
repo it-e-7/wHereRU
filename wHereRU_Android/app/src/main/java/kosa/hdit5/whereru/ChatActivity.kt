@@ -1,5 +1,6 @@
 package kosa.hdit5.whereru
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -218,7 +219,12 @@ class ChatActivity : AppCompatActivity() {
             } else {
                 binding.chatButton.setImageResource(R.drawable.chat_button)
             }
+        }
 
+        binding.toDetailSection.setOnClickListener {
+            var detailIntent = Intent(this, DetailActivity::class.java)
+            detailIntent.putExtra("missingBoardSeq", missingSeq)
+            startActivity(detailIntent)
         }
 
         binding.arrowLeft.setOnClickListener {
@@ -352,6 +358,7 @@ class ChatActivity : AppCompatActivity() {
                     if (missingBoardSummary != null) {
                         Log.d("ChatActivity", "게시판 데이터: $missingBoardSummary")
                         binding.detailText.text = "${missingBoardSummary.missingName} ${missingBoardSummary.missingAge}세 ${missingBoardSummary.missingSex}"
+                        missingSeq = missingBoardSummary.missingSeq
 
                         Glide.with(binding.root).load(missingBoardSummary.imgUrl1).into(binding.detailImage)
                     }
