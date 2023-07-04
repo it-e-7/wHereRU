@@ -7,50 +7,44 @@
 
     <ImageView
         android:id="@+id/main_image_view"
-        android:layout_width="380dp"
+        android:layout_width="340dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/main_missing_name"
-        app:layout_constraintDimensionRatio="H,1:0.85"
+        app:layout_constraintDimensionRatio="H,1:1.2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.015" />
 
-    <TextView
-        android:id="@+id/main_missing_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:text="이름"
-        app:layout_constraintBottom_toTopOf="@+id/main_missing_age"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/main_missing_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="이름"
+             />
 
-    <TextView
-        android:id="@+id/main_missing_age"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:text="나이"
-        app:layout_constraintBottom_toTopOf="@+id/main_missing_sex"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/main_missing_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="나이"
+             />
 
-    <TextView
-        android:id="@+id/main_missing_sex"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:text="성별"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/main_missing_sex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="성별"
+             />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

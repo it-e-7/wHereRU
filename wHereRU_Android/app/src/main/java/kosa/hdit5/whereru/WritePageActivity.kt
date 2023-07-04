@@ -22,7 +22,9 @@ import kosa.hdit5.whereru.util.retrofit.main.vo.writeMissingBoardVo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class WritePageActivity : AppCompatActivity() {
 
@@ -37,7 +39,7 @@ class WritePageActivity : AppCompatActivity() {
     var imageButton1Bitmap: Uri? = null
     var imageButton2Bitmap: Uri? = null
     var imageButton3Bitmap: Uri? = null
-    var combinedDateTime: String =""
+    var formattedDateTime: String =""
     // 사진 추가 -> 갤러리 연동
     var imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -113,8 +115,12 @@ class WritePageActivity : AppCompatActivity() {
                     // 선택된 날짜와 시간을 처리하는 로직을 추가합니다.
                     val selectedDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
                     val selectedTime = "$selectedHour:$selectedMinute"
-                    combinedDateTime = "$selectedDate $selectedTime"
-                    Log.d("Combined DateTime", combinedDateTime)
+                    val combinedDateTime = "$selectedDate $selectedTime"
+
+                    val desiredFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                    val date = desiredFormat.parse(combinedDateTime)
+                    formattedDateTime = desiredFormat.format(date)
+                    Log.d("Combined DateTime", formattedDateTime)
                 }, hour, minute, true)
 
                 timePickerDialog.show()
@@ -246,7 +252,7 @@ class WritePageActivity : AppCompatActivity() {
             val writeAge = binding.writeAge.text.toString()
             val writeSex = binding.writeSex.text.toString()
             val writeOutfit = binding.writeOutfit.text.toString()
-            val combinedDateTime = combinedDateTime
+            val combinedDateTime = formattedDateTime
             Log.d("hong","combinedDateTime : $combinedDateTime")
             val writePoint = binding.writePoint.text.toString()
             Log.d("hong","imgurl1:$imgUrl1")
