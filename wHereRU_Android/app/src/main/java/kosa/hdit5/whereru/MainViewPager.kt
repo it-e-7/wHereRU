@@ -57,9 +57,9 @@ class MyPagerAdapter(private var myData: MutableList<MainMissingBoardVo>): Recyc
             intent.putExtra("missingBoardSeq", myData[position].missingSeq)
             holder.itemView.context.startActivity(intent)
         }
-        binding.mainMissingName.text = myData[position].missingName
-        binding.mainMissingAge.text = myData[position].missingAge.toString()
-        binding.mainMissingSex.text = myData[position].missingSex
+        val info = "${myData[position].missingName + myData[position].missingAge.toString() + myData[position].missingSex}"
+        binding.mainMissingInfo.text = info
+
 
         val imageUrl = myData[position].missingImg
         Glide.with(imageView.context).load(imageUrl).transform(RoundedCorners(8)).into(imageView)
