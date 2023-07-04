@@ -4,12 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kosa.hdit5.whereru.databinding.ActivityChatBinding
 import kosa.hdit5.whereru.databinding.ChatItemBinding
 import kosa.hdit5.whereru.databinding.LeftChatItemBinding
@@ -88,7 +92,13 @@ class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<Recycler
                 binding.chatText.text = data[position].chatContent
 
             } else {
-
+                binding.chatText.visibility = View.INVISIBLE
+                binding.chatImage.visibility = View.VISIBLE
+                Glide.with(binding.root)
+                    .load(data[position].chatContent)
+                    .override(600, 800)
+                    .transform(CenterCrop(), RoundedCorners(30))
+                    .into(binding.chatImage)
             }
         } else {
             var binding = (holder as ChatViewHolder).binding
@@ -98,7 +108,13 @@ class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<Recycler
             if (data[position].chatType == "text") {
                 binding.chatText.text = data[position].chatContent
             } else {
-
+                binding.chatText.visibility = View.INVISIBLE
+                binding.chatImage.visibility = View.VISIBLE
+                Glide.with(binding.root)
+                    .load(data[position].chatContent)
+                    .override(600, 800)
+                    .transform(CenterCrop(), RoundedCorners(30))
+                    .into(binding.chatImage)
             }
         }
 
@@ -360,7 +376,10 @@ class ChatActivity : AppCompatActivity() {
                         binding.detailText.text = "${missingBoardSummary.missingName} ${missingBoardSummary.missingAge}세 ${missingBoardSummary.missingSex}"
                         missingSeq = missingBoardSummary.missingSeq
 
-                        Glide.with(binding.root).load(missingBoardSummary.imgUrl1).into(binding.detailImage)
+                        Glide.with(binding.root)
+                            .load(missingBoardSummary.imgUrl1)
+                            .transform(CenterCrop(), RoundedCorners(12))
+                            .into(binding.detailImage)
                     }
                 } else {
                     // 서버로부터 응답을 받지 못한 경우 처리
