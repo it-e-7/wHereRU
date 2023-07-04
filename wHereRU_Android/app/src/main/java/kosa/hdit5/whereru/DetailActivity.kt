@@ -8,9 +8,11 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kosa.hdit5.whereru.databinding.ActivityDetailBinding
+import kosa.hdit5.whereru.util.GlobalState.userSeq
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
 import kosa.hdit5.whereru.util.retrofit.main.vo.DetailMissingBoardVo
+import kosa.hdit5.whereru.util.retrofit.main.vo.UserVO
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -93,7 +95,6 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.leftArrow.setOnClickListener {
-            Log.d("arrow", "qqqqqqqqqqqqqq")
             this.finish()
         }
 
@@ -137,7 +138,7 @@ class DetailActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.footer.mypageIcon.setOnClickListener {
-            var intent = Intent(this, LoginActivity::class.java)
+            var intent = Intent(this, MyPageActivity::class.java)
             startActivity(intent)
         }
 
