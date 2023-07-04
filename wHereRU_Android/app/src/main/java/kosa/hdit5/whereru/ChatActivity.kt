@@ -1,11 +1,14 @@
 package kosa.hdit5.whereru
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doOnTextChanged
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.firebase.storage.FirebaseStorage
 import kosa.hdit5.whereru.databinding.ActivityChatBinding
 import kosa.hdit5.whereru.databinding.ChatItemBinding
 import kosa.hdit5.whereru.databinding.LeftChatItemBinding
@@ -100,12 +104,10 @@ class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<Recycler
             binding.chatDate.text = getHourMin(data[position].chatDate)
 
             if (data[position].chatType == "text") {
-                Log.d("ChatActivity", "CHATTING DATA : ${data[position]}")
                 binding.chatText.text = data[position].chatContent
                 binding.chatText.visibility = View.VISIBLE
                 binding.chatImage.visibility = View.GONE
             } else {
-                Log.d("ChatActivity", "IMAGE CHATTING DATA : ${data[position]}")
                 binding.chatText.visibility = View.GONE
                 binding.chatImage.visibility = View.VISIBLE
                 Glide.with(holder.itemView)
@@ -120,12 +122,10 @@ class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<Recycler
             binding.chatDate.text = getHourMin(data[position].chatDate)
 
             if (data[position].chatType == "text") {
-                Log.d("ChatActivity", "CHATTING DATA : ${data[position]}")
                 binding.chatText.text = data[position].chatContent
                 binding.chatText.visibility = View.VISIBLE
                 binding.chatImage.visibility = View.GONE
             } else {
-                Log.d("ChatActivity", "IMAGE CHATTING DATA : ${data[position]}")
                 binding.chatText.visibility = View.GONE
                 binding.chatImage.visibility = View.VISIBLE
                 Glide.with(holder.itemView)
@@ -174,6 +174,34 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var receiverId: String
     private lateinit var binding: ActivityChatBinding
     private var apiService: WhereRUAPI = RetrofitBuilder.api
+
+    val fbStorage = FirebaseStorage.getInstance()
+    var storage = fbStorage.reference.child("images")
+    var imageButton1Bitmap: Uri? = null
+
+    // 사진 추가 -> 갤러리 연동
+    var imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            if (data != null) {
+                val imageUri: Uri? = data.data
+                Log.d("ChatActivity","$imageUri")
+                if (imageUri != null) {
+                    imageButton1Bitmap = imageUri
+                    Log.d("ChatActivity","imagButton1: ${imageButton1Bitmap}")
+                    binding.pickImageSection.visibility = View.VISIBLE
+                    binding.chatEdit.isClickable = false
+                    binding.chatEdit.isFocusable = false
+                    binding.chatButton.setImageResource(R.drawable.chat_send_active)
+                    Glide.with(this)
+                        .load(imageUri)
+                        .override(240, 320)
+                        .transform(CenterCrop(), RoundedCorners(15))
+                        .into(binding.pickImage)
+                }
+            }
+        }
+    }
 
     inner class WebSocketListener : okhttp3.WebSocketListener() {
 
@@ -242,8 +270,13 @@ class ChatActivity : AppCompatActivity() {
         createSocketConnection()
 
         binding.chatButton.setOnClickListener {
-            chatSocket.send(createChatJSON(binding.chatEdit.text.toString()))
-            binding.chatEdit.text.clear()
+            if(imageButton1Bitmap == null) {
+                chatSocket.send(createChatJSON(binding.chatEdit.text.toString()))
+                binding.chatEdit.text.clear()
+            } else {
+                // 이미지 전송 로직 !
+            }
+
         }
 
         binding.chatEdit.doOnTextChanged {
@@ -259,6 +292,24 @@ class ChatActivity : AppCompatActivity() {
             var detailIntent = Intent(this, DetailActivity::class.java)
             detailIntent.putExtra("missingBoardSeq", missingSeq)
             startActivity(detailIntent)
+        }
+
+        binding.galleryButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            imagePickerLauncher.launch(intent)
+        }
+
+        binding.deleteButton.setOnClickListener {
+            imageButton1Bitmap = null
+            binding.pickImageSection.visibility = View.GONE
+            binding.chatEdit.isClickable = true
+            binding.chatEdit.isFocusableInTouchMode = true
+            binding.chatEdit.isFocusableInTouchMode = true
+
+            if(binding.chatEdit.text.isEmpty()) {
+                binding.chatButton.setImageResource(R.drawable.chat_button)
+            }
         }
 
         binding.arrowLeft.setOnClickListener {
