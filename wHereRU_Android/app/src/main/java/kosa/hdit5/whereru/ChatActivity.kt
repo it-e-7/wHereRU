@@ -1,21 +1,32 @@
 package kosa.hdit5.whereru
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.firebase.storage.FirebaseStorage
 import kosa.hdit5.whereru.databinding.ActivityChatBinding
 import kosa.hdit5.whereru.databinding.ChatItemBinding
 import kosa.hdit5.whereru.databinding.LeftChatItemBinding
 import kosa.hdit5.whereru.util.GlobalState
-import kosa.hdit5.whereru.util.GlobalState.userSeq
 import kosa.hdit5.whereru.util.OkHttpClientSingleton
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
+import kosa.hdit5.whereru.util.retrofit.main.vo.DetailMissingBoardVo
+import kosa.hdit5.whereru.util.retrofit.main.vo.MissingBoardVo
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -25,7 +36,6 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import java.text.SimpleDateFormat
-import kotlin.reflect.typeOf
 
 data class ChatVO(
     val chatSender: String,
@@ -42,8 +52,19 @@ object ViewType {
     val RIGHT_CHAT = 2
 }
 
-class ChatViewHolder(val binding: ChatItemBinding) : RecyclerView.ViewHolder(binding.root)
-class LeftChatViewHolder(val binding: LeftChatItemBinding) : RecyclerView.ViewHolder(binding.root)
+class ChatViewHolder(val binding: ChatItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    init {
+        binding.chatImage.visibility = View.GONE
+        binding.chatText.visibility = View.VISIBLE
+    }
+
+}
+class LeftChatViewHolder(val binding: LeftChatItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    init {
+        binding.chatImage.visibility = View.GONE
+        binding.chatText.visibility = View.VISIBLE
+    }
+}
 
 class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
@@ -84,9 +105,16 @@ class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<Recycler
 
             if (data[position].chatType == "text") {
                 binding.chatText.text = data[position].chatContent
-
+                binding.chatText.visibility = View.VISIBLE
+                binding.chatImage.visibility = View.GONE
             } else {
-
+                binding.chatText.visibility = View.GONE
+                binding.chatImage.visibility = View.VISIBLE
+                Glide.with(holder.itemView)
+                    .load(data[position].chatContent)
+                    .override(600, 800)
+                    .transform(CenterCrop(), RoundedCorners(30))
+                    .into(binding.chatImage)
             }
         } else {
             var binding = (holder as ChatViewHolder).binding
@@ -95,8 +123,16 @@ class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<Recycler
 
             if (data[position].chatType == "text") {
                 binding.chatText.text = data[position].chatContent
+                binding.chatText.visibility = View.VISIBLE
+                binding.chatImage.visibility = View.GONE
             } else {
-
+                binding.chatText.visibility = View.GONE
+                binding.chatImage.visibility = View.VISIBLE
+                Glide.with(holder.itemView)
+                    .load(data[position].chatContent)
+                    .override(600, 800)
+                    .transform(CenterCrop(), RoundedCorners(30))
+                    .into(binding.chatImage)
             }
         }
 
@@ -105,7 +141,7 @@ class ChatAdapter(var data: MutableList<ChatVO>) : RecyclerView.Adapter<Recycler
 
     fun addItem(chat: ChatVO) {
         data.add(chat)
-        notifyDataSetChanged()
+        notifyItemInserted(data.size - 1)
     }
 
     fun setItem(newData: MutableList<ChatVO>) {
@@ -132,10 +168,40 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var client: OkHttpClient
     private lateinit var chatSocket: WebSocket
     private var roomSeq: Int = -1
+    private var missingSeq: Int = -1
+    private var receiverSeq: Int = -1
     private var chatAdapter = ChatAdapter(mutableListOf<ChatVO>())
     private lateinit var receiverId: String
     private lateinit var binding: ActivityChatBinding
     private var apiService: WhereRUAPI = RetrofitBuilder.api
+
+    val fbStorage = FirebaseStorage.getInstance()
+    var storage = fbStorage.reference.child("images")
+    var imageButton1Bitmap: Uri? = null
+
+    // 사진 추가 -> 갤러리 연동
+    var imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            if (data != null) {
+                val imageUri: Uri? = data.data
+                Log.d("ChatActivity","$imageUri")
+                if (imageUri != null) {
+                    imageButton1Bitmap = imageUri
+                    Log.d("ChatActivity","imagButton1: ${imageButton1Bitmap}")
+                    binding.pickImageSection.visibility = View.VISIBLE
+                    binding.chatEdit.isClickable = false
+                    binding.chatEdit.isFocusable = false
+                    binding.chatButton.setImageResource(R.drawable.chat_send_active)
+                    Glide.with(this)
+                        .load(imageUri)
+                        .override(240, 320)
+                        .transform(CenterCrop(), RoundedCorners(15))
+                        .into(binding.pickImage)
+                }
+            }
+        }
+    }
 
     inner class WebSocketListener : okhttp3.WebSocketListener() {
 
@@ -190,6 +256,9 @@ class ChatActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         receiverId = intent.getStringExtra("sender") ?: ""
+        roomSeq = intent.getIntExtra("roomSeq", -1)
+        missingSeq = intent.getIntExtra("missingSeq", -1)
+        receiverSeq = intent.getIntExtra("receiverSeq", -1)
 
         binding.chatBox.layoutManager = LinearLayoutManager(this)
         binding.chatBox.adapter = chatAdapter
@@ -201,8 +270,13 @@ class ChatActivity : AppCompatActivity() {
         createSocketConnection()
 
         binding.chatButton.setOnClickListener {
-            chatSocket.send(createChatJSON(binding.chatEdit.text.toString()))
-            binding.chatEdit.text.clear()
+            if(imageButton1Bitmap == null) {
+                chatSocket.send(createChatJSON(binding.chatEdit.text.toString()))
+                binding.chatEdit.text.clear()
+            } else {
+                // 이미지 전송 로직 !
+            }
+
         }
 
         binding.chatEdit.doOnTextChanged {
@@ -212,27 +286,45 @@ class ChatActivity : AppCompatActivity() {
             } else {
                 binding.chatButton.setImageResource(R.drawable.chat_button)
             }
+        }
 
+        binding.toDetailSection.setOnClickListener {
+            var detailIntent = Intent(this, DetailActivity::class.java)
+            detailIntent.putExtra("missingBoardSeq", missingSeq)
+            startActivity(detailIntent)
+        }
+
+        binding.galleryButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            imagePickerLauncher.launch(intent)
+        }
+
+        binding.deleteButton.setOnClickListener {
+            imageButton1Bitmap = null
+            binding.pickImageSection.visibility = View.GONE
+            binding.chatEdit.isClickable = true
+            binding.chatEdit.isFocusableInTouchMode = true
+            binding.chatEdit.isFocusableInTouchMode = true
+
+            if(binding.chatEdit.text.isEmpty()) {
+                binding.chatButton.setImageResource(R.drawable.chat_button)
+            }
         }
 
         binding.arrowLeft.setOnClickListener {
             this.finish()
         }
 
-        roomSeq = intent.getIntExtra("roomSeq", -1)
         if(roomSeq == -1) {
-            // 여기도 수정해야함
-            getChatListByUserSeq(intent.getIntExtra("receiverSeq", -1))
+            getChatListByUserSeq(receiverSeq, missingSeq)
         } else {
             getChatList()
         }
 
-
         binding.senderName.text = intent.getStringExtra("senderName")
-
+        getMissingBoard()
     }
-
-
 
 
     fun createChatJSON(text: String): String {
@@ -300,8 +392,8 @@ class ChatActivity : AppCompatActivity() {
         })
     }
 
-    private fun getChatListByUserSeq(receiverSeq: Int) {
-        val call = apiService.getChatListByReceiverSeq(receiverSeq)
+    private fun getChatListByUserSeq(receiverSeq: Int, missingSeq: Int) {
+        val call = apiService.getChatListByReceiverSeq(receiverSeq, missingSeq)
         call.enqueue(object : Callback<List<ChatVO>> {
             override fun onResponse(
 
@@ -337,5 +429,39 @@ class ChatActivity : AppCompatActivity() {
                 Log.d("ChatActivity", "채팅 리스트 ERROR")
             }
         })
+    }
+
+    private fun getMissingBoard() {
+        val call = apiService.getMissingBoardSummary(roomSeq, missingSeq)
+        call.enqueue(object : Callback<MissingBoardVo> {
+            override fun onResponse(
+                call: Call<MissingBoardVo>,
+                response: retrofit2.Response<MissingBoardVo>
+            ) {
+                if (response.isSuccessful) {
+                    var missingBoardSummary = response.body()
+                    if (missingBoardSummary != null) {
+                        Log.d("ChatActivity", "게시판 데이터: $missingBoardSummary")
+                        binding.detailText.text = "${missingBoardSummary.missingName} ${missingBoardSummary.missingAge}세 ${missingBoardSummary.missingSex}"
+                        missingSeq = missingBoardSummary.missingSeq
+
+                        Glide.with(binding.root)
+                            .load(missingBoardSummary.imgUrl1)
+                            .transform(CenterCrop(), RoundedCorners(12))
+                            .into(binding.detailImage)
+                    }
+                } else {
+                    // 서버로부터 응답을 받지 못한 경우 처리
+                    Log.d("ChatActivity", "게시판 데이터 받아오기 실패")
+                }
+
+            }
+
+            override fun onFailure(call: Call<MissingBoardVo>, t: Throwable) {
+                // 요청 자체가 실패한 경우 처리
+                Log.d("ChatActivity", "게시판 데이터 ERROR ${t.message}")
+            }
+        })
+
     }
 }

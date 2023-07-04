@@ -65,4 +65,13 @@ public class MissingBoardServiceImpl implements MissingBoardService {
 
 		return missingBoardMapper.openChatActivity(missingSeq);
 	}
+	
+	@Override
+	public MissingBoardVo getMissingBoardSummary(int roomSeq, int missingSeq) {
+		if(roomSeq == -1) {
+			return missingBoardMapper.selectMissingBoardSummaryByMissingSeq(missingSeq);
+		} else {
+			return missingBoardMapper.selectMissingBoardSummaryByRoomSeq(roomSeq);
+		}
+	}
 }

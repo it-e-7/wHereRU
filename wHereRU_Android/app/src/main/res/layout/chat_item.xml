@@ -7,18 +7,37 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="6dp">
 
-    <TextView
-        android:id="@+id/chat_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chat_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:gravity="start|center_vertical"
-        android:linksClickable="true"
-        android:text="안녕하세요."
-        android:textColor="@color/white"
-        android:background="@drawable/chat_box_right"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/chat_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/chat_text"
+            android:layout_width="wrap_content"
+            android:maxWidth="250dp"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:background="@drawable/chat_box_right"
+            android:gravity="start|center_vertical"
+            android:linksClickable="true"
+            android:text="안녕하세요."
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/chat_date"
@@ -26,9 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="4dp"
         android:text="오전 10:23"
-        android:textSize="9dp"
+        android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/chat_text"
+        app:layout_constraintEnd_toStartOf="@+id/chat_content"
         app:layout_constraintVertical_bias="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
