@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -81,5 +82,11 @@ public class MainController {
 		
         return missingBoardService.openChatActivity(missingBoardSeq);
     }
+	
+	@GetMapping("summary")
+	public MissingBoardVo getMissingBoardSummary(@RequestParam("roomSeq") int roomSeq, @RequestParam("missingSeq") int missingSeq) {
+		MissingBoardVo result = missingBoardService.getMissingBoardSummary(roomSeq, missingSeq);
+		return result;
+	}
 	
 }

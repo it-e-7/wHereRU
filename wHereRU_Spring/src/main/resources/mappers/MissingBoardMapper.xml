@@ -120,4 +120,28 @@
 		  mb.user_seq
 	</select>
 	
+	<select id="selectMissingBoardSummaryByRoomSeq" parameterType="int" resultType="MissingBoard">
+		SELECT *
+		FROM (SELECT m.MISSING_SEQ, m.MISSING_NAME, m.MISSING_SEX, m.MISSING_AGE, i.IMG_SEQ, i.IMG_URL AS IMG_URL1
+    		FROM MISSINGBOARD m JOIN IMAGE i ON m.MISSING_SEQ = i.MISSING_SEQ
+    		WHERE m.MISSING_SEQ = (SELECT MISSING_SEQ 
+    		                        FROM TB_CHATTING
+    		                        WHERE ROOM_SEQ = #{roomSeq})
+    		ORDER BY i.IMG_SEQ)
+		WHERE ROWNUM = 1
+	</select>
+	
+	<select id="selectMissingBoardSummaryByMissingSeq" parameterType="int" resultType="MissingBoard">
+		SELECT *
+		FROM (SELECT m.MISSING_SEQ, m.MISSING_NAME, m.MISSING_SEX, m.MISSING_AGE, i.IMG_SEQ, i.IMG_URL AS IMG_URL1
+    		FROM MISSINGBOARD m JOIN IMAGE i ON m.MISSING_SEQ = i.MISSING_SEQ
+    		WHERE m.MISSING_SEQ = #{missingSeq}
+    		ORDER BY i.IMG_SEQ)
+		WHERE ROWNUM = 1
+	</select>
+	
+	
+
+
+	
 </mapper>  

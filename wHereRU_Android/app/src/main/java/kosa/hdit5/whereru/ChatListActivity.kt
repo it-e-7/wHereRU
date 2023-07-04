@@ -151,7 +151,7 @@ class ChatListActivity : AppCompatActivity() {
         getChatRoomList()
     }
 
-    fun getChatRoomList() {
+    private fun getChatRoomList() {
         val call = apiService.getChatRoomList()
         call.enqueue(object : Callback<List<ChatListVO>> {
             override fun onResponse(

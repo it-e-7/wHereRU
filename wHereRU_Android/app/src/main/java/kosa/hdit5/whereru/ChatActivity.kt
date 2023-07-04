@@ -8,14 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kosa.hdit5.whereru.databinding.ActivityChatBinding
 import kosa.hdit5.whereru.databinding.ChatItemBinding
 import kosa.hdit5.whereru.databinding.LeftChatItemBinding
 import kosa.hdit5.whereru.util.GlobalState
-import kosa.hdit5.whereru.util.GlobalState.userSeq
 import kosa.hdit5.whereru.util.OkHttpClientSingleton
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
+import kosa.hdit5.whereru.util.retrofit.main.vo.DetailMissingBoardVo
+import kosa.hdit5.whereru.util.retrofit.main.vo.MissingBoardVo
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -25,7 +27,6 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import java.text.SimpleDateFormat
-import kotlin.reflect.typeOf
 
 data class ChatVO(
     val chatSender: String,
@@ -132,6 +133,8 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var client: OkHttpClient
     private lateinit var chatSocket: WebSocket
     private var roomSeq: Int = -1
+    private var missingSeq: Int = -1
+    private var receiverSeq: Int = -1
     private var chatAdapter = ChatAdapter(mutableListOf<ChatVO>())
     private lateinit var receiverId: String
     private lateinit var binding: ActivityChatBinding
@@ -190,6 +193,9 @@ class ChatActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         receiverId = intent.getStringExtra("sender") ?: ""
+        roomSeq = intent.getIntExtra("roomSeq", -1)
+        missingSeq = intent.getIntExtra("missingSeq", -1)
+        receiverSeq = intent.getIntExtra("receiverSeq", -1)
 
         binding.chatBox.layoutManager = LinearLayoutManager(this)
         binding.chatBox.adapter = chatAdapter
@@ -219,20 +225,15 @@ class ChatActivity : AppCompatActivity() {
             this.finish()
         }
 
-        roomSeq = intent.getIntExtra("roomSeq", -1)
         if(roomSeq == -1) {
-            // 여기도 수정해야함
-            getChatListByUserSeq(intent.getIntExtra("receiverSeq", -1))
+            getChatListByUserSeq(receiverSeq, missingSeq)
         } else {
             getChatList()
         }
 
-
         binding.senderName.text = intent.getStringExtra("senderName")
-
+        getMissingBoard()
     }
-
-
 
 
     fun createChatJSON(text: String): String {
@@ -245,7 +246,7 @@ class ChatActivity : AppCompatActivity() {
                 "\"chatReceiver\":\"" + receiverId + "\"," +
                 "\"chatType\":\"text\"," +
                 "\"chatContent\":\"" + text + "\"," +
-                "\"chatDate\":\"" + date + "\"" +
+                "\"chatDate\":\"" + date + "\"," +
                 "\"missingSeq\":" + missingSeq +
                 "}"
     }
@@ -300,8 +301,8 @@ class ChatActivity : AppCompatActivity() {
         })
     }
 
-    private fun getChatListByUserSeq(receiverSeq: Int) {
-        val call = apiService.getChatListByReceiverSeq(receiverSeq)
+    private fun getChatListByUserSeq(receiverSeq: Int, missingSeq: Int) {
+        val call = apiService.getChatListByReceiverSeq(receiverSeq, missingSeq)
         call.enqueue(object : Callback<List<ChatVO>> {
             override fun onResponse(
 
@@ -337,5 +338,35 @@ class ChatActivity : AppCompatActivity() {
                 Log.d("ChatActivity", "채팅 리스트 ERROR")
             }
         })
+    }
+
+    private fun getMissingBoard() {
+        val call = apiService.getMissingBoardSummary(roomSeq, missingSeq)
+        call.enqueue(object : Callback<MissingBoardVo> {
+            override fun onResponse(
+                call: Call<MissingBoardVo>,
+                response: retrofit2.Response<MissingBoardVo>
+            ) {
+                if (response.isSuccessful) {
+                    var missingBoardSummary = response.body()
+                    if (missingBoardSummary != null) {
+                        Log.d("ChatActivity", "게시판 데이터: $missingBoardSummary")
+                        binding.detailText.text = "${missingBoardSummary.missingName} ${missingBoardSummary.missingAge}세 ${missingBoardSummary.missingSex}"
+
+                        Glide.with(binding.root).load(missingBoardSummary.imgUrl1).into(binding.detailImage)
+                    }
+                } else {
+                    // 서버로부터 응답을 받지 못한 경우 처리
+                    Log.d("ChatActivity", "게시판 데이터 받아오기 실패")
+                }
+
+            }
+
+            override fun onFailure(call: Call<MissingBoardVo>, t: Throwable) {
+                // 요청 자체가 실패한 경우 처리
+                Log.d("ChatActivity", "게시판 데이터 ERROR ${t.message}")
+            }
+        })
+
     }
 }

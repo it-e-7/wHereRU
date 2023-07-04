@@ -13,4 +13,5 @@ public interface MissingBoardService {
 	void updateMissingBoard(MissingBoardVo missingBoardVo);
 	List<MissingBoardVo> getTotalList();
 	DetailMissingBoardVo openChatActivity(int missingSeq);
+	MissingBoardVo getMissingBoardSummary(int roomSeq, int missingSeq);
 }

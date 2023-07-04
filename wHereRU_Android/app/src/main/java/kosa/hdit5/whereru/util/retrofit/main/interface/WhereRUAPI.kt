@@ -35,7 +35,7 @@ interface WhereRUAPI {
     fun getChatList(@Query("roomSeq") roomSeq: Int): Call<List<ChatVO>>
 
     @GET("whereru/chat/user")
-    fun getChatListByReceiverSeq(@Query("receiverSeq") receiverSeq: Int): Call<List<ChatVO>>
+    fun getChatListByReceiverSeq(@Query("receiverSeq") receiverSeq: Int, @Query("missingSeq") missingSeq: Int): Call<List<ChatVO>>
 
     /*@GET("whreru/user/checkuseridExist")
     fun checkUserIdExist(@Query("userId") userId: String): Call<Boolean>*/
@@ -48,4 +48,7 @@ interface WhereRUAPI {
 
     @GET("whereru/main/openchat/{missingBoardSeq}")
     fun openChatActivity(@Path("missingBoardSeq") missingBoardSeq: Int): Call<DetailMissingBoardVo>
+
+    @GET("whereru/main/summary")
+    fun getMissingBoardSummary(@Query("roomSeq") roomSeq: Int, @Query("missingSeq") missingSeq: Int): Call<MissingBoardVo>
 }
