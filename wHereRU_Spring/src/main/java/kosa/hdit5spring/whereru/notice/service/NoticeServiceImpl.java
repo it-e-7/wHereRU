@@ -30,6 +30,7 @@ public class NoticeServiceImpl implements NoticeService {
 		List<String> tokenList = noticeMapper.getTokenList(userSeq);
 		return tokenList;
 	}
+	
 	@Override
 	public void sendingToOne(String userId) {	
 		String token = getToken(userId);
@@ -83,14 +84,13 @@ public class NoticeServiceImpl implements NoticeService {
 		for(String token : tokenList) {
 			Thread t = new Thread(()->{
 			 try {
-				 	System.out.println(token);
 		            String url = "https://fcm.googleapis.com/fcm/send";
 
 		            // FCM서버키
 		            String serverKey = "AAAAQGwJreo:APA91bERH85R8sckereChqMrm1niq1MQh7qXOEXSESjpvn5eDPzt72z_1JT114p5IFv90z8dAeHJ88l62__SIKpkXuVdoDU1QVWbMgGna96_K297YIuEB9_A0OtX0lfiN1cAFtFswkuE";
 
 		            // 요청보낼타겟디바이스토큰
-		            String targetToken = token;
+		           String targetToken = token;
 
 		            // 바디설정
 		            String message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \"도움이 필요한 사람이 생겼어요!\", \"body\": \"당신의 따뜻한 손길이 필요해요!!\" } }";
@@ -123,9 +123,8 @@ public class NoticeServiceImpl implements NoticeService {
 		        } catch (IOException e) {
 		            e.printStackTrace();
 		        }
-			});
+			} );
 			t.start();
-		}
-		
-	}
+	}		
+	}	
 }
