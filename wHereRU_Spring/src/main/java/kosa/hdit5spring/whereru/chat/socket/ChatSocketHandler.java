@@ -48,7 +48,6 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		
-		System.out.println(message);
 		
 		try {
 			JsonObject parsedChat = JsonParser.parseString(message.getPayload().toString()).getAsJsonObject();
@@ -63,12 +62,14 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 				String chatContent = parsedChat.get("chatContent").getAsString();
 				String chatType = parsedChat.get("chatType").getAsString();
 				String chatDate = parsedChat.get("chatDate").getAsString();
+				int missingSeq = parsedChat.get("missingSeq").getAsInt();
 				
 				chat.setChatSender(chatSender);
 				chat.setChatReceiver(chatReceiver);
 				chat.setChatContent(chatContent);
 				chat.setChatType(chatType);
 				chat.setChatDate(chatDate);
+				chat.setMissingSeq(missingSeq);
 				
 				service.addChat(chat);
 				

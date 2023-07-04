@@ -18,14 +18,14 @@
       android:textStyle="bold"
       app:layout_constraintBottom_toTopOf="@id/register_box"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
-
+      app:layout_constraintTop_toBottomOf="@+id/left_arrow" />
 
   <androidx.constraintlayout.widget.ConstraintLayout
       android:id="@+id/register_box"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="52dp"
+      android:layout_marginBottom="40dp"
+      android:layout_marginTop="60dp"
       app:layout_constraintBottom_toTopOf="@id/register_btn"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
@@ -70,21 +70,10 @@
         android:layout_height="50dp"
         android:inputType="textEmailAddress"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@id/register_id_duplicate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/register_id_tv"  />
-
-    <TextView
-        android:id="@+id/register_id_duplicate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:textColorHint="@color/green"
         app:layout_constraintBottom_toTopOf="@id/register_pw_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/register_id" />
+        app:layout_constraintTop_toBottomOf="@id/register_id_tv"  />
 
     <TextView
         android:id="@+id/register_pw_tv"
@@ -95,7 +84,7 @@
         app:layout_constraintBottom_toTopOf="@id/login_pw"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/register_id_duplicate" />
+        app:layout_constraintTop_toBottomOf="@id/register_id" />
 
 
     <EditText
@@ -147,6 +136,16 @@
       app:layout_constraintHorizontal_bias="1.0"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/register_box" />
+
+  <ImageView
+      android:id="@+id/left_arrow"
+      android:layout_width="40dp"
+      android:layout_height="40dp"
+      android:layout_marginStart="-12dp"
+      android:layout_marginTop="28dp"
+      android:src="@drawable/arrow_left"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

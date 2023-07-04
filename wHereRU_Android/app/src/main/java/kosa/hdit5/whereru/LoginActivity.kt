@@ -17,6 +17,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class MyCookieJar : CookieJar {
     private var cookies: List<Cookie> = ArrayList()
 
@@ -26,6 +27,10 @@ class MyCookieJar : CookieJar {
 
     override fun loadForRequest(url: HttpUrl): List<Cookie> {
         return cookies
+    }
+
+    fun clearCookies() {
+        cookies = ArrayList()
     }
 }
 class LoginActivity : Activity() {
@@ -54,8 +59,10 @@ class LoginActivity : Activity() {
                         var mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
                         GlobalState.isLogin = true;
                         GlobalState.userId = userId;
-                        GlobalState.userSeq = (response.body()?.userSeq)?.toInt()
                         GlobalState .userToken = intent.getStringExtra("token")
+                        GlobalState.userName = loginVo?.userName
+                        GlobalState.userSeq = (loginVo?.userSeq)?.toInt()
+                        
                         startActivity(mainIntent)
                     } else {
                         Toast.makeText(this@LoginActivity, "로그인 실패", Toast.LENGTH_SHORT).show()

@@ -16,7 +16,8 @@
 		<result column="missing_point" property="missingPoint" />
 		<result column="user_seq" property="userSeq" />
 		<result column="missing_img_urls" property="missingImgUrls" />
-		
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />	
 	</resultMap>
 		
 	<resultMap type="MissingBoard" id="MissingBoardResult">
@@ -54,13 +55,23 @@
       WHERE M.missing_seq = #{missingSeq}
       GROUP BY M.missing_seq, m.missing_name, m.missing_age, m.missing_sex,
       m.missing_outfit, m.missing_time, m.missing_point, m.user_seq	
-      </select>
+     </select>
 
 	<!-- 완료 -->
 	<delete id="deleteMissingBoard" parameterType="int">
 		DELETE FROM MissingBoard
 		WHERE missing_seq = #{missingSeq}
 	</delete>
+
+	<!-- ChatActivity 연결 -->
+	<select id="openChatActivity" parameterType = "int" resultMap="DetailMissingBoardResult">
+		SELECT M.*, U.user_id, U.user_name 
+	      FROM MissingBoard M
+	      JOIN tb_user U
+	        ON M.user_seq = U.user_seq
+	     WHERE M.missing_seq = #{missingSeq}
+	</select>
+	
 
 	<!-- 수정 -->
 	<update id="updateMissingBoard" parameterType="DetailMissingBoard">

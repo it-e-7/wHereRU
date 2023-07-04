@@ -27,6 +27,12 @@ public class ChatServiceImpl implements ChatService {
 	}
 	
 	@Override
+	public List<ChatVO> getChatRoomListByReceiverSeq(int receiverSeq, String userId) {
+		mapper.updateChatCheckedByReceiverSeq(receiverSeq, userId);
+		return mapper.selectAllChatByReceiverSeq(receiverSeq, userId);
+	}
+	
+	@Override
 	public List<ChatListVO> getChatRoomListByUserId(String userId) {
 		
 		return mapper.selectAllChatRoom(userId);

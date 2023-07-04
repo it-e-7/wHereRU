@@ -53,5 +53,9 @@ class RegisterActivity : Activity() {
                 }
             })
         }
+
+        binding.leftArrow.setOnClickListener {
+            this.finish()
+        }
     }
 }

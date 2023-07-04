@@ -8,9 +8,11 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kosa.hdit5.whereru.databinding.ActivityDetailBinding
+import kosa.hdit5.whereru.util.GlobalState.userSeq
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
 import kosa.hdit5.whereru.util.retrofit.main.vo.DetailMissingBoardVo
+import kosa.hdit5.whereru.util.retrofit.main.vo.UserVO
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,8 +41,6 @@ class DetailActivity : AppCompatActivity() {
 
 
         if (missingBoardSeq != -1) {
-            //val params = HashMap<String, Any>()
-            //params["missingBoardSeq"] = missingBoardSeq
 
             val detailPageService: WhereRUAPI = RetrofitBuilder.api
             val call = detailPageService.getMissingBoardDetail(missingBoardSeq)
@@ -95,10 +95,54 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.leftArrow.setOnClickListener {
-            Log.d("arrow", "qqqqqqqqqqqqqq")
             this.finish()
         }
-        
+
+        binding.fabChat.setOnClickListener {
+
+            val detailPageService: WhereRUAPI = RetrofitBuilder.api
+            val call = detailPageService.openChatActivity(missingBoardSeq)
+            val chatIntent = Intent(this, ChatActivity::class.java)
+
+            call.enqueue(object : Callback<DetailMissingBoardVo> {
+                override fun onResponse(
+                    call: Call<DetailMissingBoardVo>,
+                    response: Response<DetailMissingBoardVo>
+                ) {
+                    Log.d("DetailActivityCustom", response.toString())
+                    if (response.isSuccessful && response.body() != null) {
+                        val detail = response.body()!!
+
+                        chatIntent.putExtra("missingSeq", detail.missingSeq)
+                        chatIntent.putExtra("receiverSeq", detail.userSeq)
+                        chatIntent.putExtra("sender", detail.userId)
+                        chatIntent.putExtra("senderName", detail.userName)
+                        startActivity(chatIntent)
+                    }
+                }
+
+                override fun onFailure(call: Call<DetailMissingBoardVo>, t: Throwable) {
+                    Log.e("DetailActivityCustom", "Failed to retrieve missing board detail", t)
+                }
+            })
+
+        }
+
+        // footer 설정 !!!
+        binding.footer.homeIcon.setOnClickListener {
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.chatIcon.setOnClickListener {
+            var intent = Intent(this, ChatListActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.mypageIcon.setOnClickListener {
+            var intent = Intent(this, MyPageActivity::class.java)
+            startActivity(intent)
+        }
+
+
     }
     private fun toggleFab() {
         val fabHeight = binding.fab.height.toFloat()

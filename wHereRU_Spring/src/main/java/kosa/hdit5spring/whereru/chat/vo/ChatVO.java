@@ -15,4 +15,5 @@ public class ChatVO {
 	String chatType;
 	String chatContent;
 	String chatDate;
+	int missingSeq;
 }
