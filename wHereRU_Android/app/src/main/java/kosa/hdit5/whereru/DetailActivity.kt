@@ -8,9 +8,11 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kosa.hdit5.whereru.databinding.ActivityDetailBinding
+import kosa.hdit5.whereru.util.GlobalState.userSeq
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
 import kosa.hdit5.whereru.util.retrofit.main.vo.DetailMissingBoardVo
+import kosa.hdit5.whereru.util.retrofit.main.vo.UserVO
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -93,7 +95,6 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.leftArrow.setOnClickListener {
-            Log.d("arrow", "qqqqqqqqqqqqqq")
             this.finish()
         }
 
@@ -112,8 +113,11 @@ class DetailActivity : AppCompatActivity() {
                     if (response.isSuccessful && response.body() != null) {
                         val detail = response.body()!!
 
+                        chatIntent.putExtra("missingSeq", detail.missingSeq)
+                        chatIntent.putExtra("receiverSeq", detail.userSeq)
                         chatIntent.putExtra("sender", detail.userId)
                         chatIntent.putExtra("senderName", detail.userName)
+                        startActivity(chatIntent)
                     }
                 }
 
@@ -122,7 +126,20 @@ class DetailActivity : AppCompatActivity() {
                 }
             })
 
-            startActivity(chatIntent)
+        }
+
+        // footer 설정 !!!
+        binding.footer.homeIcon.setOnClickListener {
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.chatIcon.setOnClickListener {
+            var intent = Intent(this, ChatListActivity::class.java)
+            startActivity(intent)
+        }
+        binding.footer.mypageIcon.setOnClickListener {
+            var intent = Intent(this, MyPageActivity::class.java)
+            startActivity(intent)
         }
 
 
