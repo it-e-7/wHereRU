@@ -21,7 +21,6 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public String getToken(String userId) {
 		String token = noticeMapper.getToken(userId);
-		System.out.println("여기에요"+token);
 		return token;
 	}
 	
@@ -32,10 +31,9 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 	
 	@Override
-	public void sendingToOne(String userId) {	
-		String token = getToken(userId);
+	public void sendingToOne(ChatVO chatvo) {	
+		String token = getToken(chatvo.getChatReceiver());
 		 try {
-			 	System.out.println(token);
 	            String url = "https://fcm.googleapis.com/fcm/send";
 
 	            // FCM서버키
@@ -45,7 +43,7 @@ public class NoticeServiceImpl implements NoticeService {
 	            String targetToken = token;
 
 	            // 바디설정
-	            String message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \"도움이 필요한 사람이 생겼어요!\", \"body\": \"당신의 따뜻한 손길이 필요해요!!\" } }";
+	            String message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \""+chatvo.getChatSender()+"\", \"body\": \""+chatvo.getChatContent()+"\" } }";
 	            System.out.println(message);
 	            URL obj = new URL(url);
 	            HttpURLConnection conn = (HttpURLConnection) obj.openConnection();

@@ -79,7 +79,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 				socketSessionMap.put(parsedChat.get("chatSender").toString(), session);
 				
 				WebSocketSession receiverSession = socketSessionMap.get(parsedChat.get("chatReceiver").toString());
-				noticeService.sendingToOne(chat.getChatReceiver());
+				noticeService.sendingToOne(chat);
 				setNoticeService.setNoticeByChat(chat);
 				
 				if(receiverSession != null) {
