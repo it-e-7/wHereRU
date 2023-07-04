@@ -27,27 +27,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-//class RightAlignPageTransformer : ViewPager2.PageTransformer {
-//    override fun transformPage(page: View, position: Float) {
-//        page.translationX = -page.width * position
-//
-//        if (position < -1 || position > 1) {
-//            page.alpha = 0f
-//        } else {
-//            page.alpha = 1f
-//
-//            val scaleFactor = Math.max(0.85f, 1 - Math.abs(position - 0.3f))
-//            page.scaleX = scaleFactor
-//            page.scaleY = scaleFactor
-//
-//            if (position > 0) {
-//                page.translationX = -page.width * position * 0.5f
-//            } else {
-//                page.translationX = 0f
-//            }
-//        }
-//    }
-//}
+
 class MyPagerViewHolder(val binding : MainItemPagerBinding) : RecyclerView.ViewHolder(binding.root){
     val imageView: ImageView = binding.mainImageView
 }
@@ -113,7 +93,6 @@ class MainViewPager : Fragment() {
 
         myDataAdapter = MyPagerAdapter(myData)
         binding.mainviewpager.adapter = myDataAdapter
-//        binding.mainviewpager.setPageTransformer(RightAlignPageTransformer())
 
         getTotalList()
 
