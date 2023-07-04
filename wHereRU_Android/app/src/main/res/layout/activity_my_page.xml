@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="My Page"
+        android:text="마이페이지"
         android:textSize="24dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/logout_box"
@@ -54,6 +54,14 @@
             app:layout_constraintStart_toEndOf="@+id/logout_name_tv"
             app:layout_constraintTop_toTopOf="@+id/logout_box" />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@+id/logout_name_tv"
+            app:layout_constraintEnd_toEndOf="@+id/logout_name"
+            app:layout_constraintTop_toBottomOf="@+id/logout_name" />
+
         <TextView
             android:id="@+id/logout_id_tv"
             android:layout_width="0dp"
@@ -77,6 +85,14 @@
             app:layout_constraintHorizontal_weight="5"
             app:layout_constraintStart_toEndOf="@+id/logout_id_tv"
             app:layout_constraintTop_toBottomOf="@+id/logout_name" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@+id/logout_id_tv"
+            app:layout_constraintEnd_toEndOf="@+id/logout_id"
+            app:layout_constraintTop_toBottomOf="@+id/logout_id" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

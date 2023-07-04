@@ -20,6 +20,7 @@
         android:id="@+id/write_page_scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingBottom="20dp"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="280dp"
         app:layout_constraintTop_toBottomOf="@+id/fragment_container"
@@ -37,11 +38,12 @@
 
             <TextView
                 android:id="@+id/detail_name_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
+                app:layout_constraintWidth_percent="0.15"
                 android:text="이름"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,14 +51,14 @@
 
             <TextView
                 android:id="@+id/detail_name"
-                android:layout_width="280dp"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="@font/noto"
                 android:gravity="center"
                 android:textSize="16dp"
-                android:fontFamily="@font/noto"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/detail_name_tv"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -71,11 +73,12 @@
 
             <TextView
                 android:id="@+id/detail_age_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
+                app:layout_constraintWidth_percent="0.15"
                 android:text="나이"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,14 +86,14 @@
 
             <TextView
                 android:id="@+id/detail_age"
-                android:layout_width="280dp"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="@font/noto"
                 android:gravity="center"
                 android:textSize="16dp"
-                android:fontFamily="@font/noto"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/detail_age_tv"
                 app:layout_constraintTop_toBottomOf="@+id/detail_name" />
@@ -105,11 +108,12 @@
 
             <TextView
                 android:id="@+id/detail_sex_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
+                app:layout_constraintWidth_percent="0.15"
                 android:text="성별"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,14 +121,14 @@
 
             <TextView
                 android:id="@+id/detail_sex"
-                android:layout_width="280dp"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="@font/noto"
                 android:gravity="center"
                 android:textSize="16dp"
-                android:fontFamily="@font/noto"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/detail_sex_tv"
                 app:layout_constraintTop_toBottomOf="@+id/detail_age" />
@@ -139,11 +143,12 @@
 
             <TextView
                 android:id="@+id/detail_outfit_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
+                app:layout_constraintWidth_percent="0.15"
                 android:text="차림새"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -151,14 +156,14 @@
 
             <TextView
                 android:id="@+id/detail_outfit"
-                android:layout_width="280dp"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="@font/noto"
                 android:gravity="center"
                 android:textSize="16dp"
-                android:fontFamily="@font/noto"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.055"
                 app:layout_constraintStart_toEndOf="@+id/detail_outfit_tv"
@@ -174,11 +179,12 @@
 
             <TextView
                 android:id="@+id/detail_time_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
+                app:layout_constraintWidth_percent="0.15"
                 android:text="시간대"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -186,14 +192,14 @@
 
             <TextView
                 android:id="@+id/detail_time"
-                android:layout_width="280dp"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="@font/noto"
                 android:gravity="center"
                 android:textSize="16dp"
-                android:fontFamily="@font/noto"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/detail_time_tv"
@@ -209,11 +215,12 @@
 
             <TextView
                 android:id="@+id/detail_point_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
+                app:layout_constraintWidth_percent="0.15"
                 android:text="위치"
                 android:textSize= "16dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -221,15 +228,14 @@
 
             <TextView
                 android:id="@+id/detail_point"
-                android:layout_width="280dp"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="@font/noto"
                 android:gravity="center"
                 android:textSize="16dp"
-                android:fontFamily="@font/noto"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/detail_point_tv"
                 app:layout_constraintTop_toBottomOf="@+id/detail_time" />
