@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
@@ -24,6 +26,9 @@ import kosa.hdit5.whereru.util.retrofit.main.vo.writeMissingBoardVo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -42,40 +47,38 @@ class WritePageActivity : AppCompatActivity() {
     var imageButton2Bitmap: Uri? = null
     var imageButton3Bitmap: Uri? = null
     var formattedDateTime: String =""
+
+
     // 사진 추가 -> 갤러리 연동
     var imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             if (data != null) {
                 val imageUri: Uri? = data.data
-                Log.d("hong","$imageUri")
                 if (imageUri != null) {
                     when {
                         imageButton1Bitmap == null -> {
                             imageButton1Bitmap = imageUri
-                            Log.d("hong","imagButton1: ${imageButton1Bitmap}")
-                            binding.imgButton1.setImageURI(imageButton1Bitmap)
-                            binding.imgView1.visibility = View.GONE
-                            binding.firstImgFrame.setBackgroundResource(android.R.color.transparent)
+                            binding.firstImgView.setImageURI(imageButton1Bitmap)
+                            binding.firstImgView.setBackgroundResource(android.R.color.transparent)
                             noImage = true
 
                         }
 
                         imageButton2Bitmap == null -> {
                             imageButton2Bitmap = imageUri
-                            binding.imgButton2.setImageURI(imageButton2Bitmap)
-                            binding.imgView2.visibility = View.GONE
-                            binding.secondImgFrame.setBackgroundResource(android.R.color.transparent)
+                            binding.secondImgView.setImageURI(imageButton2Bitmap)
+                            binding.secondImgView.setBackgroundResource(android.R.color.transparent)
                         }
 
                         imageButton3Bitmap == null -> {
                             imageButton3Bitmap = imageUri
-                            binding.imgButton3.setImageURI(imageButton3Bitmap)
-                            binding.imgView3.visibility = View.GONE
-                            binding.thirdImgFrame.setBackgroundResource(android.R.color.transparent)
+                            binding.thirdImgView.setImageURI(imageButton3Bitmap)
+                            binding.thirdImgView.setBackgroundResource(android.R.color.transparent)
                         }
                     }
                 }
+
             }
         }
     }
@@ -147,12 +150,7 @@ class WritePageActivity : AppCompatActivity() {
             intent.type = "image/*"
             imagePickerLauncher.launch(intent)
         }
-        binding.imgButton1.setOnClickListener(clickListener)
         binding.imgView1.setOnClickListener(clickListener)
-        binding.imgButton2.setOnClickListener(clickListener)
-        binding.imgView2.setOnClickListener(clickListener)
-        binding.imgButton3.setOnClickListener(clickListener)
-        binding.imgView3.setOnClickListener(clickListener)
 
         binding.finishWriteButton.setOnClickListener {
             Log.d("hong","버튼버튼버튼ㅐ")
