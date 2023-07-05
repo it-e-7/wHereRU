@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             if(loginCheck==true){
                 //적당한 페이지 이동(마이페이지)
                 val intent = Intent(this, MyPageActivity::class.java)
-
+                startActivity(intent)
             }else{
                 val intent = Intent(this,LoginActivity::class.java)
                 intent.putExtra("token",token)
