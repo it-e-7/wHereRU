@@ -32,6 +32,7 @@ class MyCookieJar : CookieJar {
 
     fun clearCookies() {
         cookies = ArrayList()
+        GlobalState.isLogin=false
     }
 }
 class LoginActivity : Activity() {
