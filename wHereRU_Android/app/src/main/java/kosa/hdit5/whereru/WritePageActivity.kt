@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import kosa.hdit5.whereru.databinding.ActivityWritePageBinding
 import kosa.hdit5.whereru.util.GlobalState
@@ -231,16 +232,7 @@ class WritePageActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.footer.mypageIcon.setOnClickListener {
-            val loginCheck = GlobalState.isLogin
-            if(loginCheck==true){
-                //적당한 페이지 이동(마이페이지)
-                val intent = Intent(this, WritePageActivity::class.java)
-
-                startActivity(intent)
-            }else{
-                val intent = Intent(this,LoginActivity::class.java)
-                startActivity(intent)
-            }
+            val intent = Intent(this, MyPageActivity::class.java)
         }
 
     }
