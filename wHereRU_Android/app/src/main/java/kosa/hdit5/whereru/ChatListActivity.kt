@@ -156,6 +156,7 @@ class ChatListActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+        binding.footer.chatIcon.setImageResource(R.drawable.chat_icon_active)
     }
 
     override fun onResume() {

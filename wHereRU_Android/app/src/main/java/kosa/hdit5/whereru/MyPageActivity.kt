@@ -51,5 +51,6 @@ class MyPageActivity : Activity() {
             var intent = Intent(this, MyPageActivity::class.java)
             startActivity(intent)
         }
+        binding.footer.mypageIcon.setImageResource(R.drawable.mypage_icon_active)
     }
 }

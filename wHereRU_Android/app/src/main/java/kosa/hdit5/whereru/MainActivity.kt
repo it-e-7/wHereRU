@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessaging
 import android.content.Intent
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.inappmessaging.FirebaseInAppMessaging
@@ -53,8 +54,8 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val gradientDrawable = ContextCompat.getDrawable(this, R.drawable.gradient_background)
-        window.decorView.background = gradientDrawable
+//        val gradientDrawable = ContextCompat.getDrawable(this, R.drawable.gradient_background)
+//        window.decorView.background = gradientDrawable
         // FCM을 위해 토큰 가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -110,6 +111,9 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        binding.footer.footerLine.visibility = View.GONE
+        binding.footer.homeIcon.setImageResource(R.drawable.home_icon_active)
     }
 
 

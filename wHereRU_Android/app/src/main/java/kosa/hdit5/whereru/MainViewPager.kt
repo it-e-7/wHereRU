@@ -57,7 +57,7 @@ class MyPagerAdapter(private var myData: MutableList<MainMissingBoardVo>): Recyc
             intent.putExtra("missingBoardSeq", myData[position].missingSeq)
             holder.itemView.context.startActivity(intent)
         }
-        val info = "${myData[position].missingName+" " + myData[position].missingAge.toString()+" " + myData[position].missingSex}"
+        val info = "${myData[position].missingName+" / " + myData[position].missingAge.toString()+"세 / " + myData[position].missingSex}"
         binding.mainMissingInfo.text = info
 
 
