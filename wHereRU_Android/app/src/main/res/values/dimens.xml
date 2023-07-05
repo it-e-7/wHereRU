@@ -2,4 +2,7 @@
 <resources>
     <dimen name="footer_height">55dp</dimen>
     <dimen name="footer_icon_width">32dp</dimen>
+    <dimen name="arrow_left_width">40dp</dimen>
+    <dimen name="arrow_left_marginTop">8dp</dimen>
+    <dimen name="arrow_left_marginLeft">4dp</dimen>
 </resources>

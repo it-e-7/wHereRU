@@ -17,14 +17,15 @@
 
         <ImageButton
             android:id="@+id/goback_button"
-            android:layout_width="45dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/arrow_left_width"
+            android:layout_height="@dimen/arrow_left_width"
+            android:layout_marginLeft="@dimen/arrow_left_marginLeft"
+            android:layout_marginTop="@dimen/arrow_left_marginTop"
             android:src="@drawable/arrow_left"
             android:tint="@color/white"
             android:background="@color/green"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="8dp"
             tools:ignore="MissingConstraints" />
 
 

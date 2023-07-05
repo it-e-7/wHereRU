@@ -124,9 +124,10 @@
 
     <ImageView
         android:id="@+id/left_arrow"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="@dimen/arrow_left_width"
+        android:layout_height="@dimen/arrow_left_width"
+        android:layout_marginLeft="@dimen/arrow_left_marginLeft"
+        android:layout_marginTop="@dimen/arrow_left_marginTop"
         android:src="@drawable/arrow_left"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
