@@ -33,7 +33,7 @@ class MyPageActivity : Activity() {
             // 쿠키 제거
             RetrofitBuilder.cookieJar.clearCookies()
 
-            val intent = Intent(this@MyPageActivity, LoginActivity::class.java)
+            val intent = Intent(this@MyPageActivity, MainActivity::class.java)
             startActivity(intent)
             finish()  // MyPageActivity 종료
         }
