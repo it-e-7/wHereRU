@@ -173,25 +173,25 @@
                     android:id="@+id/show_picker_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="40dp"
                     android:text="날짜 및 시간 선택하기"
                     app:layout_constraintBottom_toTopOf="@+id/write_point"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/write_outfit"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <EditText
                     android:id="@+id/write_point"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="76dp"
                     android:background="@drawable/write_page_background"
                     android:hint="위치"
                     android:textSize="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <EditText
@@ -223,6 +223,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/write_box"
                 app:layout_constraintVertical_bias="0.0" />
+<!--시도해봄-->
+<!--            <Button-->
+<!--                android:id="@+id/location"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="위치 설정하기"-->
+<!--                app:layout_constraintBottom_toTopOf="@+id/finish_write_button"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
