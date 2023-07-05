@@ -8,6 +8,7 @@ import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ScrollView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -54,6 +55,8 @@ class WritePageActivity : AppCompatActivity() {
                             imageButton1Bitmap = imageUri
                             Log.d("hong","imagButton1: ${imageButton1Bitmap}")
                             binding.imgButton1.setImageURI(imageButton1Bitmap)
+                            binding.imgView1.visibility = View.GONE
+                            binding.firstImgFrame.setBackgroundResource(android.R.color.transparent)
                             noImage = true
 
                         }
@@ -61,11 +64,15 @@ class WritePageActivity : AppCompatActivity() {
                         imageButton2Bitmap == null -> {
                             imageButton2Bitmap = imageUri
                             binding.imgButton2.setImageURI(imageButton2Bitmap)
+                            binding.imgView2.visibility = View.GONE
+                            binding.secondImgFrame.setBackgroundResource(android.R.color.transparent)
                         }
 
                         imageButton3Bitmap == null -> {
                             imageButton3Bitmap = imageUri
                             binding.imgButton3.setImageURI(imageButton3Bitmap)
+                            binding.imgView3.visibility = View.GONE
+                            binding.thirdImgFrame.setBackgroundResource(android.R.color.transparent)
                         }
                     }
                 }
@@ -134,23 +141,18 @@ class WritePageActivity : AppCompatActivity() {
         showPickerButton.setOnClickListener {
             showDateTimePicker()
         }
-        binding.imgButton1.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            imagePickerLauncher.launch(intent)
-        }
 
-        binding.imgButton2.setOnClickListener {
+        val clickListener = View.OnClickListener{
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             imagePickerLauncher.launch(intent)
         }
-
-        binding.imgButton3.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            imagePickerLauncher.launch(intent)
-        }
+        binding.imgButton1.setOnClickListener(clickListener)
+        binding.imgView1.setOnClickListener(clickListener)
+        binding.imgButton2.setOnClickListener(clickListener)
+        binding.imgView2.setOnClickListener(clickListener)
+        binding.imgButton3.setOnClickListener(clickListener)
+        binding.imgView3.setOnClickListener(clickListener)
 
         binding.finishWriteButton.setOnClickListener {
             Log.d("hong","버튼버튼버튼ㅐ")
