@@ -21,6 +21,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
 import kosa.hdit5.whereru.util.GlobalState
+import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 
 
 class MainActivity : AppCompatActivity() {
@@ -101,7 +102,8 @@ class MainActivity : AppCompatActivity() {
         }
         binding.footer.mypageIcon.setOnClickListener {
             val loginCheck = GlobalState.isLogin
-            if(loginCheck==true){
+            //Log.d("one","CLEAR${RetrofitBuilder.cookieJar}")
+            if(loginCheck!=false){
                 //적당한 페이지 이동(마이페이지)
                 val intent = Intent(this, MyPageActivity::class.java)
                 startActivity(intent)

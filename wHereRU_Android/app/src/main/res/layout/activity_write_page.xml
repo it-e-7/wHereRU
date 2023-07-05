@@ -43,48 +43,104 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageButton
-                    android:id="@+id/img_button1"
+                <FrameLayout
+                    android:id="@+id/first_img_frame"
                     android:layout_width="83dp"
                     android:layout_height="185dp"
                     android:layout_marginStart="36dp"
-                    android:background="@drawable/write_page_background"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/img_plus"
-                    android:text="이미지 버튼1"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.066" />
+                    app:layout_constraintVertical_bias="0.066"
+                    android:background="@drawable/write_page_background">
 
-                <ImageButton
-                    android:id="@+id/img_button2"
+                    <ImageButton
+                        android:id="@+id/img_button1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
+                        android:background="@android:color/transparent"
+                        />
+
+                    <ImageView
+                        android:id="@+id/img_view1"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/image"
+                        app:tint="#777777"/>
+
+                </FrameLayout>
+
+
+                <FrameLayout
+                    android:id="@+id/second_img_frame"
                     android:layout_width="83dp"
                     android:layout_height="185dp"
-                    android:background="@drawable/write_page_background"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/img_plus"
-                    android:text="이미지 버튼2"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/img_button3"
-                    app:layout_constraintHorizontal_bias="0.54"
-                    app:layout_constraintStart_toEndOf="@+id/img_button1"
+                    app:layout_constraintStart_toEndOf="@+id/first_img_frame"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.073" />
+                    android:background="@drawable/write_page_background">
 
-                <ImageButton
-                    android:id="@+id/img_button3"
+                    <ImageButton
+                        android:id="@+id/img_button2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
+                        android:background="@android:color/transparent"/>
+
+                    <ImageView
+                        android:id="@+id/img_view2"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/image"
+                        app:tint="#777777"/>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/third_img_frame"
                     android:layout_width="83dp"
                     android:layout_height="185dp"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="36dp"
-                    android:background="@drawable/write_page_background"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/img_plus"
-                    android:text="이미지 버튼3"
+                    android:layout_marginBottom="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/second_img_frame"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.073" />
+                    android:background="@drawable/write_page_background">
+
+                    <ImageButton
+                        android:id="@+id/img_button3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
+                        android:background="@android:color/transparent"
+                        />
+
+                    <ImageView
+                        android:id="@+id/img_view3"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/image"
+                        app:tint="#777777"/>
+                </FrameLayout>
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

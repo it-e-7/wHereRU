@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.core.content.ContextCompat.startActivity
 import kosa.hdit5.whereru.databinding.ActivityMyPageBinding
 import kosa.hdit5.whereru.util.GlobalState
@@ -33,6 +34,7 @@ class MyPageActivity : Activity() {
             // 쿠키 제거
             RetrofitBuilder.cookieJar.clearCookies()
 
+            Log.d("one", "${GlobalState.userName}")
             val intent = Intent(this@MyPageActivity, MainActivity::class.java)
             startActivity(intent)
             finish()  // MyPageActivity 종료
