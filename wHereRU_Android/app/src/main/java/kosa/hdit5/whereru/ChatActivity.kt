@@ -36,6 +36,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import java.text.SimpleDateFormat
+import java.util.UUID
 
 data class ChatVO(
     val chatSender: String,
@@ -185,10 +186,8 @@ class ChatActivity : AppCompatActivity() {
             val data: Intent? = result.data
             if (data != null) {
                 val imageUri: Uri? = data.data
-                Log.d("ChatActivity","$imageUri")
                 if (imageUri != null) {
                     imageButton1Bitmap = imageUri
-                    Log.d("ChatActivity","imagButton1: ${imageButton1Bitmap}")
                     binding.pickImageSection.visibility = View.VISIBLE
                     binding.chatEdit.isClickable = false
                     binding.chatEdit.isFocusable = false
@@ -271,10 +270,12 @@ class ChatActivity : AppCompatActivity() {
 
         binding.chatButton.setOnClickListener {
             if(imageButton1Bitmap == null) {
-                chatSocket.send(createChatJSON(binding.chatEdit.text.toString()))
+                chatSocket.send(createChatJSON(binding.chatEdit.text.toString(), "text"))
                 binding.chatEdit.text.clear()
             } else {
                 // 이미지 전송 로직 !
+                sendImage()
+                setImageSectionGone()
             }
 
         }
@@ -301,15 +302,7 @@ class ChatActivity : AppCompatActivity() {
         }
 
         binding.deleteButton.setOnClickListener {
-            imageButton1Bitmap = null
-            binding.pickImageSection.visibility = View.GONE
-            binding.chatEdit.isClickable = true
-            binding.chatEdit.isFocusableInTouchMode = true
-            binding.chatEdit.isFocusableInTouchMode = true
-
-            if(binding.chatEdit.text.isEmpty()) {
-                binding.chatButton.setImageResource(R.drawable.chat_button)
-            }
+            setImageSectionGone()
         }
 
         binding.arrowLeft.setOnClickListener {
@@ -327,19 +320,18 @@ class ChatActivity : AppCompatActivity() {
     }
 
 
-    fun createChatJSON(text: String): String {
+    fun createChatJSON(text: String, type: String): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm")
         val date = sdf.format(System.currentTimeMillis())
         val missingSeq = intent.getIntExtra("missingSeq", 1)
 
         return "{" +
-                "\"chatSender\":\"" + GlobalState.userId + "\"," +
-                "\"chatReceiver\":\"" + receiverId + "\"," +
-                "\"chatType\":\"text\"," +
-                "\"chatContent\":\"" + text + "\"," +
-                "\"chatDate\":\"" + date + "\"," +
-                "\"missingSeq\":" + missingSeq +
-                "}"
+                "\"chatSender\":\"${GlobalState.userId}\"," +
+                "\"chatReceiver\":\"$receiverId\"," +
+                "\"chatType\":\"$type\"," +
+                "\"chatContent\":\"$text\"," +
+                "\"chatDate\":\"$date\"," +
+                "\"missingSeq\":$missingSeq}"
     }
 
     fun createSocketConnection() {
@@ -374,7 +366,6 @@ class ChatActivity : AppCompatActivity() {
                             }
                             newData.add(chat)
                         }
-                        Log.d("ChatActivity", "채팅 리스트 : $chatList")
                         chatAdapter.setItem(newData)
                         binding.chatBox.smoothScrollToPosition(chatAdapter.itemCount)
                     }
@@ -413,7 +404,6 @@ class ChatActivity : AppCompatActivity() {
                             }
                             newData.add(chat)
                         }
-                        Log.d("ChatActivity", "채팅 리스트 : $chatList")
                         chatAdapter.setItem(newData)
                         binding.chatBox.smoothScrollToPosition(chatAdapter.itemCount)
                     }
@@ -441,7 +431,6 @@ class ChatActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     var missingBoardSummary = response.body()
                     if (missingBoardSummary != null) {
-                        Log.d("ChatActivity", "게시판 데이터: $missingBoardSummary")
                         binding.detailText.text = "${missingBoardSummary.missingName} ${missingBoardSummary.missingAge}세 ${missingBoardSummary.missingSex}"
                         missingSeq = missingBoardSummary.missingSeq
 
@@ -462,6 +451,36 @@ class ChatActivity : AppCompatActivity() {
                 Log.d("ChatActivity", "게시판 데이터 ERROR ${t.message}")
             }
         })
+    }
 
+    fun setImageSectionGone() {
+        imageButton1Bitmap = null
+        binding.pickImageSection.visibility = View.GONE
+        binding.chatEdit.isClickable = true
+        binding.chatEdit.isFocusableInTouchMode = true
+        binding.chatEdit.isFocusableInTouchMode = true
+
+        if(binding.chatEdit.text.isEmpty()) {
+            binding.chatButton.setImageResource(R.drawable.chat_button)
+        }
+    }
+
+    private fun sendImage() {
+        var imgFileName1 = UUID.randomUUID().toString() + ".png"
+        var storage1 = storage.child(imgFileName1)
+
+        if (storage1 != null && imageButton1Bitmap != null) {
+            storage1.putFile(imageButton1Bitmap!!).addOnSuccessListener { uploadTask ->
+                uploadTask.storage.downloadUrl
+                    .addOnSuccessListener {
+                        val imgUrl1=it.toString()
+                        chatSocket.send(createChatJSON(imgUrl1, "img"))
+                    }
+                    .addOnFailureListener {
+                        Log.d("ChatActivity", "이미지 전송 실패")
+                    }
+
+            }
+        }
     }
 }

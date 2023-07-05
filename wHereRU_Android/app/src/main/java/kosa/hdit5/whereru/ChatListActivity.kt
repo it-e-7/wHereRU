@@ -78,6 +78,9 @@ class ChatListAdapter(var data: MutableList<ChatListVO>): RecyclerView.Adapter<R
             var binding = holder.binding
             binding.chatListItemName.text = data[position].senderName
             binding.chatListItemChat.text = data[position].lastChatContent
+            if(data[position].lastChatType == "img") {
+                binding.chatListItemChat.text = "사진을 보냈습니다."
+            }
             binding.chatListItemDate.text = "$ampm $hour:${min.toString().padStart(2, '0')}"
             binding.chatListItemCount.text = data[position].chatCount.toString()
 
@@ -86,13 +89,15 @@ class ChatListAdapter(var data: MutableList<ChatListVO>): RecyclerView.Adapter<R
                 chatIntent.putExtra("sender", data[position].senderId)
                 chatIntent.putExtra("senderName", data[position].senderName)
                 chatIntent.putExtra("roomSeq", data[position].roomSeq)
-                //chatIntent.putExtra("receiverSeq", 4)
                 chatIntent.run { binding.root.context.startActivity(chatIntent) }
             }
         } else if(holder is ZeroCountChatListViewHolder) {
             var binding = holder.binding
             binding.chatListItemName.text = data[position].senderName
             binding.chatListItemChat.text = data[position].lastChatContent
+            if(data[position].lastChatType == "img") {
+                binding.chatListItemChat.text = "사진을 보냈습니다."
+            }
             binding.chatListItemDate.text = "$ampm $hour:${min.toString().padStart(2, '0')}"
 
             holder.itemView.setOnClickListener {
@@ -100,7 +105,6 @@ class ChatListAdapter(var data: MutableList<ChatListVO>): RecyclerView.Adapter<R
                 chatIntent.putExtra("sender", data[position].senderId)
                 chatIntent.putExtra("senderName", data[position].senderName)
                 chatIntent.putExtra("roomSeq", data[position].roomSeq)
-                //chatIntent.putExtra("receiverSeq", 4)
                 chatIntent.run { binding.root.context.startActivity(chatIntent) }
             }
         }
@@ -141,8 +145,16 @@ class ChatListActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.footer.mypageIcon.setOnClickListener {
-            var intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            val loginCheck = GlobalState.isLogin
+            if(loginCheck==true){
+                //적당한 페이지 이동(마이페이지)
+                val intent = Intent(this, MyPageActivity::class.java)
+
+                startActivity(intent)
+            }else{
+                val intent = Intent(this,LoginActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
