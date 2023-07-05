@@ -2,6 +2,9 @@ package kosa.hdit5spring.whereru.main.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,11 +55,16 @@ public class MainController {
 	}
 
 	@PostMapping("detail")
-	public DetailMissingBoardVo getMissingBoardDetail(@RequestBody int missingBoardSeq, @SessionAttribute UserVO currUser) {
-
-	    System.out.println("MissingBoardSeq: " + missingBoardSeq);  
-		DetailMissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
-		System.out.println("MissingBoardService" + detail);
+	public DetailMissingBoardVo getMissingBoardDetail(@RequestBody int missingBoardSeq, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		UserVO currUser = (UserVO)session.getAttribute("currUser");
+		DetailMissingBoardVo detail;
+		if(currUser==null) {
+			detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, null);
+		}else {
+			detail= missingBoardService.getMissingBoardDetail(missingBoardSeq, currUser.getUserSeq());
+		}
+		
  
 		return detail;
 	}

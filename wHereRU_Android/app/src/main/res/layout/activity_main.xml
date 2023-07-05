@@ -9,8 +9,8 @@
 
     <ImageButton
         android:id="@+id/noticecenter_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/alarm"
         android:scaleType="fitXY"
         android:background="@android:color/transparent"
@@ -20,6 +20,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.054" />
+
+    <ImageButton
+        android:id="@+id/write_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/pencil"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.935"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.053" />
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -31,21 +45,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/write_button"
-        style="@style/CircularExtendedFloatingActionButton"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="31dp"
-        android:layout_marginBottom="5dp"
-        android:gravity="center"
-        android:src="@drawable/plus"
-        android:tint="@color/white"
-        app:backgroundTint="@color/green"
-        app:fabSize="normal"
-        app:layout_constraintBottom_toTopOf="@id/footer"
-        app:layout_constraintEnd_toEndOf="parent"
- />
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/write_button"-->
+<!--        style="@style/CircularExtendedFloatingActionButton"-->
+<!--        android:layout_width="58dp"-->
+<!--        android:layout_height="58dp"-->
+<!--        android:layout_marginTop="31dp"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        android:layout_marginRight="7dp"-->
+<!--        android:gravity="center"-->
+<!--        android:src="@drawable/plus"-->
+<!--        android:tint="@color/white"-->
+<!--        app:backgroundTint="@color/green"-->
+<!--        app:fabSize="normal"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/footer"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!-- />-->
 
     <include layout="@layout/footer" android:id="@+id/footer"/>
 
