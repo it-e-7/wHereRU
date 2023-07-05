@@ -39,7 +39,6 @@ public class MainController {
 	@RequestMapping("main")
 	public ResponseEntity<List<MissingBoardVo>> mainPage() {
 		List<MissingBoardVo> list = missingBoardService.getTotalList(); 
-		//@SessionAttribute UserVO currUser
 		return ResponseEntity.ok(list);
 	}
 

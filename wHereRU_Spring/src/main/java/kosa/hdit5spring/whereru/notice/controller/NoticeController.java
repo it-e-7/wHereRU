@@ -4,17 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kosa.hdit5spring.whereru.chat.vo.ChatVO;
 import kosa.hdit5spring.whereru.notice.service.GetNoticeService;
 import kosa.hdit5spring.whereru.notice.service.SetNoticeService;
 import kosa.hdit5spring.whereru.notice.vo.NoticeVO;
-import oracle.jdbc.proxy.annotation.Post;
 
 @RestController
 @RequestMapping("notice")
@@ -36,7 +33,7 @@ public class NoticeController {
 	}
 	
 	@PostMapping("setLocation")
-	public void setLocation(@RequestBody List<float> locationList) {
+	public void setLocation(@RequestBody List<Double> locationList) {
 		System.out.println("------------------------------------------");
 		System.out.println("위도 :" +locationList.get(0)+"경도 :"+locationList.get(1));
 		System.out.println("------------------------------------------");
