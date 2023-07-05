@@ -56,7 +56,7 @@
                     app:layout_constraintDimensionRatio="H,1:1.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:shapeAppearance="@style/ShapeAppearanceOverlay.Circle">
+                    app:shapeAppearance="@style/ShapeAppearanceOverlay.corner">
 
                 </com.google.android.material.imageview.ShapeableImageView>
 
@@ -72,7 +72,7 @@
                     app:layout_constraintDimensionRatio="H,1:1.5"
                     app:layout_constraintStart_toEndOf="@+id/first_img_view"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:shapeAppearance="@style/ShapeAppearanceOverlay.Circle">
+                    app:shapeAppearance="@style/ShapeAppearanceOverlay.corner">
 
                 </com.google.android.material.imageview.ShapeableImageView>
 
