@@ -17,18 +17,30 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
+private fun isChatActivityForeground(context: Context): Boolean {
+    val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+    // 최상위 액티비티 정보 가져오기
+    val topActivity = activityManager.getRunningTasks(1)?.get(0)?.topActivity
+
+    // 최상위 액티비티가 ChatActivity인지 확인
+    return topActivity?.className == ChatActivity::class.java.name
+}
+
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         override fun onMessageReceived(remoteMessage: RemoteMessage) {
             // FCM 메시지 수신 시 호출되는 콜백 함수
             if (remoteMessage.notification != null) {
+                // 포어그라운드면 인앱알림(토스트)
                 if (isAppInForeground(applicationContext)) {
-                    // 포어그라운드면 인앱알림(토스트)
-                    Log.d("check","여기 실행돼?")
-                    val message = remoteMessage.notification?.body
-                    showToast(message)
+                   // 포그라운드 액티비티 판별해서 채팅이면 안보내고 아니면 보냄
+                    if (isChatActivityForeground(this)) {
+                    } else {
+                        val message = remoteMessage.notification?.body
+                        showToast(message)
+                    }
                 } else {
-                    Log.d("check","여기는 어때?")
                     // 백그라운드/종료상태면 시스템알림
                     val message = remoteMessage.notification?.body
                     showNotification(message)
