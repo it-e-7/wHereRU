@@ -31,6 +31,7 @@
             android:id="@+id/info_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toTopOf="@+id/footer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,216 +40,192 @@
             <TextView
                 android:id="@+id/detail_name_tv"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_background"
                 android:gravity="center"
-                app:layout_constraintWidth_percent="0.15"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:text="이름"
-                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="@+id/detail_name"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/detail_name"
+                app:layout_constraintWidth_percent="0.15" />
 
             <TextView
                 android:id="@+id/detail_name"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/noto"
-                android:gravity="center"
-                android:textSize="16dp"
+                android:gravity="center_vertical"
+                android:textSize="13dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/detail_name_tv"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintStart_toStartOf="@+id/detail_name_tv"
-                app:layout_constraintEnd_toEndOf="@+id/detail_name"
-                app:layout_constraintTop_toBottomOf="@+id/detail_name_tv" />
-
             <TextView
                 android:id="@+id/detail_age_tv"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
                 android:gravity="center"
-                app:layout_constraintWidth_percent="0.15"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:text="나이"
-                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="@+id/detail_age"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_name_tv" />
+                app:layout_constraintTop_toTopOf="@+id/detail_age"
+                app:layout_constraintWidth_percent="0.15" />
 
             <TextView
                 android:id="@+id/detail_age"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/noto"
-                android:gravity="center"
-                android:textSize="16dp"
+                android:gravity="center_vertical"
+                android:textSize="13dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/detail_age_tv"
                 app:layout_constraintTop_toBottomOf="@+id/detail_name" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintStart_toStartOf="@+id/detail_age_tv"
-                app:layout_constraintEnd_toEndOf="@+id/detail_age"
-                app:layout_constraintTop_toBottomOf="@+id/detail_age_tv" />
-
             <TextView
                 android:id="@+id/detail_sex_tv"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
                 android:gravity="center"
-                app:layout_constraintWidth_percent="0.15"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:text="성별"
-                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="@+id/detail_sex"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_age_tv" />
+                app:layout_constraintTop_toTopOf="@+id/detail_sex"
+                app:layout_constraintWidth_percent="0.15" />
 
             <TextView
                 android:id="@+id/detail_sex"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/noto"
-                android:gravity="center"
-                android:textSize="16dp"
+                android:gravity="center_vertical"
+                android:textSize="13dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/detail_sex_tv"
                 app:layout_constraintTop_toBottomOf="@+id/detail_age" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintStart_toStartOf="@+id/detail_sex_tv"
-                app:layout_constraintEnd_toEndOf="@+id/detail_sex"
-                app:layout_constraintTop_toBottomOf="@+id/detail_sex_tv" />
-
             <TextView
                 android:id="@+id/detail_outfit_tv"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
                 android:gravity="center"
-                app:layout_constraintWidth_percent="0.15"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:text="차림새"
-                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="@+id/detail_outfit"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_sex_tv" />
+                app:layout_constraintTop_toTopOf="@+id/detail_outfit"
+                app:layout_constraintWidth_percent="0.15" />
 
             <TextView
                 android:id="@+id/detail_outfit"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/noto"
-                android:gravity="center"
-                android:textSize="16dp"
+                android:gravity="center_vertical"
+                android:textSize="13dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.055"
                 app:layout_constraintStart_toEndOf="@+id/detail_outfit_tv"
                 app:layout_constraintTop_toBottomOf="@+id/detail_sex" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintStart_toStartOf="@+id/detail_outfit_tv"
-                app:layout_constraintEnd_toEndOf="@+id/detail_outfit"
-                app:layout_constraintTop_toBottomOf="@+id/detail_outfit_tv" />
 
             <TextView
                 android:id="@+id/detail_time_tv"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
                 android:gravity="center"
-                app:layout_constraintWidth_percent="0.15"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:text="시간대"
-                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="@+id/detail_time"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_outfit_tv" />
+                app:layout_constraintTop_toTopOf="@+id/detail_time"
+                app:layout_constraintWidth_percent="0.15" />
+
 
             <TextView
                 android:id="@+id/detail_time"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/noto"
-                android:gravity="center"
-                android:textSize="16dp"
+                android:gravity="center_vertical"
+                android:textSize="13dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/detail_time_tv"
                 app:layout_constraintTop_toBottomOf="@+id/detail_outfit" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintStart_toStartOf="@+id/detail_time_tv"
-                app:layout_constraintEnd_toEndOf="@+id/detail_time"
-                app:layout_constraintTop_toBottomOf="@+id/detail_time_tv" />
-
             <TextView
                 android:id="@+id/detail_point_tv"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
                 android:gravity="center"
-                app:layout_constraintWidth_percent="0.15"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:text="위치"
-                android:textSize= "16dp"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="@+id/detail_point"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_time_tv" />
+                app:layout_constraintTop_toTopOf="@+id/detail_point"
+                app:layout_constraintWidth_percent="0.15" />
 
             <TextView
                 android:id="@+id/detail_point"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/noto"
-                android:gravity="center"
-                android:textSize="16dp"
+                android:gravity="center_vertical"
+                android:textSize="13dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/detail_point_tv"
                 app:layout_constraintTop_toBottomOf="@+id/detail_time" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginBottom="5dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintStart_toStartOf="@+id/detail_point_tv"
-                app:layout_constraintEnd_toEndOf="@+id/detail_point"
-                app:layout_constraintTop_toBottomOf="@+id/detail_point_tv" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
