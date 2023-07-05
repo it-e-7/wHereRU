@@ -36,7 +36,7 @@ public class NoticeController {
 	}
 	
 	@PostMapping("setLocation")
-	public void setLocation(@RequestBody List<float> locationList) {
+	public void setLocation(@RequestBody List<Double> locationList) {
 		System.out.println("------------------------------------------");
 		System.out.println("위도 :" +locationList.get(0)+"경도 :"+locationList.get(1));
 		System.out.println("------------------------------------------");
