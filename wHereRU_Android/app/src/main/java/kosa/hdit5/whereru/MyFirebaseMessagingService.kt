@@ -57,16 +57,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 for (appProcess in appProcesses) {
                     if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND &&
                         appProcess.processName == packageName) {
-                        Log.d("check","포어그라운드/ 트루리턴")
                         return true
                     }
                 } 
-                Log.d("check","백그라운드/ 폴스리턴")
                 return false
         }
 
         private fun showToast(message: String?) {
-            Log.d("check","토스트?")
             Handler(Looper.getMainLooper()).post {
                 val inflater = LayoutInflater.from(applicationContext)
                 val layout = inflater.inflate(R.layout.custom_toast, null)

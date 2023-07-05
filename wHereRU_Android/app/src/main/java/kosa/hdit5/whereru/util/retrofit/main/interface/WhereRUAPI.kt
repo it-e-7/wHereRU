@@ -17,6 +17,9 @@ import retrofit2.http.Query
 
 interface WhereRUAPI {
 
+    @POST("whereru/notice/setLocation")
+    fun setLocation(@Body locationList:MutableList<Double>): Call<Unit>
+
     @POST("whereru/notice/getnoticelist")
     fun getNoticeList(@Body userToken: String?): Call<List<NoticeVO>>
     @POST("whereru/main/main")

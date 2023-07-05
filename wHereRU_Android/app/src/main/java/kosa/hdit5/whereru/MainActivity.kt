@@ -1,5 +1,6 @@
 package kosa.hdit5.whereru
 
+import GPSservice
 import android.app.Notification
 
 import android.app.Activity
@@ -21,6 +22,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
 import kosa.hdit5.whereru.util.GlobalState
+import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,8 +56,10 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        val gradientDrawable = ContextCompat.getDrawable(this, R.drawable.gradient_background)
-//        window.decorView.background = gradientDrawable
+
+        //gps실행 및 전송
+        val gps = GPSservice()
+        gps.startLocationUpdates(this)
         // FCM을 위해 토큰 가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -101,7 +105,8 @@ class MainActivity : AppCompatActivity() {
         }
         binding.footer.mypageIcon.setOnClickListener {
             val loginCheck = GlobalState.isLogin
-            if(loginCheck==true){
+            //Log.d("one","CLEAR${RetrofitBuilder.cookieJar}")
+            if(loginCheck!=false){
                 //적당한 페이지 이동(마이페이지)
                 val intent = Intent(this, MyPageActivity::class.java)
                 startActivity(intent)
