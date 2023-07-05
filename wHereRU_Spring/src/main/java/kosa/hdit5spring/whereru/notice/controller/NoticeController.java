@@ -14,6 +14,7 @@ import kosa.hdit5spring.whereru.chat.vo.ChatVO;
 import kosa.hdit5spring.whereru.notice.service.GetNoticeService;
 import kosa.hdit5spring.whereru.notice.service.SetNoticeService;
 import kosa.hdit5spring.whereru.notice.vo.NoticeVO;
+import oracle.jdbc.proxy.annotation.Post;
 
 @RestController
 @RequestMapping("notice")
@@ -32,6 +33,13 @@ public class NoticeController {
 		noticeList = getNoticeListService.getNoticeService(userToken);
 		System.out.println(noticeList);
 		return noticeList;
+	}
+	
+	@PostMapping("setLocation")
+	public void setLocation(@RequestBody List<float> locationList) {
+		System.out.println("------------------------------------------");
+		System.out.println("위도 :" +locationList.get(0)+"경도 :"+locationList.get(1));
+		System.out.println("------------------------------------------");
 	}
 
 }
