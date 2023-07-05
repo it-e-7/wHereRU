@@ -1,5 +1,6 @@
 package kosa.hdit5.whereru
 
+import GPSservice
 import android.app.Notification
 
 import android.app.Activity
@@ -56,6 +57,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         val gradientDrawable = ContextCompat.getDrawable(this, R.drawable.gradient_background)
         window.decorView.background = gradientDrawable
+
+        //gps실행 및 전송
+        val gps = GPSservice()
+        gps.startLocationUpdates(this)
+        
         // FCM을 위해 토큰 가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
