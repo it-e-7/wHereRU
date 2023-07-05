@@ -14,11 +14,18 @@
 		<result column="msg_type" property="msgType" />
 	</resultMap>
 
-	<select id="getTokenList" parameterType="int"
-		resultType="String">
-		SELECT user_token
-		  FROM tb_user
-		 WHERE user_seq != #{userSeq}
+	<select id="getMyLoc" parameterType="int"
+		resultType="LocationVO">
+		SELECT loc.user_token, loc.latitude, loc.longitude
+		  FROM tb_location loc
+		  JOIN tb_user u ON loc.user_token = u.user_token
+		 WHERE u.user_seq = #{userSeq}
+	</select>
+	<select id="getTargetLoc" parameterType="String"
+		resultType="LocationVO">
+		SELECT user_token, latitude, longitude
+		  FROM tb_location 
+	     WHERE user_token != #{user_token}
 	</select>
 
 	<select id="getToken" parameterType="String"
@@ -47,5 +54,9 @@
 	<insert id="setNoticeByBoard" statementType="CALLABLE" parameterType="MissingBoard" >
 		CALL INSERT_NOTICE_BYBOARD(#{userSeq},#{missingTime})
 	</insert>
-
+	
+    <insert id="setLocation" statementType="CALLABLE" parameterType="LocationVO" >
+		CALL INSERT_LOCATION(#{userToken},#{longitude},#{latitude})
+ 	</insert>
+ 	
 </mapper>
