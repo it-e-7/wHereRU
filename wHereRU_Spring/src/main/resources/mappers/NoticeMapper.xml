@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kosa.hdit5spring.whereru.notice.mapper.NoticeMapper">
+	<resultMap type="NoticeVO" id="NoticeVOMap">
+		<result column="notice_seq" property="noticeSeq" />
+		<result column="notice_sender" property="notiSender" />
+		<result column="notice_receiver" property="notiReceiver" />
+		<result column="notice_message" property="notiMessage" />
+		<result column="notice_time" property="notiTime" />
+		<result column="notice_type" property="notiType" />
+		<result column="msg_type" property="msgType" />
+	</resultMap>
+
+	<select id="getTokenList" parameterType="int"
+		resultType="String">
+		SELECT user_token
+		  FROM tb_user
+		 WHERE user_seq != #{userSeq}
+	</select>
+
+	<select id="getToken" parameterType="String"
+		resultType="String">
+		SELECT user_token
+		  FROM tb_user
+		 WHERE user_id = #{userId}
+	</select>
+
+	<select id="getNoticeList" parameterType="String"
+		resultMap="NoticeVOMap">
+		<![CDATA[
+			SELECT *
+    		  FROM (SELECT notice_seq, notice_sender, notice_receiver, notice_message, SUBSTR(notice_time, 12) AS notice_time, notice_type, msg_type
+    				  FROM tb_notice
+    				 WHERE notice_receiver = #{userToken}
+    			     ORDER BY notice_seq DESC)
+    	     WHERE ROWNUM <= 10
+		]]>
+	</select>
+
+	<insert id="setNoticeByChat" statementType="CALLABLE" parameterType="ChatVO" >
+		CALL INSERT_NOTICE_BYCHAT(#{chatSender}, #{chatReceiver}, #{chatType}, #{chatContent}, #{chatDate})
+	</insert>
+	
+	<insert id="setNoticeByBoard" statementType="CALLABLE" parameterType="MissingBoard" >
+		CALL INSERT_NOTICE_BYBOARD(#{userSeq},#{missingTime})
+	</insert>
+
+</mapper>

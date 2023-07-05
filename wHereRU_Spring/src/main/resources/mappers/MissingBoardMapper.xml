@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="kosa.hdit5spring.whereru.main.mapper.MissingBoardMapper">
+
+	<resultMap type="DetailMissingBoard" id="DetailMissingBoardResult">
+		<result column="missing_seq" property="missingSeq" />
+		<result column="missing_name" property="missingName" />
+		<result column="missing_age" property="missingAge" />
+		<result column="missing_sex" property="missingSex" />
+		<result column="missing_outfit" property="missingOutfit" />
+		<result column="missing_time" property="missingTime" />
+		<result column="missing_point" property="missingPoint" />
+		<result column="user_seq" property="userSeq" />
+		<result column="missing_img_urls" property="missingImgUrls" />
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />	
+	</resultMap>
+		
+	<resultMap type="MissingBoard" id="MissingBoardResult">
+		<result column="missing_seq" property="missingSeq" />
+		<result column="missing_name" property="missingName" />
+		<result column="missing_age" property="missingAge" />
+		<result column="missing_sex" property="missingSex" />
+		<result column="missing_outfit" property="missingOutfit" />
+		<result column="missing_time" property="missingTime" />
+		<result column="missing_point" property="missingPoint" />
+		<result column="user_seq" property="userSeq" />
+	    <result property="imgUrl1" column="imgUrl1"/>
+	    <result property="imgUrl2" column="imgUrl2"/>
+	    <result property="imgUrl3" column="imgUrl3"/>
+	    <result property="isOwner" column="isOwner"/>
+		
+	</resultMap>
+
+
+	<insert id="writeMissingBoard" parameterType="MissingBoard">
+
+		call insert_missing_board_and_images (#{missingName},#{missingAge},
+		#{missingSex}, #{missingOutfit}, #{missingTime}, #{missingPoint},
+		#{userSeq},#{imgUrl1},#{imgUrl2},#{imgUrl3})
+	</insert>
+	
+	<!-- 상세페이지 -->
+	<select id="selectMissingBoardDetail" parameterType="int"
+		resultMap="DetailMissingBoardResult">
+		SELECT M.*,
+      LISTAGG(I.img_url, ',') WITHIN GROUP (ORDER BY I.img_url) AS missing_img_urls
+      FROM MissingBoard M
+      LEFT JOIN image I
+      ON M.missing_seq = I.missing_seq
+      WHERE M.missing_seq = #{missingSeq}
+      GROUP BY M.missing_seq, m.missing_name, m.missing_age, m.missing_sex,
+      m.missing_outfit, m.missing_time, m.missing_point, m.user_seq	
+     </select>
+
+	<!-- 완료 -->
+	<delete id="deleteMissingBoard" parameterType="int">
+		DELETE FROM MissingBoard
+		WHERE missing_seq = #{missingSeq}
+	</delete>
+
+	<!-- ChatActivity 연결 -->
+	<select id="openChatActivity" parameterType = "int" resultMap="DetailMissingBoardResult">
+		SELECT M.*, U.user_id, U.user_name 
+	      FROM MissingBoard M
+	      JOIN tb_user U
+	        ON M.user_seq = U.user_seq
+	     WHERE M.missing_seq = #{missingSeq}
+	</select>
+	
+
+	<!-- 수정 -->
+	<update id="updateMissingBoard" parameterType="DetailMissingBoard">
+		UPDATE MissingBoard 
+		   SET missing_name = #{missingName},
+			   missing_age = #{missingAge},
+			   missing_sex = #{missingSex},
+			   missing_outfit = #{missingOutfit},
+			   missing_time = #{missingTime},
+			   missing_point = #{missingPoint}
+		 WHERE missing_seq = #{missingSeq}
+	</update>
+		 
+	<select id="getTotalList" resultMap = "MissingBoardResult">
+		SELECT
+		  mb.missing_seq,
+		  mb.missing_name,
+		  mb.missing_age,
+		  mb.missing_sex,
+		  mb.missing_outfit,
+		  mb.missing_time,
+		  mb.missing_point,
+		  mb.user_seq,
+		  MAX(CASE WHEN i.img_order = 1 THEN i.img_url END) AS imgUrl1,
+		  MAX(CASE WHEN i.img_order = 2 THEN i.img_url END) AS imgUrl2,
+		  MAX(CASE WHEN i.img_order = 3 THEN i.img_url END) AS imgUrl3
+		FROM
+		  MissingBoard mb
+		LEFT JOIN
+		  (
+		    SELECT
+		      img_url,
+		      ROW_NUMBER() OVER (PARTITION BY missing_seq ORDER BY img_seq) AS img_order,
+		      missing_seq
+		    FROM
+		      image
+		  ) i ON mb.missing_seq = i.missing_seq
+		GROUP BY
+		  mb.missing_seq,
+		  mb.missing_name,
+		  mb.missing_age,
+		  mb.missing_sex,
+		  mb.missing_outfit,
+		  mb.missing_time,
+		  mb.missing_point,
+		  mb.user_seq
+	</select>
+	
+	<select id="selectMissingBoardSummaryByRoomSeq" parameterType="int" resultType="MissingBoard">
+		SELECT *
+		FROM (SELECT m.MISSING_SEQ, m.MISSING_NAME, m.MISSING_SEX, m.MISSING_AGE, i.IMG_SEQ, i.IMG_URL AS IMG_URL1
+    		FROM MISSINGBOARD m JOIN IMAGE i ON m.MISSING_SEQ = i.MISSING_SEQ
+    		WHERE m.MISSING_SEQ = (SELECT MISSING_SEQ 
+    		                        FROM TB_CHATTING
+    		                        WHERE ROOM_SEQ = #{roomSeq})
+    		ORDER BY i.IMG_SEQ)
+		WHERE ROWNUM = 1
+	</select>
+	
+	<select id="selectMissingBoardSummaryByMissingSeq" parameterType="int" resultType="MissingBoard">
+		SELECT *
+		FROM (SELECT m.MISSING_SEQ, m.MISSING_NAME, m.MISSING_SEX, m.MISSING_AGE, i.IMG_SEQ, i.IMG_URL AS IMG_URL1
+    		FROM MISSINGBOARD m JOIN IMAGE i ON m.MISSING_SEQ = i.MISSING_SEQ
+    		WHERE m.MISSING_SEQ = #{missingSeq}
+    		ORDER BY i.IMG_SEQ)
+		WHERE ROWNUM = 1
+	</select>
+	
+	
+
+
+	
+</mapper>  

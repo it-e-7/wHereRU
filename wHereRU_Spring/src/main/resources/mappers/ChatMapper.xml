@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kosa.hdit5spring.whereru.chat.mapper.ChatMapper">
+
+	<insert id="insertChat" statementType="CALLABLE" parameterType="ChatVO">
+		CALL INSERTCHAT(#{chatSender}, #{chatReceiver}, #{chatType}, #{chatContent}, #{chatDate}, #{missingSeq})
+	</insert>
+	
+	<update id="updateChatChecked" parameterType="map">
+		UPDATE CHATLIST
+			SET CHAT_CHECKED = 'true'
+			WHERE ROOM_SEQ = #{roomSeq} AND CHAT_RECEIVER = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId})
+			
+	</update>
+	
+	<update id="updateChatCheckedByReceiverSeq" parameterType="map">
+		UPDATE CHATLIST
+			SET CHAT_CHECKED = 'true'
+			WHERE CHAT_RECEIVER = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId}) AND CHAT_SENDER = #{receiverSeq}
+	</update>
+
+	<select id="selectAllChat" parameterType="int" resultType="ChatVO">
+		SELECT c.chat_seq, sender.sender_id as chat_sender, receiver.receiver_id as chat_receiver, c.chat_type, c.chat_content, c.chat_date, c.chat_checked
+		FROM
+		(SELECT c.chat_seq, u.user_id as sender_id
+		FROM (SELECT *
+    		FROM CHATLIST
+    		WHERE ROOM_SEQ = #{roomSeq}) c, TB_USER u
+		WHERE c.chat_sender = u.user_seq) sender,
+		(SELECT c.chat_seq, u.user_id as receiver_id
+		FROM (SELECT *
+		    FROM CHATLIST
+		    WHERE ROOM_SEQ = #{roomSeq}) c, TB_USER u
+		WHERE c.chat_receiver = u.user_seq) receiver,
+		CHATLIST c
+		WHERE c.chat_seq = sender.chat_seq AND sender.chat_seq = receiver.chat_seq
+		ORDER BY c.chat_seq
+	</select>
+	
+	<select id="selectAllChatByReceiverSeq" parameterType="map" resultType="ChatVO">
+		SELECT c.chat_seq, sender.sender_id as chat_sender, receiver.receiver_id as chat_receiver, c.chat_type, c.chat_content, c.chat_date, c.chat_checked
+		FROM
+		(SELECT c.chat_seq, u.user_id as sender_id
+		FROM (SELECT *
+    		FROM CHATLIST
+    		WHERE ROOM_SEQ = (SELECT ROOM_SEQ
+FROM TB_CHATTING
+WHERE (USER_SEQ1 = #{receiverSeq} AND USER_SEQ2 = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId})) 
+    OR (USER_SEQ1 = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId}) AND USER_SEQ2 = #{receiverSeq}))) c, TB_USER u
+		WHERE c.chat_sender = u.user_seq) sender,
+		(SELECT c.chat_seq, u.user_id as receiver_id
+		FROM (SELECT *
+		    FROM CHATLIST
+		    WHERE ROOM_SEQ = (SELECT ROOM_SEQ
+FROM TB_CHATTING
+WHERE (USER_SEQ1 = #{receiverSeq} AND USER_SEQ2 = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId})) 
+    OR (USER_SEQ1 = (SELECT USER_SEQ FROM TB_USER WHERE USER_ID = #{userId}) AND USER_SEQ2 = #{receiverSeq}))) c, TB_USER u
+		WHERE c.chat_receiver = u.user_seq) receiver,
+		CHATLIST c
+		WHERE c.chat_seq = sender.chat_seq AND sender.chat_seq = receiver.chat_seq
+		ORDER BY c.chat_seq
+	</select>
+	
+	<select id="selectAllChatRoom" parameterType="String" resultType="ChatListVO">
+		<![CDATA[
+	         SELECT rsc.room_seq, rsc.sender_name, rsc.sender_id, rsc.chat_count, cl.chat_seq, cl.chat_type as last_chat_type, cl.chat_content as last_chat_content, cl.chat_date as last_chat_date
+			FROM (SELECT co.room_seq, ru.sender_name, ru.sender_id, co.chat_count
+        			FROM ((SELECT t.room_seq, COUNT(CASE WHEN c.chat_checked = 'false' AND c.chat_receiver = (SELECT user_seq FROM tb_user WHERE user_id = #{userId}) THEN 1 END) AS chat_count
+                            FROM CHATLIST C JOIN TB_CHATTING T ON C.ROOM_SEQ = T.ROOM_SEQ
+                            WHERE t.user_seq1 = (SELECT user_seq FROM tb_user WHERE user_id = #{userId}) OR T.USER_SEQ2 = (SELECT user_seq FROM tb_user WHERE user_id = #{userId})
+                            GROUP BY t.room_seq) co 
+            			JOIN 
+            			    (SELECT u.user_name as sender_name, u.user_id as sender_id, c2.room_seq
+                			FROM TB_USER u, TB_CHATTING c2
+                			WHERE user_id != #{userId} AND ((c2.USER_SEQ1 = u.user_seq) OR (c2.USER_SEQ2 = u.user_seq))) ru ON co.room_seq = ru.room_seq)) rsc
+        			JOIN
+        			(SELECT c.room_seq, cl.chat_seq, cl.chat_type, cl.chat_content, cl.chat_date
+        			FROM chatlist cl JOIN tb_chatting c ON cl.room_seq = c.room_seq
+        			WHERE c.room_seq IN (SELECT room_seq
+        			                    FROM TB_CHATTING
+        			                    WHERE USER_SEQ1 = (SELECT user_seq FROM tb_user WHERE user_id = #{userId}) OR USER_SEQ2 = (SELECT user_seq FROM tb_user WHERE user_id = #{userId}))
+        			    AND cl.chat_seq = (SELECT MAX(chat_seq)
+        			                        FROM chatlist
+        			                        WHERE room_seq = cl.room_seq)) cl 
+        			ON rsc.room_seq = cl.room_seq
+        		ORDER BY cl.chat_seq DESC
+		]]>
+	</select>
+</mapper>
