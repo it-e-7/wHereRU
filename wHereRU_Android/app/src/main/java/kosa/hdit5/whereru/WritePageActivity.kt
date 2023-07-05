@@ -129,6 +129,9 @@ class WritePageActivity : AppCompatActivity() {
                     val date = desiredFormat.parse(combinedDateTime)
                     formattedDateTime = desiredFormat.format(date)
                     Log.d("Combined DateTime", formattedDateTime)
+
+                    // 선택한 날짜와 시간 보여주기
+                    binding.writeDateTime.text = formattedDateTime
                 }, hour, minute, true)
 
                 timePickerDialog.show()
