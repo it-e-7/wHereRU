@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessaging
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -20,6 +21,7 @@ import com.google.firebase.inappmessaging.FirebaseInAppMessaging
 import com.google.firebase.messaging.RemoteMessage
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import kosa.hdit5.whereru.databinding.ActivityMainBinding
 import kosa.hdit5.whereru.util.GlobalState
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
@@ -50,26 +52,32 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
     }
-
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // APN 설정에 접근할 수 있는 권한이 부여되었으므로 처리할 코드를 추가하세요.
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //gps실행 및 전송
-        val gps = GPSservice()
-        gps.startLocationUpdates(this)
         // FCM을 위해 토큰 가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 token = task.result
                 Log.d("토큰-메인", "$token")
+                GlobalState.userToken = token
             } else {
                 val exception = task.exception
                 Log.e("Error", "Fetching FCM registration token failed: ${exception?.message}")
             }
         }
+        //gps실행 및 전송
+        val gps = GPSservice()
+        gps.startLocationUpdates(this)
 
         binding.noticecenterButton.setOnClickListener {
             val intent = Intent(this, NoticeCenterActivity::class.java)

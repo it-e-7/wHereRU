@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import kosa.hdit5spring.whereru.chat.vo.ChatVO;
 import kosa.hdit5spring.whereru.notice.mapper.NoticeMapper;
+import kosa.hdit5spring.whereru.notice.vo.LocationVO;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
@@ -24,11 +25,14 @@ public class NoticeServiceImpl implements NoticeService {
 		return token;
 	}
 	
-	@Override
-	public List<String> getTokenList(int userSeq) {
-		List<String> tokenList = noticeMapper.getTokenList(userSeq);
-		return tokenList;
-	}
+//	@Override
+////	public List<String> getTokenList(int userSeq) {
+////		List<String> tokenList = noticeMapper.getTokenList(userSeq);
+////		return tokenList;
+////	}
+	//내 위치 정보 가져오기
+	
+	//다른 사람 위치정보 가져오기-토큰으로
 	
 	@Override
 	public void sendingToOne(ChatVO chatvo) {	
@@ -75,9 +79,7 @@ public class NoticeServiceImpl implements NoticeService {
 	        }
 		}
 	@Override
-	public void sendingToAll(int userSeq) {
-		
-		List<String> tokenList = getTokenList(userSeq);
+	public void sendingToAll(List<String> tokenList) {
 		
 		for(String token : tokenList) {
 			Thread t = new Thread(()->{
