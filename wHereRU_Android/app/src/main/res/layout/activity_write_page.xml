@@ -57,6 +57,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearance="@style/ShapeAppearanceOverlay.corner">
 
+
+
                 </com.google.android.material.imageview.ShapeableImageView>
 
                 <com.google.android.material.imageview.ShapeableImageView
@@ -98,16 +100,53 @@
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="25dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/image"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.978"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0"
+                    app:layout_constraintBottom_toBottomOf="@+id/first_img_view"
+                    app:layout_constraintEnd_toEndOf="@+id/first_img_view"
+                    app:layout_constraintStart_toStartOf="@+id/first_img_view"
+                    app:layout_constraintTop_toTopOf="@+id/first_img_view"
                     app:tint="#777777" />
 
+                <ImageView
+                    android:id="@+id/img_view2"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="25dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/image"
+                    app:layout_constraintBottom_toBottomOf="@+id/second_img_view"
+                    app:layout_constraintEnd_toEndOf="@+id/second_img_view"
+                    app:layout_constraintHorizontal_bias="0.487"
+                    app:layout_constraintStart_toStartOf="@+id/second_img_view"
+                    app:layout_constraintTop_toTopOf="@+id/second_img_view"
+                    app:tint="#777777" />
+
+                <ImageView
+                    android:id="@+id/img_view3"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="25dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/image"
+                    app:layout_constraintBottom_toBottomOf="@+id/third_img_view"
+                    app:layout_constraintEnd_toEndOf="@+id/third_img_view"
+                    app:layout_constraintHorizontal_bias="0.537"
+                    app:layout_constraintStart_toStartOf="@+id/third_img_view"
+                    app:layout_constraintTop_toTopOf="@+id/third_img_view"
+                    app:tint="#777777" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

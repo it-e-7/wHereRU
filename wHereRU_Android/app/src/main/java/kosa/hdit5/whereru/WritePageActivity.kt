@@ -38,6 +38,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.UUID
 
 class WritePageActivity : AppCompatActivity() {
 
@@ -67,6 +68,7 @@ class WritePageActivity : AppCompatActivity() {
                             imageButton1Bitmap = imageUri
                             binding.firstImgView.setImageURI(imageButton1Bitmap)
                             binding.firstImgView.setBackgroundResource(android.R.color.transparent)
+                            binding.imgView1.visibility = View.GONE
                             noImage = true
 
                         }
@@ -75,12 +77,14 @@ class WritePageActivity : AppCompatActivity() {
                             imageButton2Bitmap = imageUri
                             binding.secondImgView.setImageURI(imageButton2Bitmap)
                             binding.secondImgView.setBackgroundResource(android.R.color.transparent)
+                            binding.imgView2.visibility = View.GONE
                         }
 
                         imageButton3Bitmap == null -> {
                             imageButton3Bitmap = imageUri
                             binding.thirdImgView.setImageURI(imageButton3Bitmap)
                             binding.thirdImgView.setBackgroundResource(android.R.color.transparent)
+                            binding.imgView3.visibility = View.GONE
                         }
                     }
                 }
@@ -223,7 +227,12 @@ class WritePageActivity : AppCompatActivity() {
             intent.type = "image/*"
             imagePickerLauncher.launch(intent)
         }
+        binding.firstImgView.setOnClickListener(clickListener)
+        binding.secondImgView.setOnClickListener(clickListener)
+        binding.thirdImgView.setOnClickListener(clickListener)
         binding.imgView1.setOnClickListener(clickListener)
+        binding.imgView2.setOnClickListener(clickListener)
+        binding.imgView3.setOnClickListener(clickListener)
 
 
         binding.finishWriteButton.setOnClickListener {
@@ -231,9 +240,9 @@ class WritePageActivity : AppCompatActivity() {
             if(noImage==true){
 
 
-                var imgFileName1 = (GlobalState.userSeq.toString())+".1.png"
-                var imgFileName2 = (GlobalState.userSeq.toString())+".2.png"
-                var imgFileName3 = (GlobalState.userSeq.toString())+".3.png"
+                var imgFileName1 = UUID.randomUUID().toString() + ".png"
+                var imgFileName2 = UUID.randomUUID().toString() + ".png"
+                var imgFileName3 = UUID.randomUUID().toString() + ".png"
                 var storage1 = storage.child(imgFileName1)
                 var storage2 = storage.child(imgFileName2)
                 var storage3 = storage.child(imgFileName3)
