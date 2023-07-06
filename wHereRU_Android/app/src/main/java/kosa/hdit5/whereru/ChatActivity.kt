@@ -338,7 +338,7 @@ class ChatActivity : AppCompatActivity() {
         client = OkHttpClientSingleton.instance
 
         val request: Request = Request.Builder()
-            .url("${GlobalState.apiBaseUrl}whereru/chatSocket")
+            .url("${GlobalState.apiBaseUrl}chatSocket")
             .build()
         val listener: WebSocketListener = WebSocketListener()
 
