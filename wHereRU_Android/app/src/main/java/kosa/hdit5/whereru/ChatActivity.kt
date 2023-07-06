@@ -21,6 +21,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kosa.hdit5.whereru.databinding.ActivityChatBinding
 import kosa.hdit5.whereru.databinding.ChatItemBinding
 import kosa.hdit5.whereru.databinding.LeftChatItemBinding
+import kosa.hdit5.whereru.util.Config
 import kosa.hdit5.whereru.util.GlobalState
 import kosa.hdit5.whereru.util.OkHttpClientSingleton
 import kosa.hdit5.whereru.util.retrofit.main.RetrofitBuilder
@@ -338,7 +339,7 @@ class ChatActivity : AppCompatActivity() {
         client = OkHttpClientSingleton.instance
 
         val request: Request = Request.Builder()
-            .url("${GlobalState.apiBaseUrl}chatSocket")
+            .url("${Config.apiBaseUrl}chatSocket")
             .build()
         val listener: WebSocketListener = WebSocketListener()
 

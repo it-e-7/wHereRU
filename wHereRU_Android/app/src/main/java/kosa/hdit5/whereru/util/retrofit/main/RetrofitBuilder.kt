@@ -3,6 +3,7 @@ package kosa.hdit5.whereru.util.retrofit.main
 import com.google.gson.GsonBuilder
 import kosa.hdit5.whereru.MainApplication
 import kosa.hdit5.whereru.MyCookieJar
+import kosa.hdit5.whereru.util.Config
 import kosa.hdit5.whereru.util.GlobalState
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
 import okhttp3.Cache
@@ -25,7 +26,7 @@ class CacheInterceptor : Interceptor {
 }
 object RetrofitBuilder {
     //baseUrl은 오픈 api의 서버 url을 넣는다.
-    var baseUrl: String = GlobalState.apiBaseUrl
+    var baseUrl: String = Config.apiBaseUrl
     var api: WhereRUAPI
     var gson = GsonBuilder().setLenient().create()
     val cookieJar = MyCookieJar()
