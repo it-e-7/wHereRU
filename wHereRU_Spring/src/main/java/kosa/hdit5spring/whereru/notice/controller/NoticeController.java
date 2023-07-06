@@ -34,6 +34,7 @@ public class NoticeController {
 		return noticeList;
 	}
 	
+
 	@PostMapping("sendLoc")
 	public boolean sendLoc(@RequestBody LocationVO locvo) {
 		System.out.println("------------------------------------------");

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
 
 <!--    <uses-feature-->
@@ -14,7 +14,8 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
         tools:ignore="CoarseFineLocation" />
 <!--    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"-->
 <!--        tools:ignore="ProtectedPermissions" />-->
@@ -30,7 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WHereRU"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31" >
+        tools:targetApi="31">
 
         <activity
             android:name=".MyPageActivity"
@@ -38,13 +39,9 @@
         <activity
             android:name=".NoticeCenterActivity"
             android:exported="false" />
-<!--        <service-->
-<!--            android:name=".GPSservice"-->
-<!--            android:enabled="true"-->
-<!--            android:exported="false" />-->
         <service
             android:name=".MyFirebaseMessagingService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -86,7 +83,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
