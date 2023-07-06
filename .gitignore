@@ -127,3 +127,5 @@ replay_pid*
 
 config/
 
+pom.properties
+MANIFEST.MF

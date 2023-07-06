@@ -26,7 +26,10 @@
 			value="classpath:mybatis-config.xml" />
 		<property name="mapperLocations">
 			<list>
-			
+				<value>classpath:mappers/UserMapper.xml</value>
+				<value>classpath:mappers/MissingBoardMapper.xml</value>
+				<value>classpath:mappers/ChatMapper.xml</value>
+				<value>classpath:mappers/NoticeMapper.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -46,7 +49,7 @@
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage"
-			value="kosa.hdit5spring.whereru" />
+			value="kosa.hdit5spring.whereru.*.mapper" />
 	</bean>
 
 

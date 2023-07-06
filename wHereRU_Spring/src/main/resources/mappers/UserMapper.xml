@@ -3,7 +3,36 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kosa.hdit5spring.whereru.user.UserMapper">
+<mapper
+	namespace="kosa.hdit5spring.whereru.user.mapper.UserMapper">
+	<resultMap type="UserVO" id="UserVOMap">
+		<result column="user_seq" property="userSeq" />
+		<result column="user_name" property="userName" />
+		<result column="user_id" property="userId" />
+		<result column="user_pw" property="userPw" />
+		<result column="user_token" property="userToken" />
+	</resultMap>
 
-	
+	<!-- 로그인 -->
+	<select id="selectUserByUserVO" parameterType="UserVO"
+		resultMap="UserVOMap">
+		SELECT *
+		  FROM tb_user
+		 WHERE user_id = #{userId}
+		   AND user_pw = #{userPw}
+	</select>
+
+	<!-- 회원가입 시 이메일 중복 검사 -->
+	<select id="selectUserIdByUserId" parameterType="String"
+		resultType="String">
+		SELECT user_id
+		  FROM tb_user
+		 WHERE user_id = #{userId}
+	</select>
+
+	<!-- 회원가입 -->
+	<insert id="insertUserByUserVO" parameterType="UserVO">
+		INSERT INTO tb_user (user_name, user_id, user_pw,user_token)
+		VALUES (#{userName}, #{userId}, #{userPw},#{userToken})
+	</insert>
 </mapper>  
