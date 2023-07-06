@@ -51,7 +51,7 @@ public class NoticeServiceImpl implements NoticeService {
 	 	            System.out.println(message);
 
 	            } else {
-	            	message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \"사진을 보냈습니다.\", \"body\": \""+chatvo.getChatContent()+"\" } }";
+	            	message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \""+chatvo.getChatSender()+"\", \"body\": \"사진을 보냈습니다.\" } }";
 	 	            System.out.println(message);
 	            }
 	            // 바디설정
