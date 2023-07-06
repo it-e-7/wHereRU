@@ -1,20 +1,30 @@
 package kosa.hdit5.whereru
 
+import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Rect
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ScrollView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import com.google.firebase.messaging.FirebaseMessaging
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.storage.FirebaseStorage
 import kosa.hdit5.whereru.databinding.ActivityWritePageBinding
 import kosa.hdit5.whereru.util.GlobalState
@@ -24,6 +34,7 @@ import kosa.hdit5.whereru.util.retrofit.main.vo.writeMissingBoardVo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -42,40 +53,38 @@ class WritePageActivity : AppCompatActivity() {
     var imageButton2Bitmap: Uri? = null
     var imageButton3Bitmap: Uri? = null
     var formattedDateTime: String =""
+
+
     // 사진 추가 -> 갤러리 연동
     var imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             if (data != null) {
                 val imageUri: Uri? = data.data
-                Log.d("hong","$imageUri")
                 if (imageUri != null) {
                     when {
                         imageButton1Bitmap == null -> {
                             imageButton1Bitmap = imageUri
-                            Log.d("hong","imagButton1: ${imageButton1Bitmap}")
-                            binding.imgButton1.setImageURI(imageButton1Bitmap)
-                            binding.imgView1.visibility = View.GONE
-                            binding.firstImgFrame.setBackgroundResource(android.R.color.transparent)
+                            binding.firstImgView.setImageURI(imageButton1Bitmap)
+                            binding.firstImgView.setBackgroundResource(android.R.color.transparent)
                             noImage = true
 
                         }
 
                         imageButton2Bitmap == null -> {
                             imageButton2Bitmap = imageUri
-                            binding.imgButton2.setImageURI(imageButton2Bitmap)
-                            binding.imgView2.visibility = View.GONE
-                            binding.secondImgFrame.setBackgroundResource(android.R.color.transparent)
+                            binding.secondImgView.setImageURI(imageButton2Bitmap)
+                            binding.secondImgView.setBackgroundResource(android.R.color.transparent)
                         }
 
                         imageButton3Bitmap == null -> {
                             imageButton3Bitmap = imageUri
-                            binding.imgButton3.setImageURI(imageButton3Bitmap)
-                            binding.imgView3.visibility = View.GONE
-                            binding.thirdImgFrame.setBackgroundResource(android.R.color.transparent)
+                            binding.thirdImgView.setImageURI(imageButton3Bitmap)
+                            binding.thirdImgView.setBackgroundResource(android.R.color.transparent)
                         }
                     }
                 }
+
             }
         }
     }
@@ -83,6 +92,66 @@ class WritePageActivity : AppCompatActivity() {
     var imgUrl1: String? =null
     var imgUrl2: String? =null
     var imgUrl3: String? =null
+
+
+    //시도
+//    private lateinit var fusedLocationClient: FusedLocationProviderClient
+//    private val REQUEST_CODE_LOCATION: Int = 2
+//    var currentLocation: String = ""
+//    var latitude: Double? = null
+//    var longitude: Double? = null
+//
+//    private val locationCallback = object : LocationCallback() {
+//        override fun onLocationResult(locationResult: LocationResult) {
+//            super.onLocationResult(locationResult)
+//            for (location in locationResult.locations) {
+//                latitude = location.latitude
+//                longitude = location.longitude
+//                Log.d("CheckCurrentLocation", "현재 내 위치 값: $latitude, $longitude")
+//
+//                var mGeocoder = Geocoder(applicationContext, Locale.KOREAN)
+//                var mResultList: List<Address>? = null
+//                try {
+//                    mResultList = mGeocoder.getFromLocation(
+//                        latitude!!, longitude!!, 1
+//                    )
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//                }
+//                if (mResultList != null) {
+//                    Log.d("CheckCurrentLocation", mResultList[0].getAddressLine(0))
+//                    currentLocation = mResultList[0].getAddressLine(0)
+//                }
+//            }
+//        }
+//    }
+//
+//    private fun getCurrentLoc() {
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+//
+//        // 위치 권한 확인
+//        if (ContextCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) == PackageManager.PERMISSION_GRANTED
+//        ) {
+//            val locationRequest = LocationRequest.create().apply {
+//                priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+//                interval = 1000 // 위치 업데이트 간격 (1초마다 업데이트)
+//            }
+//
+//            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+//        } else {
+//            // 위치 권한이 없는 경우 권한 요청
+//            ActivityCompat.requestPermissions(
+//                this,
+//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+//                REQUEST_CODE_LOCATION
+//            )
+//        }
+//    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWritePageBinding.inflate(layoutInflater)
@@ -108,6 +177,10 @@ class WritePageActivity : AppCompatActivity() {
             }
 
         }
+        //시도
+//        binding.location.setOnClickListener {
+//            getCurrentLoc()
+//        }
 
         fun showDateTimePicker(){
             val currentDate = Calendar.getInstance()
@@ -129,6 +202,9 @@ class WritePageActivity : AppCompatActivity() {
                     val date = desiredFormat.parse(combinedDateTime)
                     formattedDateTime = desiredFormat.format(date)
                     Log.d("Combined DateTime", formattedDateTime)
+
+                    // 선택한 날짜와 시간 보여주기
+                    binding.writeDateTime.text = formattedDateTime
                 }, hour, minute, true)
 
                 timePickerDialog.show()
@@ -147,12 +223,8 @@ class WritePageActivity : AppCompatActivity() {
             intent.type = "image/*"
             imagePickerLauncher.launch(intent)
         }
-        binding.imgButton1.setOnClickListener(clickListener)
         binding.imgView1.setOnClickListener(clickListener)
-        binding.imgButton2.setOnClickListener(clickListener)
-        binding.imgView2.setOnClickListener(clickListener)
-        binding.imgButton3.setOnClickListener(clickListener)
-        binding.imgView3.setOnClickListener(clickListener)
+
 
         binding.finishWriteButton.setOnClickListener {
             Log.d("hong","버튼버튼버튼ㅐ")

@@ -8,7 +8,7 @@ public interface NoticeService {
 
 	String getToken(String userId);
 	void sendingToOne(ChatVO chatvo);
-	List<String> getTokenList(int userSeq);
-	void sendingToAll(int userSeq);
+//	List<String> getTokenList(int userSeq);
+	void sendingToAll(List<String> tokenList);
 	
 }

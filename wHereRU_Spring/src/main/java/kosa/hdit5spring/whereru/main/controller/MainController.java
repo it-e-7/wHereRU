@@ -2,9 +2,6 @@ package kosa.hdit5spring.whereru.main.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import kosa.hdit5spring.whereru.main.service.MissingBoardService;
 import kosa.hdit5spring.whereru.main.vo.DetailMissingBoardVo;
 import kosa.hdit5spring.whereru.main.vo.MissingBoardVo;
+import kosa.hdit5spring.whereru.notice.service.LocationService;
 import kosa.hdit5spring.whereru.notice.service.NoticeService;
 import kosa.hdit5spring.whereru.notice.service.SetNoticeService;
 import kosa.hdit5spring.whereru.user.vo.UserVO;
@@ -35,11 +33,12 @@ public class MainController {
 	NoticeService noticeService;
 	@Autowired
 	SetNoticeService setNoticeService;
+	@Autowired
+	LocationService locationService;
 	
 	@RequestMapping("main")
 	public ResponseEntity<List<MissingBoardVo>> mainPage() {
 		List<MissingBoardVo> list = missingBoardService.getTotalList(); 
-		//@SessionAttribute UserVO currUser
 		return ResponseEntity.ok(list);
 	}
 
@@ -48,7 +47,8 @@ public class MainController {
 		
 		missingBoardService.writeMissingBoard(missingBoardVo);
 		//게시글정상처리되고 나면 알림 전송
-		noticeService.sendingToAll(missingBoardVo.getUserSeq());
+		List<String> tokenList = locationService.getTokenList(missingBoardVo.getUserSeq());
+		noticeService.sendingToAll(tokenList);
 		setNoticeService.setNoticeByBoard(missingBoardVo);
 		
 		return "success";
