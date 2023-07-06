@@ -34,108 +34,79 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/img_box"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_width="412dp"
+                android:layout_height="260dp"
                 android:layout_marginTop="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <FrameLayout
-                    android:id="@+id/first_img_frame"
-                    android:layout_width="83dp"
-                    android:layout_height="185dp"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/first_img_view"
+                    android:layout_width="125dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/write_page_background"
+                    android:scaleType="fitXY"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="H,1:1.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.066">
+                    app:shapeAppearance="@style/ShapeAppearanceOverlay.corner">
 
-                    <ImageButton
-                        android:id="@+id/img_button1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitCenter" />
+                </com.google.android.material.imageview.ShapeableImageView>
 
-                    <ImageView
-                        android:id="@+id/img_view1"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/image"
-                        app:tint="#777777" />
-
-                </FrameLayout>
-
-
-                <FrameLayout
-                    android:id="@+id/second_img_frame"
-                    android:layout_width="83dp"
-                    android:layout_height="185dp"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/second_img_view"
+                    android:layout_width="125dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/write_page_background"
+                    android:scaleType="fitXY"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/first_img_frame"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintDimensionRatio="H,1:1.5"
+                    app:layout_constraintStart_toEndOf="@+id/first_img_view"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearance="@style/ShapeAppearanceOverlay.corner">
 
-                    <ImageButton
-                        android:id="@+id/img_button2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitCenter" />
+                </com.google.android.material.imageview.ShapeableImageView>
 
-                    <ImageView
-                        android:id="@+id/img_view2"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/image"
-                        app:tint="#777777" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/third_img_frame"
-                    android:layout_width="83dp"
-                    android:layout_height="185dp"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="36dp"
-                    android:layout_marginBottom="5dp"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/third_img_view"
+                    android:layout_width="125dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/write_page_background"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="H,1:1.5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/second_img_view"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearance="@style/ShapeAppearanceOverlay.corner">
+
+                </com.google.android.material.imageview.ShapeableImageView>
+
+                <ImageView
+                    android:id="@+id/img_view1"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/image"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/second_img_frame"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageButton
-                        android:id="@+id/img_button3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitCenter" />
-
-                    <ImageView
-                        android:id="@+id/img_view3"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/image"
-                        app:tint="#777777" />
-                </FrameLayout>
+                    app:layout_constraintHorizontal_bias="0.978"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:tint="#777777" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
