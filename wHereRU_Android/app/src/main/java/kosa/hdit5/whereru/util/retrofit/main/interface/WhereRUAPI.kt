@@ -21,8 +21,12 @@ interface WhereRUAPI {
     @POST("notice/sendLoc")
     fun sendLoc(@Body locationvo: LocationVO): Call<Boolean>
 
-    @POST("notice/getnoticelist")
-    fun getNoticeList(@Body userToken: String?): Call<List<NoticeVO>>
+    @POST("notice/getnoticelistLogin")
+    fun getNoticeListLogin(@Body userToken: String?): Call<List<NoticeVO>>
+
+    @POST("notice/getnoticelistLogout")
+    fun getNoticeListLogout(@Body userToken: String?): Call<List<NoticeVO>>
+
 
     @POST("main/main")
     fun getTotalList(): Call<List<MissingBoardVo>>
