@@ -338,7 +338,7 @@ class ChatActivity : AppCompatActivity() {
         client = OkHttpClientSingleton.instance
 
         val request: Request = Request.Builder()
-            .url("http://10.0.2.2:8080/whereru/chatSocket")
+            .url("http://10.0.2.2:8080//whereru/chatSocket")
             .build()
         val listener: WebSocketListener = WebSocketListener()
 
@@ -466,6 +466,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun sendImage() {
+        binding.progressBar.visibility = View.VISIBLE
         var imgFileName1 = UUID.randomUUID().toString() + ".png"
         var storage1 = storage.child(imgFileName1)
 
@@ -475,6 +476,7 @@ class ChatActivity : AppCompatActivity() {
                     .addOnSuccessListener {
                         val imgUrl1=it.toString()
                         chatSocket.send(createChatJSON(imgUrl1, "img"))
+                        binding.progressBar.visibility = View.GONE
                     }
                     .addOnFailureListener {
                         Log.d("ChatActivity", "이미지 전송 실패")
