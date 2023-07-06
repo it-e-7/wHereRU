@@ -3,6 +3,7 @@ package kosa.hdit5.whereru.util.retrofit.main.`interface`
 import kosa.hdit5.whereru.ChatListVO
 import kosa.hdit5.whereru.ChatVO
 import kosa.hdit5.whereru.util.retrofit.main.vo.DetailMissingBoardVo
+import kosa.hdit5.whereru.util.retrofit.main.vo.LocationVO
 import kosa.hdit5.whereru.util.retrofit.main.vo.MissingBoardVo
 import kosa.hdit5.whereru.util.retrofit.main.vo.NoticeVO
 import kosa.hdit5.whereru.util.retrofit.main.vo.UserVO
@@ -17,11 +18,12 @@ import retrofit2.http.Query
 
 interface WhereRUAPI {
 
-    @POST("whereru/notice/setLocation")
-    fun setLocation(@Body locationList:MutableList<Double>): Call<Unit>
+    @POST("whereru/notice/sendLoc")
+    fun sendLoc(@Body locationvo: LocationVO): Call<Boolean>
 
     @POST("whereru/notice/getnoticelist")
     fun getNoticeList(@Body userToken: String?): Call<List<NoticeVO>>
+
     @POST("whereru/main/main")
     fun getTotalList(): Call<List<MissingBoardVo>>
 
