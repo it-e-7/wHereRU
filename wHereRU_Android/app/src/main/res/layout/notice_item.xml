@@ -19,8 +19,9 @@
 
         <ImageView
             android:id="@+id/notice_image"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_margin="1dp"
             android:src="@drawable/chat_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +33,8 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:text="채팅 : 홍길동"
-            android:textSize="12dp"
+            android:textSize="11dp"
+            android:textColor="@color/grey2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/notice_image"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="시간"
-            android:textSize="12dp"
+            android:textSize="11dp"
+            android:textColor="@color/grey2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,15 +54,14 @@
     <TextView
         android:id="@+id/notice_content"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="45dp"
         android:text="content"
-        android:textSize="15dp"
+        android:textSize="17dp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/notice_item_header"
-        android:layout_marginTop="5dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notice_item_header" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

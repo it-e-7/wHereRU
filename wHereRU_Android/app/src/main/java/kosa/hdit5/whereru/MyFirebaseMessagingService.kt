@@ -73,7 +73,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 val toast = Toast(applicationContext)
                 toast.duration = Toast.LENGTH_SHORT
                 toast.view = layout
-                toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 16)
+                toast.setGravity(Gravity.TOP or Gravity.FILL_HORIZONTAL, 0, 0)
                 toast.show()
             }
         }

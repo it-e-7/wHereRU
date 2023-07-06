@@ -99,7 +99,7 @@ public class NoticeServiceImpl implements NoticeService {
 		           String targetToken = token;
 
 		            // 바디설정
-		            String message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \"도움이 필요한 사람이 생겼어요!\", \"body\": \"당신의 따뜻한 손길이 필요해요!!\" } }";
+		            String message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \"wHere RU\", \"body\": \"도움이 필요한 사람이 생겼어요. 당신의 따뜻한 손길이 필요해요!!\" } }";
 		            System.out.println(message);
 		            URL obj = new URL(url);
 		            HttpURLConnection conn = (HttpURLConnection) obj.openConnection();

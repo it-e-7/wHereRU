@@ -337,9 +337,12 @@ class WritePageActivity : AppCompatActivity() {
             call.enqueue(object : Callback<String> {
                 override fun onResponse(call: Call<String>, response: Response<String>) {
                     count = 0
+                    Log.d("youmin","RESPONSE: $response")
+                    Log.d("youmin","RESPONSE: ${response.body()}")
+                    Log.d("youmin","RESPONSE: ${response.errorBody()}")
                     if (response.isSuccessful) {
                         setResult(RESULT_OK)
-                        Log.d("youmin","fa;slkdfj;lskdfj;l")
+
                         finish()
                     } else {
 
@@ -348,6 +351,10 @@ class WritePageActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<String>, t: Throwable) {
                     count = 0
+                    Log.d("youmin","FAIL WITH: ${t.message}")
+                    setResult(RESULT_OK)
+
+                    finish()
                 }
 
 
