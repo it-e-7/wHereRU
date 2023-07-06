@@ -18,45 +18,45 @@ import retrofit2.http.Query
 
 interface WhereRUAPI {
 
-    @POST("whereru/notice/sendLoc")
+    @POST("notice/sendLoc")
     fun sendLoc(@Body locationvo: LocationVO): Call<Boolean>
 
-    @POST("whereru/notice/getnoticelist")
+    @POST("notice/getnoticelist")
     fun getNoticeList(@Body userToken: String?): Call<List<NoticeVO>>
 
-    @POST("whereru/main/main")
+    @POST("main/main")
     fun getTotalList(): Call<List<MissingBoardVo>>
 
-    @POST("whereru/main/writemissingboard")
+    @POST("main/writemissingboard")
     fun writeMissingBoard(@Body writeMissingBoardVo: writeMissingBoardVo): Call<String>
 
-    @POST("whereru/user/login")
+    @POST("user/login")
     fun login(@Body user: UserVO): Call<UserVO>
 
-    @POST("whereru/user/register")
+    @POST("user/register")
     fun register(@Body user:UserVO): Call<ResponseBody>
 
-    @GET("whereru/chat/list")
+    @GET("chat/list")
     fun getChatRoomList(): Call<List<ChatListVO>>
 
-    @GET("whereru/chat")
+    @GET("chat")
     fun getChatList(@Query("roomSeq") roomSeq: Int): Call<List<ChatVO>>
 
-    @GET("whereru/chat/user")
+    @GET("chat/user")
     fun getChatListByReceiverSeq(@Query("receiverSeq") receiverSeq: Int, @Query("missingSeq") missingSeq: Int): Call<List<ChatVO>>
 
     /*@GET("whreru/user/checkuseridExist")
     fun checkUserIdExist(@Query("userId") userId: String): Call<Boolean>*/
 
-    @POST("whereru/main/detail")
+    @POST("main/detail")
     fun getMissingBoardDetail(@Body params: Int): Call<DetailMissingBoardVo>
 
-    @POST("whereru/main/deletemissingboard")
+    @POST("main/deletemissingboard")
     fun deleteMissingBoard(@Body params: Int): Call<DetailMissingBoardVo>
 
-    @GET("whereru/main/openchat/{missingBoardSeq}")
+    @GET("main/openchat/{missingBoardSeq}")
     fun openChatActivity(@Path("missingBoardSeq") missingBoardSeq: Int): Call<DetailMissingBoardVo>
 
-    @GET("whereru/main/summary")
+    @GET("main/summary")
     fun getMissingBoardSummary(@Query("roomSeq") roomSeq: Int, @Query("missingSeq") missingSeq: Int): Call<MissingBoardVo>
 }
