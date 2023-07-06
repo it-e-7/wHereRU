@@ -2,6 +2,7 @@ package kosa.hdit5.whereru.util.retrofit.main
 
 import com.google.gson.GsonBuilder
 import kosa.hdit5.whereru.MyCookieJar
+import kosa.hdit5.whereru.util.GlobalState
 import kosa.hdit5.whereru.util.retrofit.main.`interface`.WhereRUAPI
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -9,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitBuilder {
     //baseUrl은 오픈 api의 서버 url을 넣는다.
-    var baseUrl: String = "http://10.0.2.2:8080/"
+    var baseUrl: String = GlobalState.apiBaseUrl
     var api: WhereRUAPI
     var gson = GsonBuilder().setLenient().create()
     val cookieJar = MyCookieJar()

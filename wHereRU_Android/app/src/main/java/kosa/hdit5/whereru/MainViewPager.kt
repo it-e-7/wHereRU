@@ -109,6 +109,9 @@ class MainViewPager : Fragment() {
                 call: Call<List<MissingBoardVo>>,
                 response: Response<List<MissingBoardVo>>
             ) {
+                Log.d("ec2response","$response")
+                Log.d("ec2response","${response.body()}")
+                Log.d("ec2response","${response.errorBody()}")
                 if (response.isSuccessful) {
                     val missingPersonList = response.body()
                     if(missingPersonList !=null){

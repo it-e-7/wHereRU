@@ -6,4 +6,5 @@ object GlobalState {
     var userSeq: Int? = null;
     var userToken: String? = null;
     var userName:String?=null;
+    var apiBaseUrl: String = "http://18.118.210.196:8080/";
 }
