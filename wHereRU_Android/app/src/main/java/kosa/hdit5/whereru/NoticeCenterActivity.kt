@@ -93,6 +93,9 @@ class NoticeCenterActivity : AppCompatActivity() {
                     if (response.isSuccessful && response.body() != null) {
                         noticeItemList.clear() // 기존 데이터 초기화
                         noticeItemList.addAll(response.body()!!) // 새로운 데이터 추가
+                        if(noticeItemList.size > 0) {
+                            binding.noticeEmpty.visibility = View.GONE
+                        }
                         myAdapter.notifyDataSetChanged() // 어댑터 갱신
                     }
                 }
