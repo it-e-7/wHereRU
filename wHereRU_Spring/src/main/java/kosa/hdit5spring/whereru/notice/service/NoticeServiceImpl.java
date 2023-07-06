@@ -45,10 +45,16 @@ public class NoticeServiceImpl implements NoticeService {
 
 	            // 요청보낼타겟디바이스토큰
 	            String targetToken = token;
+	            String message = "";
+	            if(chatvo.getChatType()!="img") {
+	            	 message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \""+chatvo.getChatSender()+"\", \"body\": \""+chatvo.getChatContent()+"\" } }";
+	 	            System.out.println(message);
 
+	            } else {
+	            	message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \"사진을 보냈습니다.\", \"body\": \""+chatvo.getChatContent()+"\" } }";
+	 	            System.out.println(message);
+	            }
 	            // 바디설정
-	            String message = "{ \"to\": \"" + targetToken + "\",\"priority\": \"high\", \"notification\": { \"title\": \""+chatvo.getChatSender()+"\", \"body\": \""+chatvo.getChatContent()+"\" } }";
-	            System.out.println(message);
 	            URL obj = new URL(url);
 	            HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
 

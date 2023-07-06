@@ -12,9 +12,9 @@ import kosa.hdit5spring.whereru.notice.vo.NoticeVO;
 @Mapper
 public interface NoticeMapper {
 
-//	List<String> getTokenList(int userSeq);
 	String getToken(String userId);
-	List<NoticeVO> getNoticeList(String userToken);
+	List<NoticeVO> getNoticeServiceLogin(String userToken);
+	List<NoticeVO> getNoticeServiceLogout(String userToken);
 	void setNoticeByChat(ChatVO chatvo);
 	void setNoticeByBoard(MissingBoardVo msbvo);
 	int setLocation(LocationVO locvo);
