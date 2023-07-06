@@ -30,10 +30,10 @@
         <activity
             android:name=".NoticeCenterActivity"
             android:exported="false" />
-        <service
-            android:name=".GPSservice"
-            android:enabled="true"
-            android:exported="false" />
+<!--        <service-->
+<!--            android:name=".GPSservice"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false" />-->
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false" >

@@ -57,19 +57,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //gps실행 및 전송
-        val gps = GPSservice()
-        gps.startLocationUpdates(this)
         // FCM을 위해 토큰 가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 token = task.result
                 Log.d("토큰-메인", "$token")
+                GlobalState.userToken = token
             } else {
                 val exception = task.exception
                 Log.e("Error", "Fetching FCM registration token failed: ${exception?.message}")
             }
         }
+        //gps실행 및 전송
+        val gps = GPSservice()
+        gps.startLocationUpdates(this)
 
         binding.noticecenterButton.setOnClickListener {
             val intent = Intent(this, NoticeCenterActivity::class.java)
