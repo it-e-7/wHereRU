@@ -1,8 +1,10 @@
 package kosa.hdit5spring.whereru.main.controller;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +41,10 @@ public class MainController {
 	@RequestMapping("main")
 	public ResponseEntity<List<MissingBoardVo>> mainPage() {
 		List<MissingBoardVo> list = missingBoardService.getTotalList(); 
-		return ResponseEntity.ok(list);
+		CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.SECONDS)
+			      .noTransform()
+			      .mustRevalidate();
+		return ResponseEntity.ok().cacheControl(cacheControl).body(list);
 	}
 
 	@RequestMapping("writemissingboard")
@@ -55,16 +60,19 @@ public class MainController {
 	}
 
 	@PostMapping("detail")
-	public DetailMissingBoardVo getMissingBoardDetail(@RequestBody int missingBoardSeq, @SessionAttribute(required = false) UserVO currUser) {
+	public ResponseEntity<DetailMissingBoardVo> getMissingBoardDetail(@RequestBody int missingBoardSeq, @SessionAttribute(required = false) UserVO currUser) {
 
 	    String userSeq = null;
 	    if (currUser != null) {
 	        userSeq = currUser.getUserSeq();
 	    }
+	    CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.SECONDS)
+			      .noTransform()
+			      .mustRevalidate();
 
 	    DetailMissingBoardVo detail = missingBoardService.getMissingBoardDetail(missingBoardSeq, userSeq);
 
-	    return detail;
+	    return ResponseEntity.ok().cacheControl(cacheControl).body(detail);
 	}
 	
 	@PostMapping("deletemissingboard")
