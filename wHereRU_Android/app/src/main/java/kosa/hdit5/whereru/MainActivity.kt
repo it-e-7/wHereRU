@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.noticecenterButton.setOnClickListener {
             val intent = Intent(this, NoticeCenterActivity::class.java)
-            startActivity(intent)
+               startActivity(intent)
         }
 
         val fragment = MainViewPager()

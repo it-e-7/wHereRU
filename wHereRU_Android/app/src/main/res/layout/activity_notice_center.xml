@@ -6,6 +6,8 @@
     tools:context=".ChatListActivity"
     android:orientation="vertical">
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/noticecenter_header"
         android:layout_width="match_parent"
@@ -14,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical"
         android:background="@color/green">
+
 
         <ImageButton
             android:id="@+id/goback_button"
@@ -45,6 +48,18 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/noticeEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="알림없음"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/noticecenter_header"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/noticeList"

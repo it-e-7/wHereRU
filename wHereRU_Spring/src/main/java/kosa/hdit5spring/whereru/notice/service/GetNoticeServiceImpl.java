@@ -17,9 +17,16 @@ public class GetNoticeServiceImpl implements GetNoticeService {
 	NoticeMapper mapper;
 
 	@Override
-	public List<NoticeVO> getNoticeService(@RequestBody String userToken) {
+	public List<NoticeVO> getNoticeServiceLogin(@RequestBody String userToken) {
 		List<NoticeVO> noticeList = new ArrayList<NoticeVO>();
-		noticeList = mapper.getNoticeList(userToken);
+		noticeList = mapper.getNoticeServiceLogin(userToken);
+		return noticeList;
+	}
+	
+	@Override
+	public List<NoticeVO> getNoticeServiceLogout(@RequestBody String userToken) {
+		List<NoticeVO> noticeList = new ArrayList<NoticeVO>();
+		noticeList = mapper.getNoticeServiceLogout(userToken);
 		return noticeList;
 	}
 	

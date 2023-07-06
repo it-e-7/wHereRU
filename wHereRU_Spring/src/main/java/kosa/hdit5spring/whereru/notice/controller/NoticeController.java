@@ -24,15 +24,26 @@ public class NoticeController {
 	@Autowired
 	LocationService setLocationService;
 	
-	//알림리스트 불러와서 출력하는 핸들러
-	@PostMapping("getnoticelist")
-	public List<NoticeVO> getNoticeList(@RequestBody String userToken){
+	//로그인 유저의 알림센터 출력
+	@PostMapping("getnoticelistLogin")
+	public List<NoticeVO> getNoticeListLogin(@RequestBody String userToken){
 		userToken = userToken.replaceAll("\"", "");
 		List<NoticeVO> noticeList = new ArrayList<NoticeVO>();
-		noticeList = getNoticeListService.getNoticeService(userToken);
+		noticeList = getNoticeListService.getNoticeServiceLogin(userToken);
 		System.out.println(noticeList);
 		return noticeList;
 	}
+	
+	//로그아웃 유저의 알림센터 출력
+		@PostMapping("getnoticelistLogout")
+		public List<NoticeVO> getNoticeListLogout(@RequestBody String userToken){
+			userToken = userToken.replaceAll("\"", "");
+			List<NoticeVO> noticeList = new ArrayList<NoticeVO>();
+			noticeList = getNoticeListService.getNoticeServiceLogout(userToken);
+			System.out.println(noticeList);
+			return noticeList;
+		}
+	
 
 	@PostMapping("sendLoc")
 	public boolean sendLoc(@RequestBody LocationVO locvo) {

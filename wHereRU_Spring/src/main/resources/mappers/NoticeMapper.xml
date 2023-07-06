@@ -35,7 +35,7 @@
 		 WHERE user_id = #{userId}
 	</select>
 
-	<select id="getNoticeList" parameterType="String"
+	<select id="getNoticeServiceLogin" parameterType="String"
 		resultMap="NoticeVOMap">
 		<![CDATA[
 			SELECT *
@@ -47,6 +47,18 @@
 		]]>
 	</select>
 
+	<select id="getNoticeServiceLogout" parameterType="String"
+		resultMap="NoticeVOMap">
+		<![CDATA[
+			SELECT *
+    		  FROM (SELECT notice_seq, notice_sender, notice_receiver, notice_message, SUBSTR(notice_time, 12) AS notice_time, notice_type, msg_type
+    				  FROM tb_notice
+    				 WHERE notice_receiver = #{userToken} AND notice_type = 'system'
+    			     ORDER BY notice_seq DESC)
+    	     WHERE ROWNUM <= 10
+		]]>
+	</select>
+	
 	<insert id="setNoticeByChat" statementType="CALLABLE" parameterType="ChatVO" >
 		CALL INSERT_NOTICE_BYCHAT(#{chatSender}, #{chatReceiver}, #{chatType}, #{chatContent}, #{chatDate})
 	</insert>

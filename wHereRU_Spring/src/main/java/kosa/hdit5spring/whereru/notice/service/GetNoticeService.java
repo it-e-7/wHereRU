@@ -6,5 +6,6 @@ import kosa.hdit5spring.whereru.notice.vo.NoticeVO;
 
 public interface GetNoticeService {
 
-	List<NoticeVO> getNoticeService(String userToken);
+	List<NoticeVO> getNoticeServiceLogin(String userToken);
+	List<NoticeVO> getNoticeServiceLogout(String userToken);
 }
