@@ -83,6 +83,7 @@ class ChatListAdapter(var data: MutableList<ChatListVO>): RecyclerView.Adapter<R
             }
             binding.chatListItemDate.text = "$ampm $hour:${min.toString().padStart(2, '0')}"
             binding.chatListItemCount.text = data[position].chatCount.toString()
+            binding.profile.text = data[position].senderName.substring(0, 1)
 
             holder.itemView.setOnClickListener {
                 val chatIntent = Intent(binding.root.context, ChatActivity::class.java)
@@ -99,6 +100,7 @@ class ChatListAdapter(var data: MutableList<ChatListVO>): RecyclerView.Adapter<R
                 binding.chatListItemChat.text = "사진을 보냈습니다."
             }
             binding.chatListItemDate.text = "$ampm $hour:${min.toString().padStart(2, '0')}"
+            binding.profile.text = data[position].senderName.substring(0, 1)
 
             holder.itemView.setOnClickListener {
                 val chatIntent = Intent(binding.root.context, ChatActivity::class.java)
