@@ -118,6 +118,8 @@
 		  mb.missing_time,
 		  mb.missing_point,
 		  mb.user_seq
+		  ORDER BY
+		  mb.missing_seq
 	</select>
 	
 	<select id="selectMissingBoardSummaryByRoomSeq" parameterType="int" resultType="MissingBoard">
