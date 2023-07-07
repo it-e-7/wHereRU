@@ -56,7 +56,7 @@ interface WhereRUAPI {
     fun getMissingBoardDetail(@Body params: Int): Call<DetailMissingBoardVo>
 
     @POST("main/deletemissingboard")
-    fun deleteMissingBoard(@Body params: Int): Call<DetailMissingBoardVo>
+    fun deleteMissingBoard(@Body params: Int): Call<Unit>
 
     @GET("main/openchat/{missingBoardSeq}")
     fun openChatActivity(@Path("missingBoardSeq") missingBoardSeq: Int): Call<DetailMissingBoardVo>

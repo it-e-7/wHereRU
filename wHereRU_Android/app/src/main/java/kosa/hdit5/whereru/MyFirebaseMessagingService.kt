@@ -37,8 +37,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                    // 포그라운드 액티비티 판별해서 채팅이면 안보내고 아니면 보냄
                     if (isChatActivityForeground(this)) {
                     } else {
-                        val message = remoteMessage.notification?.body
-                        showToast(message)
+                        var message = remoteMessage.notification?.body
+                        if (message != null) {
+                            if(message.startsWith("http")){
+                                message = "사진을 보냈습니다."
+                                showToast(message)
+                            } else {
+                                showToast(message)
+                            }
+                        }
                     }
                 } else {
                     // 백그라운드/종료상태면 시스템알림

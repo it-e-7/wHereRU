@@ -91,8 +91,6 @@ class DetailActivity : AppCompatActivity() {
 
         binding.fabDelete.setOnClickListener {
             deleteMissingBoard()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
         }
 
         binding.leftArrow.setOnClickListener {
@@ -203,19 +201,20 @@ class DetailActivity : AppCompatActivity() {
             val deleteService: WhereRUAPI = RetrofitBuilder.api
             val call = deleteService.deleteMissingBoard(missingBoardSeq)
 
-            call.enqueue(object : Callback<DetailMissingBoardVo> {
-                override fun onResponse(call: Call<DetailMissingBoardVo>, response: Response<DetailMissingBoardVo>) {
+            call.enqueue(object : Callback<Unit> {
+                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                     if (response.isSuccessful) {
                         // 삭제 성공
                         Log.d("DetailActivity", "삭제 성공")
-                        finish()
+                        var intent = Intent(this@DetailActivity, MainActivity::class.java)
+                        startActivity(intent)
                     } else {
                         // 삭제 실패
                         Log.d("DetailActivity", "Failed to delete missing board")
                     }
                 }
 
-                override fun onFailure(call: Call<DetailMissingBoardVo>, t: Throwable) {
+                override fun onFailure(call: Call<Unit>, t: Throwable) {
 
                     Log.d("DetailActivityCustom", t.message.toString())
                     Log.e("DetailActivityCustom", "Failed to delete missing board", t)

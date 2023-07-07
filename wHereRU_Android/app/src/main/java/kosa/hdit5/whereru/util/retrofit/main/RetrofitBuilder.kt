@@ -32,8 +32,8 @@ object RetrofitBuilder {
     val cookieJar = MyCookieJar()
 
     val okHttpClient = OkHttpClient.Builder()
-        .cache(Cache(File(MainApplication.applicationContext().cacheDir, "http-cache"), 20L * 1024L * 1024L)) // 10 MiB
-        .addInterceptor(CacheInterceptor())
+//        .cache(Cache(File(MainApplication.applicationContext().cacheDir, "http-cache"), 20L * 1024L * 1024L)) // 10 MiB
+//        .addInterceptor(CacheInterceptor())
         .cookieJar(cookieJar)
         .build()
     init {
